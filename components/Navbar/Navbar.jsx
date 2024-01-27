@@ -6,7 +6,7 @@ const Navbar = () => {
     <div className="flex flex-row w-full bg-[#CA995DB2] py-4 px-8 md:px-10 items-center justify-between">
       <div className="pr-6">
         <Link href={'/'}>
-          <Image src={"/Logo.png"} width={120} height={120} alt="Logo" title="Norte Rustico - Logo" />
+          <Image src={"/Logo.png"} width={103.35} height={50} priority={true} alt="Logo" title="Norte Rustico - Logo" />
         </Link>
       </div>
       <div className="flex flex-row items-end justify-center gap-24">
