@@ -7,7 +7,7 @@ const roboto = Roboto({ subsets: ["latin"], weight: [ "100", "300", "400", "500"
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" title="Norte Rustico" content="Created By GrupoStart" >
+    <html lang="en">
       <meta content="Created By GrupoStart" />
       <title>Norte Rustico</title>
       <GlobalContext>
