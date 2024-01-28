@@ -10,10 +10,13 @@ const ProductsSection = () => {
     document.getElementById("content").scrollLeft += 500;
   };
   return (
-    <div className="flex flex-row justify-center items-center py-16">
-      <div className="max-w-screen-xl w-full">
-        <div className="text-4xl font-extrabold tracking-wider w-full pb-4">TOP</div>
-        <div className="relative group">
+    <div className="flex flex-row justify-center items-center py-16 px-2">
+      <div className="max-w-screen-2xl w-full">
+        <div className="text-4xl font-extrabold tracking-wider w-full pb-4">
+          TOP
+        </div>
+        {/* Web Design */}
+        <div className="hidden md:block relative group">
           {/* Left Arrow */}
           <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer z-10">
             <svg
@@ -50,11 +53,20 @@ const ProductsSection = () => {
               />
             </svg>
           </div>
-          <div id="content" className="flex flex-row gap-10 justify-between items-center overflow-x-auto scroll-smooth scrollbar-thumb-[#CA995D] scrollbar-thin">
+          <div
+            id="content"
+            className="flex flex-row gap-10 justify-between items-center overflow-x-auto scroll-smooth scrollbar-track-[#CA995D]/50 scrollbar-thumb-[#CA995D] scrollbar-thin"
+          >
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
               <ProductCard key={value} />
             ))}
           </div>
+        </div>
+        {/* Mobile Design */}
+        <div className="md:hidden flex flex-row flex-wrap justify-evenly items-center gap-6">
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
+            <ProductCard key={value} />
+          ))}
         </div>
       </div>
     </div>
