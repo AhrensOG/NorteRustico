@@ -3,6 +3,7 @@ import ProductCard from "@/components/product/ProductCard";
 import SmallProductCard from "@/components/product/SmallProductCard";
 import { useSearchParams } from "next/navigation";
 import React, { Suspense } from "react";
+import Loading from "./loading";
 
 const Page = () => {
   return (
@@ -48,7 +49,7 @@ const Page = () => {
 const Shop = () => {
   const searchParams = useSearchParams();
   return (
-    <Suspense>
+    <Suspense fallback={ <Loading/> }>
       <Page />
     </Suspense>
   );
