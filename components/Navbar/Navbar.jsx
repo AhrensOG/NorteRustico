@@ -156,6 +156,7 @@ const Navbar = () => {
             viewBox="0 0 24 24"
             fill="currentColor"
             className="w-6 h-6 xs:w-8 xs:h-8 cursor-pointer fill-[#523900]"
+            onClick={() => setIsOpen(!isOpen)}
           >
             <path
               fillRule="evenodd"
