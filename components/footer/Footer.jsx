@@ -4,9 +4,9 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="bg-black grid grid-cols-3 p-8">
+    <div className="bg-black grid grid-cols-1 xs:grid-cols-3 gap-10 xs:gap-0 p-8">
       <div className="flex flex-row items-center justify-center">
-        <div className="flex flex-col items-start gap-3">
+        <div className="flex flex-col items-center xs:items-start gap-3">
           <span className="text-white">Seguínos en nuestras redes</span>
           <div className="flex flex-row gap-6">
             <Link href={"/"}>
@@ -55,7 +55,7 @@ const Footer = () => {
         </Link>
       </div>
       <div className="flex flex-row items-center justify-center">
-        <div className="flex flex-col items-start justify-center gap-1">
+        <div className="flex flex-row flex-wrap xs:flex-col xs:flex-nowrap items-start justify-center gap-6 xs:gap-1">
           <Link href={"/"}>
             <span className="text-white">Sobre Nostros</span>
           </Link>
