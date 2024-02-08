@@ -12,12 +12,11 @@ const userInit = (sequelize, DataTypes) => {
         primaryKey: true,
       },
       name: DataTypes.STRING,
+      surname: DataTypes.STRING,
       email: DataTypes.STRING,
       profileImage: DataTypes.TEXT,
-      phone: {
-        type: DataTypes.BIGINT,
-        allowNull: true,
-      },
+      birthday: DataTypes.STRING,
+      gender: DataTypes.ENUM("Male", "Female" , "Other"),
       address: {
         type: DataTypes.TEXT,
         allowNull: true,
