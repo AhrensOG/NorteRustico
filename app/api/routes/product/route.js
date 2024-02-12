@@ -188,6 +188,18 @@ export async function DELETE(req) {
       });
     }
 
+    const imagesToDelete = await ProductImages.findAll({
+      where: {
+        ProductId: productId,
+      },
+    });
+
+    await Promise.all(
+      imagesToDelete.map(async (image) => {
+        await image.destroy();
+      })
+    );
+
     await productToDelete.destroy();
 
     return Response.json("Product deleted successfully");
