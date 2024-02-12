@@ -34,7 +34,7 @@ const User = require("./user");
     Product.belongsToMany(Tags, { through: ProductTags });
     Tags.belongsToMany(Product, { through: ProductTags });
 
-    await connection.sync({ force: true });
+    await connection.sync({ alter: true });
   } catch (error) {
     console.log(error);
   }

@@ -1,15 +1,8 @@
 import RatingStars from "@/components/product/auxiliarComponents/RatingStars";
-import ProductDetail from "@/components/shop/ProductDetail";
 import ProductDetailCarousel from "@/components/shop/auxiliarComponents/ProductDetailCarousel";
 import React from "react";
 
-const ProductVisualization = ({ setShowDetail }) => {
-  const imagesList = [
-    "/Product.png",
-    "/Hero1.png",
-    "/Hero2.png",
-    "/LogoFooter.png",
-  ];
+const ProductVisualization = ({ setShowDetail, data }) => {
   return (
     <div className="fixed bg-black/50 w-full h-full top-0 left-0 flex flex-row items-center justify-center px-6">
       <div className="bg-white max-w-screen-sm w-full h-2/3 rounded-md p-4 px-6 flex flex-col justify-start items-start">
@@ -38,29 +31,38 @@ const ProductVisualization = ({ setShowDetail }) => {
           <div className="absolute w-full h-full z-30"></div>
           {/* CAROUSEL */}
           <div className="w-72 h-72">
-            <ProductDetailCarousel images={imagesList} lateralColum={false} />
+            <ProductDetailCarousel
+              images={data.ProductImages}
+              lateralColum={false}
+            />
           </div>
           {/* PRODUCT INFO */}
           <div className="flex flex-col items-start justify-between max-w-80 gap-4 sm:gap-0">
             <div className="flex flex-col items-start justify-center">
               <span className="text-2xl md:text-3xl font-bold text-black">
-                Bolso QOM
+                {data.name}
               </span>
               <div className="flex flex-row gap-1 justify-center items-center">
-                <RatingStars rating={2}/>
+                <RatingStars rating={data.score} />
               </div>
               <div className="flex flex-row justify-center items-center gap-2">
-                <span className="text-2xl md:text-3xl font-medium">$1500</span>
-                <span className="bg-[#C9140F] text-xl md:text-2xl text-white font-medium tracking-widest px-2">
-                  -30%
+                <span className="text-2xl md:text-3xl font-medium">
+                  $
+                  {data.discount
+                    ? Number.isInteger(data.price - data.price * (data.discount / 100)) ? Number(data.price - data.price * (data.discount / 100)) : (data.price - data.price * (data.discount / 100)).toFixed(2)
+                    : data.price}
                 </span>
+                {data.discount && (
+                  <span className="bg-[#C9140F] text-xl md:text-2xl text-white font-medium tracking-widest px-2">
+                    -{data.discount}%
+                  </span>
+                )}
               </div>
               <span className="text-2xl md:text-3xl line-through text-black/50">
-                $1950
+                ${Number(data.price)}
               </span>
               <span className="text-sm md:text-base text-black/70">
-                Cesta tejida con fibras vegetales, fabricado por miembros de los
-                pueblos originarios QOM
+                {data.description}
               </span>
             </div>
             <div className="w-full flex flex-col gap-3">

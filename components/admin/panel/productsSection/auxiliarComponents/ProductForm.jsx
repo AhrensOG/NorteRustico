@@ -1,9 +1,29 @@
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SelectInputCard from "./SelectInputCard";
+import { Context } from "@/app/context/GlobalContext";
+import {
+  addCategoriesToProduct,
+  addImagesToProduct,
+  addTagsToProduct,
+  createProduct,
+  getAllProducts,
+  removeCategoriesToProduct,
+  removeImagesToProduct,
+  removeTagsToProduct,
+  updateProduct,
+} from "@/app/context/actions";
+import { toast } from "sonner";
+import Loader from "@/components/Loader";
 
-const ProductForm = ({ setCrateProduct }) => {
-  const initialValues = {
+const ProductForm = ({
+  setCrateProduct = false,
+  setEditProduct = false,
+  data = null,
+}) => {
+  const { state, dispatch } = useContext(Context);
+
+  const initialValues = data || {
     name: "",
     description: "",
     price: "",
@@ -12,19 +32,7 @@ const ProductForm = ({ setCrateProduct }) => {
     fewUnits: "",
     limitedOffer: "",
   };
-
-  const state = {
-    categories: [
-      { id: 1, name: "Category 1" },
-      { id: 2, name: "Category 2" },
-      { id: 3, name: "Category 3" },
-    ],
-    tags: [
-      { id: 1, name: "Tag 1" },
-      { id: 2, name: "Tag 2" },
-      { id: 3, name: "Tag 3" },
-    ],
-  };
+  const action = data?.id ? "PUT" : "POST";
 
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [removedCategories, setRemovedCategories] = useState([]);
@@ -35,6 +43,8 @@ const ProductForm = ({ setCrateProduct }) => {
   const [prevImages, setPrevImages] = useState([]);
   const [removedImages, setRemovedImages] = useState([]);
   const [newImages, setNewImages] = useState([]);
+
+  const [loader, setLoader] = useState(false);
 
   const handleChangeCategories = (e) => {
     e.preventDefault();
@@ -97,13 +107,116 @@ const ProductForm = ({ setCrateProduct }) => {
   };
 
   const onSubmit = async (values, { resetForm }) => {
-    console.log(values);
-    console.log(selectedCategories);
-    console.log(removedCategories);
-    console.log(selectedTags)
-    console.log(removedTags)
-    console.log(newImages)
-    console.log(removedImages)
+    if (action === "POST") {
+      try {
+        setLoader(true);
+        if (
+          !selectedCategories.length ||
+          !selectedTags.length ||
+          !newImages.length
+        ) {
+          return toast.error("Ocurrio un error al intentar crear el producto", {
+            description: `Verifica que todos los campos esten completos.`,
+          });
+        }
+        const product = await createProduct(values);
+        await addCategoriesToProduct(product.id, selectedCategories);
+        await addTagsToProduct(product.id, selectedTags);
+        try {
+          await addImagesToProduct(product.id, newImages);
+        } catch (error) {
+          return toast.error(
+            "Ocurrio un error al intentar subir las imagenes.",
+            { description: `Verifica los archivos (JPG/PNG).` }
+          );
+        }
+        await getAllProducts(dispatch);
+        return toast.success("Producto creado exitosamente!");
+      } catch (error) {
+        setLoader(false);
+        return toast.error("Ocurrio un error al intentar crear el producto", {
+          description: `Verifica que todos los campos esten completos.`,
+        });
+      } finally {
+        setLoader(false);
+      }
+    }
+    if (action === "PUT") {
+      setLoader(true);
+      try {
+        const product = await updateProduct(values);
+        if (removedCategories.length) {
+          if (selectedCategories.length >= 1) {
+            await removeCategoriesToProduct(product.id, removedCategories);
+            setRemovedCategories([]);
+          } else {
+            return toast.error(
+              "Estas quitando todas las categorias al producto.",
+              { description: `Debes seleccionar por lo menos una categoria.` }
+            );
+          }
+        }
+        if (removedTags.length) {
+          if (selectedTags.length >= 1) {
+            await removeTagsToProduct(product.id, removedTags);
+            setRemovedTags([]);
+          } else {
+            return toast.error(
+              "Estas quitando todas las etiquetas al producto.",
+              { description: `Debes seleccionar por lo menos una categoria.` }
+            );
+          }
+        }
+        if (removedImages.length) {
+          if (prevImages.length >= 1) {
+            try {
+              await removeImagesToProduct(product.id, removedImages);
+            } catch (error) {
+              return toast.error(
+                "Ocurrio un error al intentar eliminar las imagenes.",
+                {
+                  description: `Intentalo mas tarde o comunicalo a tu WebMaster.`,
+                }
+              );
+            }
+          } else {
+            return toast.error(
+              "Estas quitando todas las imagenes al producto.",
+              { description: `Debes seleccionar por lo menos una imagen.` }
+            );
+          }
+        }
+        if (selectedCategories.length) {
+          await addCategoriesToProduct(product.id, selectedCategories);
+        }
+        if (selectedTags.length) {
+          await addTagsToProduct(product.id, selectedTags);
+        }
+        if (newImages.length) {
+          try {
+            await addImagesToProduct(product.id, newImages);
+          } catch (error) {
+            return toast.error(
+              "Ocurrio un error al intentar subir las imagenes.",
+              { description: `Verifica los archivos (JPG / PNG ).` }
+            );
+          }
+        }
+
+        await getAllProducts(dispatch);
+        return toast.success("Producto actualizado exitosamente!");
+      } catch (error) {
+        setLoader(false);
+        return toast.error(
+          "Ocurrió un error al intentar actualizar el producto",
+          {
+            description: "Verifica que todos los campos y las imagenes.",
+          }
+        );
+      } finally {
+        setLoader(false);
+      }
+    }
   };
 
   const formik = useFormik({
@@ -112,9 +225,20 @@ const ProductForm = ({ setCrateProduct }) => {
     onSubmit,
   });
 
+  useEffect(() => {
+    data?.Categories && setSelectedCategories(data.Categories);
+    setRemovedCategories([]);
+    data?.Tags && setSelectedTags(data.Tags);
+    setRemovedTags([]);
+    data?.ProductImages && setPrevImages(data.ProductImages);
+    setRemovedImages([]);
+  }, [data, newImages]);
+
   return (
     <div className="fixed bg-black/50 w-full h-full top-0 left-0 flex flex-row items-center justify-center px-6">
-      <div className="bg-white max-w-screen-sm w-full h-3/4 rounded-md p-4 px-6 flex flex-col justify-start items-start gap-2">
+      <div
+        className={`bg-white max-w-screen-sm w-full rounded-md p-4 px-6 flex flex-col justify-start items-start gap-2`}
+      >
         <div className="flex flex-row justify-start items-center w-full">
           <span className="text-lg font-medium text-black/60">
             Crear Producto
@@ -125,10 +249,10 @@ const ProductForm = ({ setCrateProduct }) => {
           <form
             id="form"
             onSubmit={formik.handleSubmit}
-            className="flex flex-col w-full h-full justify-between"
+            className="flex flex-col w-full h-full justify-between gap-8"
           >
             <div className="w-full flex flex-col gap-2 overflow-y-scroll max-h-96 scrollbar-none">
-
+              {/* Name / Quantity / Description */}
               <div className="flex flex-row w-full gap-2">
                 <div className="flex flex-col w-full gap-2">
                   <input
@@ -157,7 +281,6 @@ const ProductForm = ({ setCrateProduct }) => {
                     type="text"
                     placeholder="Descripción"
                     rows={2}
-                    maxLength={10}
                     onChange={formik.handleChange}
                     value={formik.values.description}
                     className="border-2 py-0.5 px-2 rounded-md w-full"
@@ -199,7 +322,10 @@ const ProductForm = ({ setCrateProduct }) => {
                         name="fewUnits"
                         value="yes"
                         onChange={formik.handleChange}
-                        checked={formik.values.fewUnits === "yes"}
+                        checked={
+                          formik.values.fewUnits === "yes" ||
+                          formik.values.fewUnits === true
+                        }
                       />
                       <label className="text-xs" htmlFor="yes">
                         Si
@@ -211,7 +337,10 @@ const ProductForm = ({ setCrateProduct }) => {
                         name="fewUnits"
                         value="no"
                         onChange={formik.handleChange}
-                        checked={formik.values.fewUnits === "no"}
+                        checked={
+                          formik.values.fewUnits === "no" ||
+                          formik.values.fewUnits === false
+                        }
                       />
                       <label className="text-xs" htmlFor="no">
                         No
@@ -229,7 +358,10 @@ const ProductForm = ({ setCrateProduct }) => {
                         name="limitedOffer"
                         value="yes"
                         onChange={formik.handleChange}
-                        checked={formik.values.limitedOffer === "yes"}
+                        checked={
+                          formik.values.limitedOffer === "yes" ||
+                          formik.values.limitedOffer === true
+                        }
                       />
                       <label className="text-xs" htmlFor="yes">
                         Si
@@ -241,7 +373,10 @@ const ProductForm = ({ setCrateProduct }) => {
                         name="limitedOffer"
                         value="no"
                         onChange={formik.handleChange}
-                        checked={formik.values.limitedOffer === "no"}
+                        checked={
+                          formik.values.limitedOffer === "no" ||
+                          formik.values.limitedOffer === false
+                        }
                       />
                       <label className="text-xs" htmlFor="no">
                         No
@@ -336,7 +471,7 @@ const ProductForm = ({ setCrateProduct }) => {
               </div>
 
               {/* File Input */}
-              <div className="flex flex-col w-full">
+              <div className="flex flex-col w-full gap-2">
                 <input
                   type="file"
                   multiple
@@ -359,18 +494,22 @@ const ProductForm = ({ setCrateProduct }) => {
                   )}
                 </div>
               </div>
-              
             </div>
-            <div className="space-x-4">
+            <div className="space-x-4 flex flex-row">
               <button
-                className="bg-blue-700 p-0.5 px-4 rounded-md text-white border border-blue-500"
+                className="bg-blue-700 p-0.5 px-4 rounded-md text-white border border-blue-500 flex flex-row justify-center items-center gap-2"
                 type="submit"
               >
-                Guardar
+                {loader ? "Guardando..." : "Guardar"}
+                {loader && <Loader size={14} />}
               </button>
               <button
                 className="p-0.5 px-4 rounded-md border border-black"
-                onClick={(e) => setCrateProduct(false)}
+                onClick={
+                  setCrateProduct
+                    ? () => setCrateProduct(false)
+                    : () => setEditProduct(false)
+                }
               >
                 Cancelar
               </button>

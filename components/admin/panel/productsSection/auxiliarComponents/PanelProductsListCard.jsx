@@ -1,18 +1,44 @@
-import React from "react";
+import { Context } from "@/app/context/GlobalContext";
+import { deleteProduct, getAllProducts } from "@/app/context/actions";
+import ProductDetailCarousel from "@/components/shop/auxiliarComponents/ProductDetailCarousel";
+import React, { useContext } from "react";
+import { toast } from "sonner";
 
-const PanelProductsListCard = ({ setShowDetail }) => {
+const PanelProductsListCard = ({ setShowDetail, setEditProduct, data }) => {
+  const { dispatch } = useContext(Context)
+  const handleProductDelete = async () => {
+    try {
+      await deleteProduct(data.id);
+      await getAllProducts(dispatch);
+      return toast.success(
+        "Producto eliminado exitosamente."
+      );
+    } catch (error) {
+      return toast.error(
+        "Ocurrió un error al intentar borrar el producto",
+        {
+          description: "Intentalo nuevamente mas tarde.",
+        }
+      );
+    }
+  };
   return (
-    <div className="max-w-44 w-full flex flex-col">
-      <img
-        src="/Hero1.png"
-        alt="Product Image"
-        className="w-44 h-40 object-cover object-center rounded-md"
-      />
+    <div className="max-w-40 w-full flex flex-col">
+      <div className="w-full h-40">
+        <ProductDetailCarousel
+          images={data.ProductImages}
+          favourites={false}
+          autoSlide={false}
+        />
+      </div>
       <div className="flex flex-col justify-center items-start w-full px-1 py-2">
         <div className="flex flex-row justify-between items-center w-full">
-          <span className="font-medium">Producto</span>
+          <span className="font-medium">{data.name}</span>
           <div className="flex flex-row justify-center items-center gap-2">
-            <span className="cursor-pointer text-blue-700">
+            <span
+              className="cursor-pointer text-blue-700"
+              onClick={() => setEditProduct(data)}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -36,6 +62,12 @@ const PanelProductsListCard = ({ setShowDetail }) => {
                 strokeWidth={1.5}
                 stroke="currentColor"
                 className="w-4 h-4"
+                onClick={() => toast.warning("Deseas borrar el producto?", {
+                  action: {
+                    label: "Confirmar",
+                    onClick: handleProductDelete,
+                  },
+                })}
               >
                 <path
                   strokeLinecap="round"
@@ -44,12 +76,17 @@ const PanelProductsListCard = ({ setShowDetail }) => {
                 />
               </svg>
             </span>
-            <span className="cursor-pointer" onClick={() => setShowDetail(true)}
-            title="Pre-Visualización">...</span>
+            <span
+              className="cursor-pointer"
+              onClick={() => setShowDetail(data)}
+              title="Pre-Visualización"
+            >
+              ...
+            </span>
           </div>
         </div>
-        <span className="text-sm font-light">Categoria</span>
-        <span className="text-black/60">$ 1500</span>
+        <span className="text-sm font-light">{data?.Categories[0]?.name}</span>
+        <span className="text-black/60">$ {data.price}</span>
       </div>
     </div>
   );
