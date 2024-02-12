@@ -162,3 +162,36 @@ export const searchProductsByName = async (search, dispatch) => {
     throw new Error("Error interno del servidor");
   }
 };
+
+export const createCategory = async (name) => {
+  try {
+    await axios.post(`${SERVER_URL_CATEGORIES_ENDPOINT}`, name);
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const deleteCategory = async (id) => {
+  try {
+    await axios.delete(`${SERVER_URL_CATEGORIES_ENDPOINT}?id=${id}`);
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const createTag = async (name) => {
+  try {
+    await axios.post(`${SERVER_URL_TAGS_ENDPOINT}`, name);
+  } catch (error) {
+    console.log(error)
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const deleteTag = async (id) => {
+  try {
+    await axios.delete(`${SERVER_URL_TAGS_ENDPOINT}?id=${id}`);
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};

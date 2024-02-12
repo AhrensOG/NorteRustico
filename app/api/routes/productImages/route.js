@@ -67,6 +67,12 @@ export async function PUT(req) {
     }
     await product.removeProductImages(imagesToRemove);
 
+    await Promise.all(
+      imagesToRemove.map(async (image) => {
+        await image.destroy();
+      })
+    );
+
     const updatedProduct = await Product.findOne({
       where: { id: productId },
       include: [
