@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 
 const ProductDetailCarousel = ({
   images,
+  autoSlide = true, 
   autoSlideInterval = 5000,
   lateralColum = false,
+  favourites = true,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -18,6 +20,7 @@ const ProductDetailCarousel = ({
   };
 
   useEffect(() => {
+    if (!autoSlide) return;
     const intervalId = setInterval(() => {
       nextSlide();
     }, autoSlideInterval);
@@ -39,12 +42,12 @@ const ProductDetailCarousel = ({
           {images.map((img, idx) => {
             return (
               <div
-                key={img}
+                key={img.id}
                 className="p-0.5 border rounded-xl border-blue-500 cursor-pointer"
                 onClick={() => setCurrentIndex(idx)}
               >
                 <img
-                  src={img}
+                  src={img.url}
                   width={50}
                   height={50}
                   alt="Image"
@@ -98,28 +101,30 @@ const ProductDetailCarousel = ({
         </div>
         <img
           className="w-full h-full object-center object-cover rounded-3xl"
-          src={images[currentIndex]}
+          src={images[currentIndex]?.url} 
           alt={`Slide ${currentIndex + 1}`}
         />
-        <div className="w-full flex flex-row justify-center items-center py-2">
-          <span className="text-[#C9140F] flex flex-row text-lg items-center gap-2 cursor-pointer">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6 stroke-[#C9140F]"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-              />
-            </svg>
-            Agregar a Favoritos
-          </span>
-        </div>
+        {favourites === true && (
+          <div className="w-full flex flex-row justify-center items-center py-2">
+            <span className="text-[#C9140F] flex flex-row text-lg items-center gap-2 cursor-pointer">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6 stroke-[#C9140F]"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+                />
+              </svg>
+              Agregar a Favoritos
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

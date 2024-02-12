@@ -3,9 +3,16 @@ import Image from "next/image";
 import Link from "next/link";
 import Sidebar from "./Sidebar/Sidebar";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const pathname = usePathname()
+
+  if (pathname === '/admin/panel') {
+    return null;
+  }
+
   return (
     <div className="w-full bg-[#CA995D] py-4 px-4 xs:px-8 md:px-10">
       {/* Web Design */}
