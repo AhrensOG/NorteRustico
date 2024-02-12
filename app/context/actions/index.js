@@ -1,10 +1,164 @@
+import { deleteFiles } from "@/app/firebase/deleteFiles";
+import { uploadFiles } from "@/app/firebase/uploadFiles";
 import axios from "axios";
+import { toast } from "sonner";
 
-// export const exampleFunction = async (dispatch) => {
-//   try {
-//     const example = await axios.get(`${SERVER_URL_EXAMPLE}`);
-//     return dispatch({ type: "EXAMPLE", payload: example.data });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+const SERVER_URL_PRODUCT_ENDPOINT =
+  process.env.NEXT_PUBLIC_SERVER_PRODUCT_ENDPOINT;
+const SERVER_URL_CATEGORIES_ENDPOINT =
+  process.env.NEXT_PUBLIC_SERVER_CATEGORIES_ENDPOINT;
+const SERVER_URL_TAGS_ENDPOINT = process.env.NEXT_PUBLIC_SERVER_TAGS_ENDPOINT;
+const SERVER_URL_PRODUCT_CATEGORIES_ENDPOINT =
+  process.env.NEXT_PUBLIC_SERVER_PRODUCT_CATEGORIES_ENDPOINT;
+const SERVER_URL_PRODUCT_TAGS_ENDPOINT =
+  process.env.NEXT_PUBLIC_SERVER_PRODUCT_TAGS_ENDPOINT;
+const SERVER_URL_PRODUCT_IMAGES_ENDPOINT =
+  process.env.NEXT_PUBLIC_SERVER_PRODUCT_IMAGES_ENDPOINT;
+const SERVER_URL_SEARCH_PRODUCTS_BY_NAME_ENDPOINT =
+  process.env.NEXT_PUBLIC_SERVER_SEARCH_PRODUCTS_BY_NAME_ENDPOINT;
+
+export const getAllTags = async (dispatch) => {
+  try {
+    const res = await axios.get(`${SERVER_URL_TAGS_ENDPOINT}`);
+    return dispatch({ type: "GET_ALL_TAGS", payload: res.data });
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const getAllCategories = async (dispatch) => {
+  try {
+    const res = await axios.get(`${SERVER_URL_CATEGORIES_ENDPOINT}`);
+    return dispatch({ type: "GET_ALL_CATEGORIES", payload: res.data });
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const getAllProducts = async (dispatch) => {
+  try {
+    const res = await axios.get(`${SERVER_URL_PRODUCT_ENDPOINT}`);
+    return dispatch({ type: "GET_ALL_PRODUCTS", payload: res.data });
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const createProduct = async (values) => {
+  try {
+    const res = await axios.post(`${SERVER_URL_PRODUCT_ENDPOINT}`, values);
+    return res.data;
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const addCategoriesToProduct = async (productId, categoriesList) => {
+  try {
+    const body = {
+      productId,
+      categoriesList,
+    };
+    await axios.post(`${SERVER_URL_PRODUCT_CATEGORIES_ENDPOINT}`, body);
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const addTagsToProduct = async (productId, tagsList) => {
+  try {
+    const body = {
+      productId,
+      tagsList,
+    };
+    await axios.post(`${SERVER_URL_PRODUCT_TAGS_ENDPOINT}`, body);
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const addImagesToProduct = async (productId, files) => {
+  try {
+    const images = await uploadFiles(files);
+    const body = {
+      productId,
+      images,
+    };
+    await axios.post(`${SERVER_URL_PRODUCT_IMAGES_ENDPOINT}`, body);
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const updateProduct = async (values) => {
+  try {
+    const body = {
+      ...values,
+      productId: values.id,
+    };
+    const res = await axios.put(`${SERVER_URL_PRODUCT_ENDPOINT}`, body);
+    return res.data;
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const removeCategoriesToProduct = async (productId, categoriesList) => {
+  try {
+    const body = {
+      productId,
+      categoriesList,
+    };
+    await axios.put(`${SERVER_URL_PRODUCT_CATEGORIES_ENDPOINT}`, body);
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const removeTagsToProduct = async (productId, tagsList) => {
+  try {
+    const body = {
+      productId,
+      tagsList,
+    };
+    await axios.put(`${SERVER_URL_PRODUCT_TAGS_ENDPOINT}`, body);
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const removeImagesToProduct = async (productId, files) => {
+  try {
+    await deleteFiles(files);
+    const body = {
+      productId,
+      images: files,
+    };
+    await axios.put(`${SERVER_URL_PRODUCT_IMAGES_ENDPOINT}`, body);
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const deleteProduct = async (id) => {
+  try {
+    await axios.delete(`${SERVER_URL_PRODUCT_ENDPOINT}?id=${id}`);
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const searchProductsByName = async (search, dispatch) => {
+  try {
+    if (search) {
+      const res = await axios.get(`${SERVER_URL_SEARCH_PRODUCTS_BY_NAME_ENDPOINT}?name=${search}`);
+      if (res.data.length === 0) {
+        return toast.info(`No se encontraron productos con "${search}"`);
+      }
+      return dispatch({ type: "SEARCH_PRODUCTS_BY_NAME", payload: res.data });
+    }
+    return dispatch({ type: "SEARCH_PRODUCTS_BY_NAME", payload: search });
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};

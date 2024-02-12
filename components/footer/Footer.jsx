@@ -1,8 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 const Footer = () => {
+  const pathname = usePathname();
+
+  if (pathname === "/admin/panel") {
+    return null;
+  }
   return (
     <div className="bg-black grid grid-cols-1 xs:grid-cols-3 gap-10 xs:gap-0 p-8">
       <div className="flex flex-row items-center justify-center">
