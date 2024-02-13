@@ -4,7 +4,7 @@ import { getAllCategories, getAllProducts, getAllTags } from "@/app/context/acti
 import PanelSidebar from "@/components/admin/panel/PanelSidebar";
 import PanelCategoriesSection from "@/components/admin/panel/categoriesSection/PanelCategoriesSection";
 import PanelProductsSection from "@/components/admin/panel/productsSection/PanelProductsSection";
-import PanelTagsSection from "@/components/admin/panel/tagsSection/PanelTagsSection";
+// import PanelTagsSection from "@/components/admin/panel/tagsSection/PanelTagsSection";
 import PanelUsersSection from "@/components/admin/panel/usersSection/PanelUsersSection";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -73,7 +73,7 @@ const page = () => {
         showCategories && <PanelCategoriesSection setShowCategories={setShowCategories}/>
       }
       {
-        showTags && <PanelTagsSection setShowTags={setShowTags}/>
+        // showTags && <PanelTagsSection setShowTags={setShowTags}/>
       }
       {
         showUsers && <PanelUsersSection />
