@@ -3,8 +3,8 @@ import { uploadFiles } from "@/app/firebase/uploadFiles";
 import axios from "axios";
 import { toast } from "sonner";
 
-const SERVER_URL_PRODUCT_ENDPOINT =
-  process.env.NEXT_PUBLIC_SERVER_PRODUCT_ENDPOINT;
+const SERVER_URL_PRODUCTS_ENDPOINT =
+  process.env.NEXT_PUBLIC_SERVER_PRODUCTS_ENDPOINT;
 const SERVER_URL_CATEGORIES_ENDPOINT =
   process.env.NEXT_PUBLIC_SERVER_CATEGORIES_ENDPOINT;
 const SERVER_URL_TAGS_ENDPOINT = process.env.NEXT_PUBLIC_SERVER_TAGS_ENDPOINT;
@@ -37,7 +37,7 @@ export const getAllCategories = async (dispatch) => {
 
 export const getAllProducts = async (dispatch) => {
   try {
-    const res = await axios.get(`${SERVER_URL_PRODUCT_ENDPOINT}`);
+    const res = await axios.get(`${SERVER_URL_PRODUCTS_ENDPOINT}`);
     return dispatch({ type: "GET_ALL_PRODUCTS", payload: res.data });
   } catch (error) {
     throw new Error("Error interno del servidor");
@@ -46,7 +46,7 @@ export const getAllProducts = async (dispatch) => {
 
 export const createProduct = async (values) => {
   try {
-    const res = await axios.post(`${SERVER_URL_PRODUCT_ENDPOINT}`, values);
+    const res = await axios.post(`${SERVER_URL_PRODUCTS_ENDPOINT}`, values);
     return res.data;
   } catch (error) {
     throw new Error("Error interno del servidor");
@@ -96,7 +96,7 @@ export const updateProduct = async (values) => {
       ...values,
       productId: values.id,
     };
-    const res = await axios.put(`${SERVER_URL_PRODUCT_ENDPOINT}`, body);
+    const res = await axios.put(`${SERVER_URL_PRODUCTS_ENDPOINT}`, body);
     return res.data;
   } catch (error) {
     throw new Error("Error interno del servidor");
@@ -142,7 +142,7 @@ export const removeImagesToProduct = async (productId, files) => {
 
 export const deleteProduct = async (id) => {
   try {
-    await axios.delete(`${SERVER_URL_PRODUCT_ENDPOINT}?id=${id}`);
+    await axios.delete(`${SERVER_URL_PRODUCTS_ENDPOINT}?id=${id}`);
   } catch (error) {
     throw new Error("Error interno del servidor");
   }

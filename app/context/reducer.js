@@ -1,10 +1,10 @@
 export const reducer = (state, action) => {
   switch (action.type) {
-    // case "Example":
-    //   return {
-    //     ...state,
-    //     example: action.payload
-    //   };
+    case "LOGGED_IN_USER":
+      return {
+        ...state,
+        user: action.payload,
+      };
     // case "GET_ALL_USERS":
     //   return {
     //     ...state,

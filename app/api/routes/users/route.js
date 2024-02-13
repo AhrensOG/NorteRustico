@@ -11,14 +11,14 @@ export async function GET(req) {
         [Op.or]: [
           { name: { [Op.substring]: name } },
           { surname: { [Op.substring]: name } },
-          { email: { [Op.substring]: name } }
-        ]
+          { email: { [Op.substring]: name } },
+        ],
       };
     }
 
     const users = await User.findAll({
       where: whereClause,
-      order: [["createdAt", "DESC"]]
+      order: [["createdAt", "DESC"]],
     });
 
     return users.length

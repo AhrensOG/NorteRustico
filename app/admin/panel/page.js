@@ -7,6 +7,7 @@ import PanelCategoriesSection from "@/components/admin/panel/categoriesSection/P
 import PanelProductsSection from "@/components/admin/panel/productsSection/PanelProductsSection";
 import PanelUsersSection from "@/components/admin/panel/usersSection/PanelUsersSection";
 import React, { useContext, useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const page = () => {
   const { dispatch } = useContext(Context)
@@ -28,9 +29,21 @@ const page = () => {
 
   useEffect(() => {
     const getData = async () => {
-      await getAllProducts(dispatch);
-      await getAllCategories(dispatch);
-      await getAllTags(dispatch);
+      try {
+        await getAllProducts(dispatch);
+      } catch (error) {
+        return toast.error('Ocurrio un error al lisar los productos.', { description: 'Intenta nuevamente mas tarde.' })
+      }
+      try {
+        await getAllCategories(dispatch);
+      } catch (error) {
+        return toast.error('Ocurrio un error al lisar las categorias.', { description: 'Intenta nuevamente mas tarde.' })
+      }
+      try {
+        await getAllTags(dispatch);
+      } catch (error) {
+        return toast.error('Ocurrio un error al lisar las etiquetas.', { description: 'Intenta nuevamente mas tarde.' })
+      }
     };
     getData();
   }, []);  
