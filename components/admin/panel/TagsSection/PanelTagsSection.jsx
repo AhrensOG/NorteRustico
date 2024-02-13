@@ -33,7 +33,7 @@ const PanelTagsSection = ({ setShowTags }) => {
           );
         }
       }
-      await createTag(values)
+      await createTag(values);
       resetForm();
       await getAllTags(dispatch);
       return toast.success(
