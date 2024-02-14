@@ -4,6 +4,7 @@ export async function GET() {
   try {
     const response = await Categories.findAll({
       include: { model: Product },
+      order: [["createdAt", "DESC"]]
     });
     return response.length
       ? Response.json(response)
@@ -34,6 +35,29 @@ export async function POST(req) {
     const category = await Categories.create({ name });
 
     return Response.json(category);
+  } catch (error) {
+    return Response.json(error.message, { status: 500 });
+  }
+}
+
+export async function DELETE(req) {
+  try {
+    const searchParams = req.nextUrl.searchParams;
+    const categoryId = searchParams.get("id");
+
+    if (!categoryId) {
+      return Response.json("Category ID is required", { status: 400 });
+    }
+
+    const categoryToDelete = await Categories.findByPk(categoryId);
+
+    if (!categoryToDelete) {
+      return Response.json(`Category with ID ${categoryId} does not exist`, { status: 404 });
+    }
+
+    await categoryToDelete.destroy();
+
+    return Response.json("Category deleted successfully");
   } catch (error) {
     return Response.json(error.message, { status: 500 });
   }

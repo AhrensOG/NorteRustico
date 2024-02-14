@@ -2,21 +2,45 @@ import Image from "next/image";
 import React from "react";
 
 const PanelSidebar = ({
-  showProducts, setShowProducts, showUsers, setShowUsers, showOrders, setShowOrders, showDelivery, setShowDelivery, handleChangeSection
+  showProducts,
+  showCategories,
+  showTags,
+  showUsers,
+  showOrders,
+
+  showDelivery,
+  setShowProducts,
+  setShowCategories,
+  setShowTags,
+  setShowUsers,
+  setShowOrders,
+  setShowDelivery,
+  handleChangeSection,
 }) => {
   return (
     <div className="bg-[#CA995D] max-w-64 w-full">
       <div className="p-8 flex flex-col justify-center items-start gap-16">
-        <Image src={"/Logo.png"} width={192} height={81.59} alt="Logo" className="" />
-        <div className="flex flex-col justify-center items-start w-full gap-6">
-          <span className={`flex flex-row justify-start items-center text-2xl gap-2 w-full ${showProducts && 'bg-black text-white'} hover:bg-black hover:text-white p-2 pr-6 rounded-lg cursor-pointer`} onClick={() => handleChangeSection(true, setShowProducts)}>
+        <Image
+          src={"/Logo.png"}
+          width={192}
+          height={81.59}
+          alt="Logo"
+          className=""
+        />
+        <div className="flex flex-col justify-center items-start w-full gap-4">
+          <span
+            className={`flex flex-row justify-start items-center text-xl gap-2 w-full ${
+              showProducts && "bg-black text-white"
+            } hover:bg-black hover:text-white p-1.5 pr-2 rounded-lg cursor-pointer`}
+            onClick={() => handleChangeSection(true, setShowProducts)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-8 h-8"
+              className="w-7 h-7"
             >
               <path
                 strokeLinecap="round"
@@ -26,14 +50,63 @@ const PanelSidebar = ({
             </svg>
             Productos
           </span>
-          <span className={`flex flex-row justify-start items-center text-2xl gap-2 w-full ${showUsers && 'bg-black text-white'} hover:bg-black hover:text-white p-2 pr-6 rounded-lg cursor-pointer`} onClick={() => handleChangeSection(true, setShowUsers)}>
+          <span
+            className={`flex flex-row justify-start items-center text-xl gap-2 w-full ${
+              showCategories && "bg-black text-white"
+            } hover:bg-black hover:text-white p-1.5 pr-2 rounded-lg cursor-pointer`}
+            onClick={() => setShowCategories(true)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-8 h-8"
+              className="w-7 h-7"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 0 1-1.125-1.125v-3.75ZM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-8.25ZM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-2.25Z"
+              />
+            </svg>
+            Categorias
+          </span>
+          <span
+            className={`flex flex-row justify-start items-center text-xl gap-2 w-full ${
+              showTags && "bg-black text-white"
+            } hover:bg-black hover:text-white p-1.5 pr-2 rounded-lg cursor-pointer`}
+            onClick={() => setShowTags(true)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-7 h-7"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M14.25 9.75 16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z"
+              />
+            </svg>
+            Etiquetas
+          </span>
+          <span
+            className={`flex flex-row justify-start items-center text-xl gap-2 w-full ${
+              showUsers && "bg-black text-white"
+            } hover:bg-black hover:text-white p-1.5 pr-2 rounded-lg cursor-pointer`}
+            onClick={() => handleChangeSection(true, setShowUsers)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-7 h-7"
             >
               <path
                 strokeLinecap="round"
@@ -43,14 +116,19 @@ const PanelSidebar = ({
             </svg>
             Clientes
           </span>
-          <span className={`flex flex-row justify-start items-center text-2xl gap-2 w-full ${showOrders && 'bg-black text-white'} hover:bg-black hover:text-white p-2 pr-6 rounded-lg cursor-pointer`} onClick={() => handleChangeSection(true, setShowOrders)}>
+          <span
+            className={`flex flex-row justify-start items-center text-xl gap-2 w-full ${
+              showOrders && "bg-black text-white"
+            } hover:bg-black hover:text-white p-1.5 pr-2 rounded-lg cursor-pointer`}
+            onClick={() => handleChangeSection(true, setShowOrders)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-8 h-8"
+              className="w-7 h-7"
             >
               <path
                 strokeLinecap="round"
@@ -60,14 +138,19 @@ const PanelSidebar = ({
             </svg>
             Pedidos
           </span>
-          <span className={`flex flex-row justify-start items-center text-2xl gap-2 w-full ${showDelivery && 'bg-black text-white'} hover:bg-black hover:text-white p-2 pr-6 rounded-lg cursor-pointer`} onClick={() => handleChangeSection(true, setShowDelivery)}>
+          <span
+            className={`flex flex-row justify-start items-center text-xl gap-2 w-full ${
+              showDelivery && "bg-black text-white"
+            } hover:bg-black hover:text-white p-1.5 pr-2 rounded-lg cursor-pointer`}
+            onClick={() => handleChangeSection(true, setShowDelivery)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-8 h-8"
+              className="w-7 h-7"
             >
               <path
                 strokeLinecap="round"
@@ -77,14 +160,14 @@ const PanelSidebar = ({
             </svg>
             Envíos
           </span>
-          <button className="flex flex-row justify-start items-center text-2xl gap-2 w-full hover:bg-black hover:text-white p-2 pr-6 rounded-lg">
+          <button className="flex flex-row justify-start items-center text-xl gap-2 w-full hover:bg-black hover:text-white p-1.5 pr-2 rounded-lg">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-8 h-8 rotate-90"
+              className="w-7 h-7 rotate-90"
             >
               <path
                 strokeLinecap="round"

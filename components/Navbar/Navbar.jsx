@@ -9,7 +9,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
 
-  if (pathname === '/admin/panel') {
+  if (pathname === '/admin/panel' || pathname === "/authenticate") {
     return null;
   }
 
