@@ -1,8 +1,10 @@
+import { Context } from "@/app/context/GlobalContext";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useContext } from "react";
 
 const Sidebar = ({ isOpen = true, setIsOpen }) => {
+  const { state } = useContext(Context)
   return (
     <div
       className={`md:hidden fixed top-0 left-0 z-10 bg-black/20 h-screen w-screen transition-transform duration-100 ${
@@ -56,7 +58,7 @@ const Sidebar = ({ isOpen = true, setIsOpen }) => {
               Tienda
             </span>
           </Link>
-          <Link href={"/user/favourites"}>
+          <Link href={ state.user ? "/user/favourites" : '/authenticate' }>
             <span
               className="flex flex-row gap-2 justify-start items-center text-sm  text-[#523900] uppercase font-semibold cursor-pointer"
               title="Favoritos - Favourites"
@@ -79,7 +81,7 @@ const Sidebar = ({ isOpen = true, setIsOpen }) => {
               Favoritos
             </span>
           </Link>
-          <Link href={"/user/profile"}>
+          <Link href={ state.user ? "/user/profile" : '/authenticate' }>
             <span
               className="flex flex-row gap-2 justify-start items-center text-sm  text-[#523900] uppercase font-semibold cursor-pointer"
               title="Perfil - Profile"
@@ -100,7 +102,7 @@ const Sidebar = ({ isOpen = true, setIsOpen }) => {
               Perfil
             </span>
           </Link>
-          <Link href={"/user/cart"}>
+          <Link href={ state.user ? "/user/cart" : '/authenticate' }>
             <span
               className="flex flex-row gap-2 justify-start items-center text-sm  text-[#523900] uppercase font-semibold cursor-pointer"
               title="Carrito - Cart"

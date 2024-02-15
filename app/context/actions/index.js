@@ -16,6 +16,7 @@ const SERVER_URL_PRODUCT_IMAGES_ENDPOINT =
   process.env.NEXT_PUBLIC_SERVER_PRODUCT_IMAGES_ENDPOINT;
 const SERVER_URL_SEARCH_PRODUCTS_BY_NAME_ENDPOINT =
   process.env.NEXT_PUBLIC_SERVER_SEARCH_PRODUCTS_BY_NAME_ENDPOINT;
+const SERVER_URL_USERS_ENDPOINT = process.env.NEXT_PUBLIC_SERVER_USERS_ENDPOINT;
 
 export const getAllTags = async (dispatch) => {
   try {
@@ -151,7 +152,9 @@ export const deleteProduct = async (id) => {
 export const searchProductsByName = async (search, dispatch) => {
   try {
     if (search) {
-      const res = await axios.get(`${SERVER_URL_SEARCH_PRODUCTS_BY_NAME_ENDPOINT}?name=${search}`);
+      const res = await axios.get(
+        `${SERVER_URL_SEARCH_PRODUCTS_BY_NAME_ENDPOINT}?name=${search}`
+      );
       if (res.data.length === 0) {
         return toast.info(`No se encontraron productos con "${search}"`);
       }
@@ -183,7 +186,7 @@ export const createTag = async (name) => {
   try {
     await axios.post(`${SERVER_URL_TAGS_ENDPOINT}`, name);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     throw new Error("Error interno del servidor");
   }
 };
@@ -191,6 +194,15 @@ export const createTag = async (name) => {
 export const deleteTag = async (id) => {
   try {
     await axios.delete(`${SERVER_URL_TAGS_ENDPOINT}?id=${id}`);
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const updateUser = async (values, dispatch) => {
+  try {
+    const res = await axios.put(`${SERVER_URL_USERS_ENDPOINT}`, values);
+    return dispatch({ type: "UPDATED_USER", payload: res.data });
   } catch (error) {
     throw new Error("Error interno del servidor");
   }

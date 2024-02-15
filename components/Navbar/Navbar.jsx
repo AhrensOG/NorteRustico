@@ -2,10 +2,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import Sidebar from "./Sidebar/Sidebar";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { usePathname } from "next/navigation";
+import { Context } from "@/app/context/GlobalContext";
 
 const Navbar = () => {
+  const { state } = useContext(Context)
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
 
@@ -69,7 +71,7 @@ const Navbar = () => {
               </span>
             </Link>
 
-            <Link href={'/user/favourites'}>
+            <Link href={ state.user ? '/user/favourites' : '/authenticate' }>
               <span
                 className="flex flex-col gap-2 justify-center items-center text-xs  text-[#523900] uppercase font-semibold cursor-pointer"
                 title="Favoritos - Favourites"
@@ -92,7 +94,7 @@ const Navbar = () => {
               </span>
             </Link>
 
-            <Link href={'/user/profile'}>
+            <Link href={ state.user ? '/user/profile' : '/authenticate' }>
               <span
                 className="flex flex-col gap-2 justify-center items-center text-xs  text-[#523900] uppercase font-semibold cursor-pointer"
                 title="Perfil - Profile"
@@ -113,7 +115,7 @@ const Navbar = () => {
               </span>
             </Link>
 
-            <Link href={'/user/cart'}>
+            <Link href={ state.user ? '/user/cart' : '/authenticate' }>
               <span
                 className="flex flex-col gap-2 justify-center items-center text-xs  text-[#523900] uppercase font-semibold cursor-pointer"
                 title="Carrito - Cart"
@@ -182,7 +184,7 @@ const Navbar = () => {
               clipRule="evenodd"
             />
           </svg>
-          <Link href={'/user/cart'}>
+          <Link href={ state.user ? '/user/cart' : '/authenticate' }>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

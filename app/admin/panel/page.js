@@ -9,7 +9,7 @@ import PanelUsersSection from "@/components/admin/panel/usersSection/PanelUsersS
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 
-const page = () => {
+const PanelPage = () => {
   const { dispatch } = useContext(Context)
   const [showProducts, setShowProducts] = useState(true);
   const [showCategories, setShowCategories] = useState(false);
@@ -82,4 +82,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default PanelPage;
