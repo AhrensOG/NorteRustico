@@ -5,6 +5,11 @@ export const reducer = (state, action) => {
         ...state,
         user: action.payload,
       };
+    case "UPDATED_USER":
+      return {
+        ...state,
+        user: action.payload,
+      };
     // case "GET_ALL_USERS":
     //   return {
     //     ...state,

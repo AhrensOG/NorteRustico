@@ -2,14 +2,14 @@
 import { Context } from "@/app/context/GlobalContext";
 import { getAllCategories, getAllProducts, getAllTags } from "@/app/context/actions";
 import PanelSidebar from "@/components/admin/panel/PanelSidebar";
-import PanelTagsSection from "@/components/admin/panel/TagsSection/PanelTagsSection";
+import PanelTagsSection from "@/components/admin/panel/tagsSection/PanelTagsSection";
 import PanelCategoriesSection from "@/components/admin/panel/categoriesSection/PanelCategoriesSection";
 import PanelProductsSection from "@/components/admin/panel/productsSection/PanelProductsSection";
 import PanelUsersSection from "@/components/admin/panel/usersSection/PanelUsersSection";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 
-const page = () => {
+const PanelPage = () => {
   const { dispatch } = useContext(Context)
   const [showProducts, setShowProducts] = useState(true);
   const [showCategories, setShowCategories] = useState(false);
@@ -82,4 +82,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default PanelPage;
