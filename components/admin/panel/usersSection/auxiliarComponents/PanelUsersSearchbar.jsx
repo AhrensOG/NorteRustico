@@ -1,10 +1,9 @@
-import React, { useContext } from "react";
-import { useFormik } from "formik";
-import { toast } from "sonner";
-import { searchProductsByName } from "@/app/context/actions";
 import { Context } from "@/app/context/GlobalContext";
+import { useFormik } from "formik";
+import React, { useContext } from "react";
+import { toast } from "sonner";
 
-const PanelSearchbar = () => {
+const PanelUsersSearchbar = () => {
   const { dispatch } = useContext(Context);
   const formik = useFormik({
     initialValues: {
@@ -12,16 +11,16 @@ const PanelSearchbar = () => {
     },
     onSubmit: async (values) => {
       try {
-        await searchProductsByName(values.search, dispatch);
+        console.log(values)
+        // await searchProductsByName(values.search, dispatch);
       } catch (error) {
-        await searchProductsByName(false, dispatch);
-        return toast.error("Ocurrió un error al buscar los productos", {
+        // await searchProductsByName(false, dispatch);
+        return toast.error("Ocurrió un error al buscar los usuarios", {
           description: "Intenta nuevamente mas tarde.",
         });
       }
     },
   });
-
   return (
     <form
       onSubmit={formik.handleSubmit}
@@ -57,4 +56,4 @@ const PanelSearchbar = () => {
   );
 };
 
-export default PanelSearchbar;
+export default PanelUsersSearchbar;

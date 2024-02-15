@@ -19,13 +19,11 @@ export default function RootLayout({ children }) {
       <GlobalContext>
         <body className={`${roboto.className} flex flex-col min-h-screen`}>
           <Toaster
-            closeButton
             richColors
-            visibleToasts={5}
-            // toastOptions={{ style: { background: "white", color: "#e26928" } }}
+            visibleToasts={3}
             duration={5000}
             position="bottom-right"
-            expand
+            expand={false}
           />
           <Navbar />
           <div className="flex-1">{children}</div>

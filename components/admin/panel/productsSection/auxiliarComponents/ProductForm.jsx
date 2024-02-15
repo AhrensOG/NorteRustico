@@ -262,7 +262,7 @@ const ProductForm = ({
                     placeholder="Nombre"
                     onChange={formik.handleChange}
                     value={formik.values.name}
-                    className="border-2 py-0.5 px-2 rounded-md"
+                    className="border-2 outline-blue-700 py-0.5 px-2 rounded-md"
                   />
                   <input
                     id="quantity"
@@ -271,7 +271,7 @@ const ProductForm = ({
                     placeholder="Cantidad"
                     onChange={formik.handleChange}
                     value={formik.values.quantity}
-                    className="border-2 py-0.5 px-2 rounded-md"
+                    className="border-2 outline-blue-700 py-0.5 px-2 rounded-md [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   />
                 </div>
                 <div className="flex w-full">
@@ -283,7 +283,7 @@ const ProductForm = ({
                     rows={2}
                     onChange={formik.handleChange}
                     value={formik.values.description}
-                    className="border-2 py-0.5 px-2 rounded-md w-full"
+                    className="border-2 outline-blue-700 py-0.5 px-2 rounded-md w-full"
                   />
                 </div>
               </div>
@@ -299,7 +299,7 @@ const ProductForm = ({
                     placeholder="Precio"
                     onChange={formik.handleChange}
                     value={formik.values.price}
-                    className="border-2 py-0.5 px-2 rounded-md"
+                    className="border-2 outline-blue-700 py-0.5 px-2 rounded-md [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   />
                   <input
                     id="discount"
@@ -308,7 +308,7 @@ const ProductForm = ({
                     placeholder="Descuento"
                     onChange={formik.handleChange}
                     value={formik.values.discount}
-                    className="border-2 py-0.5 px-2 rounded-md"
+                    className="border-2 outline-blue-700 py-0.5 px-2 rounded-md [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   />
                 </div>
 

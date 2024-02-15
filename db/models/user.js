@@ -14,11 +14,48 @@ const userInit = (sequelize, DataTypes) => {
       name: DataTypes.STRING,
       surname: DataTypes.STRING,
       email: DataTypes.STRING,
-      profileImage: DataTypes.TEXT,
-      birthday: DataTypes.STRING,
-      gender: DataTypes.ENUM("Male", "Female" , "Other"),
-      address: {
+      profileImage: {
         type: DataTypes.TEXT,
+        allowNull: true
+      },
+      street: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
+      streetNumber: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      flat: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      apartament: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      postalCode: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      country: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      province: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      city: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      dni: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      phone: {
+        type: DataTypes.STRING,
         allowNull: true,
       },
     },
