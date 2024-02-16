@@ -37,6 +37,14 @@ export const reducer = (state, action) => {
       };
 
     /////////////////////// FILTERS //////////////////////////
+
+    case "FAVOURITE_PRODUCTS":
+      return {
+        ...state,
+        favouriteProducts: action.payload,
+      };
+
+    /////////////////////// FILTERS //////////////////////////
     case "SEARCH_PRODUCTS_BY_NAME":
       return {
         ...state,

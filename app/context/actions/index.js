@@ -16,6 +16,9 @@ const SERVER_URL_PRODUCT_IMAGES_ENDPOINT =
   process.env.NEXT_PUBLIC_SERVER_PRODUCT_IMAGES_ENDPOINT;
 const SERVER_URL_USERS_ENDPOINT = process.env.NEXT_PUBLIC_SERVER_USERS_ENDPOINT;
 
+const SERVER_URL_FAVOURITES_ENDPOINT =
+  process.env.NEXT_PUBLIC_SERVER_FAVOURITES_ENDPOINT;
+
 ////////////////////////// FILTERS //////////////////////////////////
 
 const SERVER_URL_SEARCH_PRODUCTS_BY_NAME_ENDPOINT =
@@ -209,6 +212,37 @@ export const updateUser = async (values, dispatch) => {
   try {
     const res = await axios.put(`${SERVER_URL_USERS_ENDPOINT}`, values);
     return dispatch({ type: "UPDATED_USER", payload: res.data });
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+////////////////////////// FAVOURITES ////////////////////////////////
+
+export const getFavouriteProducts = async (values, dispatch) => {
+  try {
+    const res = await axios.get(`${SERVER_URL_FAVOURITES_ENDPOINT}?user_id=${values}`);
+    return dispatch({ type: "FAVOURITE_PRODUCTS", payload: res.data });
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const addProductToFavourites = async (values) => {
+  try {
+    await axios.post(
+      `${SERVER_URL_FAVOURITES_ENDPOINT}?product_id=${values.productId}&user_id=${values.userId}`
+    );
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const removeProductToFavourites = async (values) => {
+  try {
+    await axios.delete(
+      `${SERVER_URL_FAVOURITES_ENDPOINT}?product_id=${values.productId}&user_id=${values.userId}`
+    );
   } catch (error) {
     throw new Error("Error interno del servidor");
   }

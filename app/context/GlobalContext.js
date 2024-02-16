@@ -5,6 +5,7 @@ import {
   getAllCategories,
   getAllProducts,
   getAllTags,
+  getFavouriteProducts,
   searchProductsByScore,
 } from "./actions";
 
@@ -16,15 +17,32 @@ const GlobalContext = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    const user = async () => {
-      await isUserLogged(dispatch);
-      await searchProductsByScore(dispatch);
-      await getAllProducts(dispatch);
-      await getAllCategories(dispatch);
-      await getAllTags(dispatch);
+    const getData = async () => {
+      try {
+        await isUserLogged(dispatch);
+        await searchProductsByScore(dispatch);
+        await getAllProducts(dispatch);
+        await getAllCategories(dispatch);
+        await getAllTags(dispatch);
+      } catch (error) {
+        return error
+      }
     };
-    user();
+    getData();
   }, []);
+
+  useEffect(() => {
+    const getData = async () => {
+      if (state.user) {
+        try {
+          await getFavouriteProducts(state.user.id, dispatch)
+        } catch (error) {
+          return error
+        }
+      }
+    };
+    getData();
+  }, [state.user]);
 
   return (
     <Context.Provider value={{ state, dispatch }}>{children}</Context.Provider>
