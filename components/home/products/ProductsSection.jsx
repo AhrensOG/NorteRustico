@@ -13,9 +13,10 @@ const ProductsSection = () => {
   const scrollRight = () => {
     document.getElementById("content").scrollLeft += 500;
   };
+  console.log(state)
   return (
     <div className="flex flex-row justify-center items-center py-16 px-2">
-      {state.products?.length > 0 ? (
+      {state.searchedProductsByScore?.length > 0 ? (
         <div className="max-w-screen-2xl w-full">
           <div className="text-4xl font-extrabold tracking-wider w-full pb-4">
             TOP
@@ -62,19 +63,19 @@ const ProductsSection = () => {
               id="content"
               className="flex flex-row gap-10 justify-between items-center overflow-x-auto scroll-smooth scrollbar-track-[#CA995D]/50 scrollbar-thumb-[#CA995D] scrollbar-thin"
             >
-              {state.products.map((p) => (
+              {state.searchedProductsByScore.map((p) => (
                 <ProductCard key={p.id} product={p} />
               ))}
             </div>
           </div>
           {/* Mobile Design */}
           <div className="hidden xs:flex md:hidden flex-row flex-wrap justify-evenly items-center gap-6">
-            {state.products.map((p) => (
+            {state.searchedProductsByScore.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
           </div>
           <div className="flex xs:hidden flex-row flex-wrap justify-evenly items-center gap-6">
-            {state.products.map((p) => (
+            {state.searchedProductsByScore.map((p) => (
               <SmallProductCard key={p.id} product={p} />
             ))}
           </div>

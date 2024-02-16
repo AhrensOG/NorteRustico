@@ -35,10 +35,22 @@ export const reducer = (state, action) => {
         ...state,
         productDetail: action.payload,
       };
+
+    /////////////////////// FILTERS //////////////////////////
     case "SEARCH_PRODUCTS_BY_NAME":
       return {
         ...state,
         searchedProducts: action.payload,
+      };
+    case "SEARCH_PRODUCTS_BY_SCORE":
+      return {
+        ...state,
+        searchedProductsByScore: action.payload,
+      };
+    case "SEARCH_RELATED_PRODUCTS":
+      return {
+        ...state,
+        searchedRelatedProducts: action.payload,
       };
     default:
       return {

@@ -1,6 +1,6 @@
 "use client";
 import { Context } from "@/app/context/GlobalContext";
-import { getOneProduct } from "@/app/context/actions";
+import { getOneProduct, searchRelatedProducts } from "@/app/context/actions";
 import ProductComments from "@/components/shop/ProductComments";
 import ProductDetail from "@/components/shop/ProductDetail";
 import RelationatedProducts from "@/components/shop/RelationatedProducts";
@@ -26,13 +26,30 @@ const ProductDetailPage = ({ params }) => {
 
     return () => getOneProduct(false, dispatch);
   }, []);
+
+  useEffect(() => {
+    if (state.productDetail) {
+      const getRelatedProducts = async () => {
+        try {
+          await searchRelatedProducts(state.productDetail.Categories, dispatch);
+        } catch (error) {
+          return toast.error(
+            "Ocurrio un error el solicitar los productos relacionados"
+          );
+        }
+      };
+      getRelatedProducts();
+    }
+  }, [state.productDetail]);
+
+  console.log(state);
   return (
     <div className="flex flex-row justify-center items-center h-full">
       {state.productDetail ? (
         <div className="p-4 md:p-6 max-w-screen-xl flex flex-col items-start justify-center gap-4 w-full">
           {/* Arrow to come back*/}
           <span>
-            <Link href={'/'}>
+            <Link href={"/"}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -51,11 +68,17 @@ const ProductDetailPage = ({ params }) => {
           </span>
 
           <ProductDetail product={state.productDetail} />
-          <RelationatedProducts products={state.products} />
+          {state.searchedRelatedProducts ? (
+            <RelationatedProducts products={state.searchedRelatedProducts} />
+          ) : (
+            <div className="flex flex-row justify-center items-center w-full my-40">
+              <Loader size={40} color="#1D4ED8"/>
+            </div>
+          )}
           <ProductComments />
         </div>
       ) : (
-        <Loader size={60} color="#1D4ED8"/>
+        <Loader size={60} color="#1D4ED8" />
       )}
     </div>
   );
