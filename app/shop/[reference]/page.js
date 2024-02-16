@@ -42,7 +42,6 @@ const ProductDetailPage = ({ params }) => {
     }
   }, [state.productDetail]);
 
-  console.log(state);
   return (
     <div className="flex flex-row justify-center items-center h-full">
       {state.productDetail ? (

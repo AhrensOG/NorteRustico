@@ -13,7 +13,6 @@ const ProductsSection = () => {
   const scrollRight = () => {
     document.getElementById("content").scrollLeft += 500;
   };
-  console.log(state)
   return (
     <div className="flex flex-row justify-center items-center py-16 px-2">
       {state.searchedProductsByScore?.length > 0 ? (
