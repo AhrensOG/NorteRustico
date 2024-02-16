@@ -1,27 +1,61 @@
 import Image from "next/image";
 import React from "react";
 import RatingStars from "./auxiliarComponents/RatingStars";
+import Link from "next/link";
 
-const ProductCard = () => {
+const ProductCard = ({ product }) => {
   return (
-    <div className="max-w-[220px] min-w-[220px] py-4">
-      <Image src={'/Product.png'} width={1000} height={1000} alt='ProductImage' className="w-[220px] h-[230px] rounded-2xl object-cover object-center" priority={true}/>
-      
-      {/* Loading Image effect */}
-
-      {/* <div className="bg-slate-300 w-[220px] h-[230px] rounded-2xl" /> */}
+    <div className="max-w-[220px] min-w-[220px] py-4 hover:-translate-y-1 duration-300">
+      <Link href={`/shop/${product.id}?name=${product.name}`}>
+        <div className="w-[220px] h-[230px] relative">
+          <Image
+            src={product.ProductImages[0]?.url}
+            fill
+            alt="ProductImage"
+            className="rounded-2xl object-cover object-center transition-opacity opacity-0 duration-500"
+            onLoad={(event) => event.target.classList.remove("opacity-0")}
+            sizes="(max-width: 220px) 25vw, 220px"
+            loading="lazy"
+            quality={50}
+          />
+        </div>
+      </Link>
       <div className="flex flex-col gap-1 items-start justify-center py-3 min-w-[220px] max-w-[220px]">
-        <span className="text-xl font-medium text-black/85">Producto</span>
-        <div className="flex flex-row gap-1 justify-center items-center">
-          <RatingStars/>
-        </div>
-        <div className="flex flex-row justify-center items-center gap-2">
-          <span className="text-2xl font-medium">$1500</span>
-          <span className="bg-[#C9140F] text-xl text-white font-medium tracking-widest px-2">
-            -30%
+        <Link href={`/shop/${product.id}?name=${product.name}`}>
+          <span className="text-xl font-medium text-black/85">
+            {product.name}
           </span>
+        </Link>
+        <div className="flex flex-row gap-1 justify-center items-center">
+          <RatingStars rating={product.score} />
         </div>
-        <span className="text-2xl line-through text-black/50">$1950</span>
+        <Link href={`/shop/${product.id}?name=${product.name}`}>
+          <div className="flex flex-row justify-center items-center gap-2">
+            <span className="text-2xl font-medium">
+              $
+              {product.discount
+                ? Number.isInteger(
+                    product.price - product.price * (product.discount / 100)
+                  )
+                  ? Number(
+                      product.price - product.price * (product.discount / 100)
+                    )
+                  : (
+                      product.price -
+                      product.price * (product.discount / 100)
+                    ).toFixed(2)
+                : product.price}
+            </span>
+            <span className="bg-[#C9140F] text-xl text-white font-medium tracking-widest px-2">
+              -{product.discount}%
+            </span>
+          </div>
+        </Link>
+        <Link href={`/shop/${product.id}?name=${product.name}`}>
+          <span className="text-2xl line-through text-black/50">
+            ${Number(product.price)}
+          </span>
+        </Link>
         <div className="flex flex-row items-center justify-center w-full">
           <span className="text-[#C9140F] text-sm flex flex-row items-center gap-2 cursor-pointer">
             <svg

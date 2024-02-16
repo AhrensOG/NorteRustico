@@ -14,9 +14,20 @@ const SERVER_URL_PRODUCT_TAGS_ENDPOINT =
   process.env.NEXT_PUBLIC_SERVER_PRODUCT_TAGS_ENDPOINT;
 const SERVER_URL_PRODUCT_IMAGES_ENDPOINT =
   process.env.NEXT_PUBLIC_SERVER_PRODUCT_IMAGES_ENDPOINT;
+const SERVER_URL_USERS_ENDPOINT = process.env.NEXT_PUBLIC_SERVER_USERS_ENDPOINT;
+
+////////////////////////// FILTERS //////////////////////////////////
+
 const SERVER_URL_SEARCH_PRODUCTS_BY_NAME_ENDPOINT =
   process.env.NEXT_PUBLIC_SERVER_SEARCH_PRODUCTS_BY_NAME_ENDPOINT;
-const SERVER_URL_USERS_ENDPOINT = process.env.NEXT_PUBLIC_SERVER_USERS_ENDPOINT;
+
+const SERVER_URL_SEARCH_PRODUCTS_BY_SCORE_ENDPOINT =
+  process.env.NEXT_PUBLIC_SERVER_SEARCH_PRODUCTS_BY_SCORE_ENDPOINT;
+
+const SERVER_URL_SEARCH_RELATED_PRODUCTS_ENDPOINT =
+  process.env.NEXT_PUBLIC_SERVER_SEARCH_RELATED_PRODUCTS_ENDPOINT;
+
+/////////////////////////////////////////////////////////////////////
 
 export const getAllTags = async (dispatch) => {
   try {
@@ -40,6 +51,18 @@ export const getAllProducts = async (dispatch) => {
   try {
     const res = await axios.get(`${SERVER_URL_PRODUCTS_ENDPOINT}`);
     return dispatch({ type: "GET_ALL_PRODUCTS", payload: res.data });
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const getOneProduct = async (id, dispatch) => {
+  try {
+    if (id) {
+      const res = await axios.get(`${SERVER_URL_PRODUCTS_ENDPOINT}?id=${id}`);
+      return dispatch({ type: "GET_ONE_PRODUCT", payload: res.data });
+    }
+    return dispatch({ type: "GET_ONE_PRODUCT", payload: false });
   } catch (error) {
     throw new Error("Error interno del servidor");
   }
@@ -149,23 +172,6 @@ export const deleteProduct = async (id) => {
   }
 };
 
-export const searchProductsByName = async (search, dispatch) => {
-  try {
-    if (search) {
-      const res = await axios.get(
-        `${SERVER_URL_SEARCH_PRODUCTS_BY_NAME_ENDPOINT}?name=${search}`
-      );
-      if (res.data.length === 0) {
-        return toast.info(`No se encontraron productos con "${search}"`);
-      }
-      return dispatch({ type: "SEARCH_PRODUCTS_BY_NAME", payload: res.data });
-    }
-    return dispatch({ type: "SEARCH_PRODUCTS_BY_NAME", payload: search });
-  } catch (error) {
-    throw new Error("Error interno del servidor");
-  }
-};
-
 export const createCategory = async (name) => {
   try {
     await axios.post(`${SERVER_URL_CATEGORIES_ENDPOINT}`, name);
@@ -203,6 +209,48 @@ export const updateUser = async (values, dispatch) => {
   try {
     const res = await axios.put(`${SERVER_URL_USERS_ENDPOINT}`, values);
     return dispatch({ type: "UPDATED_USER", payload: res.data });
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+////////////////////////// FILTERS //////////////////////////////////
+
+export const searchProductsByName = async (search, dispatch) => {
+  try {
+    if (search) {
+      const res = await axios.get(
+        `${SERVER_URL_SEARCH_PRODUCTS_BY_NAME_ENDPOINT}?name=${search}`
+      );
+      if (res.data.length === 0) {
+        return toast.info(`No se encontraron productos con "${search}"`);
+      }
+      return dispatch({ type: "SEARCH_PRODUCTS_BY_NAME", payload: res.data });
+    }
+    return dispatch({ type: "SEARCH_PRODUCTS_BY_NAME", payload: search });
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const searchProductsByScore = async (dispatch) => {
+  try {
+    const res = await axios.get(
+      `${SERVER_URL_SEARCH_PRODUCTS_BY_SCORE_ENDPOINT}`
+    );
+    return dispatch({ type: "SEARCH_PRODUCTS_BY_SCORE", payload: res.data });
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const searchRelatedProducts = async (categories, dispatch) => {
+  try {
+    const res = await axios.post(
+      `${SERVER_URL_SEARCH_RELATED_PRODUCTS_ENDPOINT}`,
+      categories
+    );
+    return dispatch({ type: "SEARCH_RELATED_PRODUCTS", payload: res.data });
   } catch (error) {
     throw new Error("Error interno del servidor");
   }
