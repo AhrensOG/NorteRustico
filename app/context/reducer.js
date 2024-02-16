@@ -30,6 +30,11 @@ export const reducer = (state, action) => {
         ...state,
         products: action.payload,
       };
+    case "GET_ONE_PRODUCT":
+      return {
+        ...state,
+        productDetail: action.payload,
+      };
     case "SEARCH_PRODUCTS_BY_NAME":
       return {
         ...state,

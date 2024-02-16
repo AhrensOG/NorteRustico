@@ -45,6 +45,18 @@ export const getAllProducts = async (dispatch) => {
   }
 };
 
+export const getOneProduct = async (id, dispatch) => {
+  try {
+    if (id) {
+      const res = await axios.get(`${SERVER_URL_PRODUCTS_ENDPOINT}?id=${id}`);
+      return dispatch({ type: "GET_ONE_PRODUCT", payload: res.data });
+    }
+    return dispatch({ type: "GET_ONE_PRODUCT", payload: false });
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
 export const createProduct = async (values) => {
   try {
     const res = await axios.post(`${SERVER_URL_PRODUCTS_ENDPOINT}`, values);
