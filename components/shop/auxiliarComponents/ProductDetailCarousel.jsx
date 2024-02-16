@@ -1,8 +1,10 @@
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import Favourites from "../../product/auxiliarComponents/Favourites";
 
 const ProductDetailCarousel = ({
   images,
-  autoSlide = true, 
+  autoSlide = true,
   autoSlideInterval = 5000,
   lateralColum = false,
   favourites = true,
@@ -34,7 +36,7 @@ const ProductDetailCarousel = ({
       <div
         className={`${
           lateralColum
-            ? " hidden md:flex flex-row justify-center items-center"
+            ? " hidden h-full md:flex flex-row justify-center items-start"
             : "hidden"
         }`}
       >
@@ -43,15 +45,18 @@ const ProductDetailCarousel = ({
             return (
               <div
                 key={img.id}
-                className="p-0.5 border rounded-xl border-blue-500 cursor-pointer"
+                className="relative w-16 h-16 lg:w-20 lg:h-20 border rounded-xl border-blue-500 cursor-pointer"
                 onClick={() => setCurrentIndex(idx)}
               >
-                <img
+                <Image
                   src={img.url}
-                  width={50}
-                  height={50}
+                  fill
                   alt="Image"
-                  className="w-16 h-16 lg:w-20 lg:h-20 object-cover object-center rounded-xl"
+                  className="object-cover object-center rounded-xl transition-opacity opacity-0 duration-500 p-0.5"
+                  onLoad={(event) => event.target.classList.remove("opacity-0")}
+                  sizes="(max-width: 150px) 15vw, 15vw"
+                  priority
+                  quality={100}
                 />
               </div>
             );
@@ -99,31 +104,20 @@ const ProductDetailCarousel = ({
             </svg>
           </button>
         </div>
-        <img
-          className="w-full h-full object-center object-cover rounded-3xl"
-          src={images[currentIndex]?.url} 
-          alt={`Slide ${currentIndex + 1}`}
-        />
-        {favourites === true && (
-          <div className="w-full flex flex-row justify-center items-center py-2">
-            <span className="text-[#C9140F] flex flex-row text-lg items-center gap-2 cursor-pointer">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 stroke-[#C9140F]"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-                />
-              </svg>
-              Agregar a Favoritos
-            </span>
-          </div>
+        <div className="relative w-full h-full">
+          <Image
+            className="w-full h-full object-center object-cover rounded-3xl transition-opacity opacity-0 duration-500"
+            fill
+            src={images[currentIndex]?.url}
+            alt={`Slide ${currentIndex + 1}`}
+            onLoad={(event) => event.target.classList.remove("opacity-0")}
+            sizes="(max-width: 480px) 100vw, 480px"
+            priority
+            quality={100}
+          />
+        </div>
+        {favourites && (
+          <Favourites />
         )}
       </div>
     </div>

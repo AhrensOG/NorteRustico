@@ -7,6 +7,10 @@ const qualificationsInit = (sequelize, DataTypes) => {
   Qualifications.init(
     {
       point: DataTypes.ENUM("1", "2", "3", "4", "5"),
+      comment: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      }
     },
     {
       sequelize,
