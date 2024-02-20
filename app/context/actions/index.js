@@ -30,6 +30,11 @@ const SERVER_URL_SEARCH_PRODUCTS_BY_SCORE_ENDPOINT =
 const SERVER_URL_SEARCH_RELATED_PRODUCTS_ENDPOINT =
   process.env.NEXT_PUBLIC_SERVER_SEARCH_RELATED_PRODUCTS_ENDPOINT;
 
+////////////////////////// PAYMENT //////////////////////////////////
+
+const SERVER_URL_DELIVERY_COST_ENDPOINT =
+  process.env.NEXT_PUBLIC_SERVER_DELIVERY_COST_ENDPOINT;
+
 /////////////////////////////////////////////////////////////////////
 
 export const getAllTags = async (dispatch) => {
@@ -221,7 +226,9 @@ export const updateUser = async (values, dispatch) => {
 
 export const getFavouriteProducts = async (values, dispatch) => {
   try {
-    const res = await axios.get(`${SERVER_URL_FAVOURITES_ENDPOINT}?user_id=${values}`);
+    const res = await axios.get(
+      `${SERVER_URL_FAVOURITES_ENDPOINT}?user_id=${values}`
+    );
     return dispatch({ type: "FAVOURITE_PRODUCTS", payload: res.data });
   } catch (error) {
     throw new Error("Error interno del servidor");
@@ -288,4 +295,55 @@ export const searchRelatedProducts = async (categories, dispatch) => {
   } catch (error) {
     throw new Error("Error interno del servidor");
   }
+};
+
+//////////////////////////// CART ////////////////////////////////////
+
+export const addProductToCart = (product, dispatch) => {
+  return dispatch({
+    type: "ADD_PRODUCT_TO_CART",
+    payload: product,
+  });
+};
+
+export const removeProductFromCart = (product, dispatch) => {
+  return dispatch({
+    type: "REMOVE_PRODUCT_FROM_CART",
+    payload: product,
+  });
+};
+
+export const emptyCart = (dispatch) => {
+  return dispatch({
+    type: "EMPTY_CART",
+  });
+};
+
+//////////////////////////// PAYMENT ////////////////////////////////////
+
+export const savePaymentInformation = (data, dispatch) => {
+  return dispatch({
+    type: "PAYMENT_INFORMATION",
+    payload: data,
+  });
+};
+
+export const getDeliveryCost = async (data, dispatch) => {
+  try {
+    const res = await axios.get(
+      `${SERVER_URL_DELIVERY_COST_ENDPOINT}?weight=${data.totalWeight}&volume=${data.totalVolume}&postcode=${data.postalCode}`
+    );
+    return dispatch({
+      type: "DELIVERY_COST",
+      payload: res.data,
+    });
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const deleteDeliveryCostInformation = (dispatch) => {
+  return dispatch({
+    type: "DELETE_DELIVERY_COST_INFORMATION",
+  });
 };
