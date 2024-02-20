@@ -2,11 +2,13 @@
 import { Context } from "@/app/context/GlobalContext";
 import CartInformation from "@/components/user/cart/CartInformation";
 import CartProductCard from "@/components/user/cart/CartProductCard";
+import Payment from "@/components/user/cart/Payment";
 import Link from "next/link";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 const CartPage = () => {
-  const { state } = useContext(Context);
+  const { state, dispatch } = useContext(Context);
+  const [showPayment, setShowPayment] = useState(false)
   return (
     <div className="p-4 pb-16 flex flex-col items-center justify-center w-full">
       <div className="2xl:max-w-screen-xl md:max-w-screen-lg w-full space-y-6 sm:space-y-10">
@@ -32,7 +34,7 @@ const CartPage = () => {
                   {" "}
                   Visita la{" "}
                   <span className="text-blue-700">
-                    <Link href={'/shop'}>tienda</Link>{" "}
+                    <Link href={"/shop"}>tienda</Link>{" "}
                   </span>{" "}
                   y añade algunos!
                 </p>
@@ -42,10 +44,13 @@ const CartPage = () => {
 
           {/* INFORMATION CART */}
           <div className="w-full md:w-auto">
-            <CartInformation />
+            <CartInformation setShowPayment={setShowPayment}/>
           </div>
         </div>
       </div>
+      {
+        showPayment && <Payment setShowPayment={setShowPayment}/>
+      }
     </div>
   );
 };

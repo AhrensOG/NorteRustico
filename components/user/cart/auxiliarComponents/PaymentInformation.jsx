@@ -1,17 +1,12 @@
-"use client";
 import { Context } from "@/app/context/GlobalContext";
-import React, { useContext, useEffect, useState } from "react";
-import { toast } from "sonner";
+import React, { useContext } from "react";
 
-const CartInformation = ({ setShowPayment }) => {
+const PaymentInformation = () => {
   const { state, dispatch } = useContext(Context);
 
-  const handleShowPayment = () => {
-    if(!state.cart || state.cart?.length === 0) {
-      return toast.info('Tu carrito esta vacío. Visita la tienda!')
-    }
-    setShowPayment(true);
-  } 
+  const handlePayment = () => {
+    console.log(state);
+  };
 
   return (
     <div className="flex flex-row justify-center items-center w-full sm:border-2 sm:rounded-md sm:shadow-black/20 sm:shadow-lg">
@@ -32,6 +27,15 @@ const CartInformation = ({ setShowPayment }) => {
                   : 0}
               </span>
             </div>
+            <div className="w-full flex flex-row justify-between items-center text-sm xs:text-base sm:text-lg">
+              <span>Envío</span>
+              <span>
+                ${" "}
+                {state.payment?.deliveryCost?.tarifaConIva?.total
+                  ? state.payment.deliveryCost.tarifaConIva.total
+                  : 0}
+              </span>
+            </div>
           </div>
           <div className="w-full pt-2 space-y-8">
             <div className="w-full flex flex-row justify-between items-center text-sm xs:text-base sm:text-lg uppercase font-medium">
@@ -39,13 +43,22 @@ const CartInformation = ({ setShowPayment }) => {
               <span>
                 ${" "}
                 {state.discountedCartPrice
-                  ? state.discountedCartPrice
+                  ? state.payment?.deliveryCost?.tarifaConIva?.total
+                    ? Number(state.discountedCartPrice) +
+                      Number(state.payment.deliveryCost.tarifaConIva.total)
+                    : Number(state.discountedCartPrice)
                   : state.cartPrice
-                  ? state.cartPrice
+                  ? state.payment?.deliveryCost?.tarifaConIva?.total
+                    ? Number(state.cartPrice) +
+                      Number(state.payment.deliveryCost.tarifaConIva.total)
+                    : Number(state.cartPrice)
                   : 0}
               </span>
             </div>
-            <button onClick={() => handleShowPayment()} className="w-full bg-[#C9140F] py-1.5 px-2 text-white font-bold rounded text-sm xs:text-base sm:text-lg">
+            <button
+              onClick={() => handlePayment()}
+              className="w-full bg-[#C9140F] py-1.5 px-2 text-white font-bold rounded text-sm xs:text-base sm:text-lg"
+            >
               IR A PAGAR
             </button>
           </div>
@@ -55,4 +68,4 @@ const CartInformation = ({ setShowPayment }) => {
   );
 };
 
-export default CartInformation;
+export default PaymentInformation;

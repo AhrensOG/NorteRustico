@@ -31,6 +31,10 @@ const ProductForm = ({
     quantity: "",
     fewUnits: "",
     limitedOffer: "",
+    heigth: "",
+    width: "",
+    large: "",
+    weight: "",
   };
   const action = data?.id ? "PUT" : "POST";
 
@@ -383,6 +387,49 @@ const ProductForm = ({
                       </label>
                     </div>
                   </div>
+                </div>
+              </div>
+
+              <div className="flex flex-row w-full gap-2">
+                <div className="flex flex-row w-full gap-2">
+                  <input
+                    id="heigth"
+                    name="heigth"
+                    type="number"
+                    placeholder="Alto ( cm )"
+                    onChange={formik.handleChange}
+                    value={formik.values.heigth}
+                    className="w-full border-2 outline-blue-700 py-0.5 px-2 rounded-md"
+                  />
+                  <input
+                    id="width"
+                    name="width"
+                    type="number"
+                    placeholder="Ancho ( cm )"
+                    onChange={formik.handleChange}
+                    value={formik.values.width}
+                    className="w-full border-2 outline-blue-700 py-0.5 px-2 rounded-md [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  />
+                </div>
+                <div className="flex flex-row w-full gap-2">
+                  <input
+                    id="large"
+                    name="large"
+                    type="text"
+                    placeholder="Largo ( cm )"
+                    onChange={formik.handleChange}
+                    value={formik.values.large}
+                    className="w-full border-2 outline-blue-700 py-0.5 px-2 rounded-md"
+                  />
+                  <input
+                    id="weight"
+                    name="weight"
+                    type="number"
+                    placeholder="Peso ( kg )"
+                    onChange={formik.handleChange}
+                    value={formik.values.weight}
+                    className="w-full border-2 outline-blue-700 py-0.5 px-2 rounded-md [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  />
                 </div>
               </div>
 

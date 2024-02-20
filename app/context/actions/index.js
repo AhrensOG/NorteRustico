@@ -30,6 +30,11 @@ const SERVER_URL_SEARCH_PRODUCTS_BY_SCORE_ENDPOINT =
 const SERVER_URL_SEARCH_RELATED_PRODUCTS_ENDPOINT =
   process.env.NEXT_PUBLIC_SERVER_SEARCH_RELATED_PRODUCTS_ENDPOINT;
 
+////////////////////////// PAYMENT //////////////////////////////////
+
+const SERVER_URL_DELIVERY_COST_ENDPOINT =
+  process.env.NEXT_PUBLIC_SERVER_DELIVERY_COST_ENDPOINT;
+
 /////////////////////////////////////////////////////////////////////
 
 export const getAllTags = async (dispatch) => {
@@ -311,5 +316,34 @@ export const removeProductFromCart = (product, dispatch) => {
 export const emptyCart = (dispatch) => {
   return dispatch({
     type: "EMPTY_CART",
+  });
+};
+
+//////////////////////////// PAYMENT ////////////////////////////////////
+
+export const savePaymentInformation = (data, dispatch) => {
+  return dispatch({
+    type: "PAYMENT_INFORMATION",
+    payload: data,
+  });
+};
+
+export const getDeliveryCost = async (data, dispatch) => {
+  try {
+    const res = await axios.get(
+      `${SERVER_URL_DELIVERY_COST_ENDPOINT}?weight=${data.totalWeight}&volume=${data.totalVolume}&postcode=${data.postalCode}`
+    );
+    return dispatch({
+      type: "DELIVERY_COST",
+      payload: res.data,
+    });
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const deleteDeliveryCostInformation = (dispatch) => {
+  return dispatch({
+    type: "DELETE_DELIVERY_COST_INFORMATION",
   });
 };

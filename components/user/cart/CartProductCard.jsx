@@ -25,13 +25,13 @@ const CartProductCard = ({ product }) => {
             />
           </div>
           <div className="space-y-1">
-            <p className="font-medium xs:text-base lg:text-lg">
+            <p className="font-medium text-sm xs:text-base lg:text-lg">
               {product.name}
               <span className="text-sm text-black/50 pl-1">
                 ({product.items})
               </span>
             </p>
-            <div className="text-sm xs:text-base space-x-4">
+            <div className="text-xs xs:text-base space-x-4">
               <Link href={`/shop/${product.id}?name=${product.name}`}>
                 <span className="text-blue-500">Editar</span>
               </Link>
@@ -44,11 +44,11 @@ const CartProductCard = ({ product }) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col justify-center items-start">
-          <span className="xs:text-lg text-black/50 line-through">
-            $ {product.price}
+        <div className="flex flex-col justify-center items-end w-20">
+          <span className="text-sm xs:text-lg text-black/50 line-through">
+            $ {Number(product.price)}
           </span>
-          <span className="xs:text-lg">$ {product.discountedPrice}</span>
+          <span className="text-sm xs:text-lg">$ {product.discountedPrice}</span>
         </div>
       </div>
     </div>

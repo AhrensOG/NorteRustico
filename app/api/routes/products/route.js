@@ -24,9 +24,9 @@ export async function GET(req) {
           { model: Categories },
           { model: Tags },
         ],
-        order: [["createdAt", "DESC"]]
+        order: [["createdAt", "DESC"]],
       });
-      return data ? Response.json(data) : Response.json('Product not found');
+      return data ? Response.json(data) : Response.json("Product not found");
     }
 
     const data = await Product.findAll({
@@ -38,7 +38,7 @@ export async function GET(req) {
         { model: Categories },
         { model: Tags },
       ],
-      order: [["createdAt", "DESC"]]
+      order: [["createdAt", "DESC"]],
     });
     return Response.json(data);
   } catch (error) {
@@ -56,6 +56,10 @@ export async function POST(req) {
       fewUnits,
       limitedOffer,
       quantity,
+      heigth,
+      width,
+      large,
+      weight,
     } = await req.json();
 
     if (
@@ -65,7 +69,11 @@ export async function POST(req) {
       !(discount >= 0) ||
       !fewUnits ||
       !limitedOffer ||
-      !quantity
+      !quantity ||
+      !heigth ||
+      !width ||
+      !large ||
+      !weight
     ) {
       return Response.json("Missing Data / All fields are required", {
         status: 400,
@@ -80,6 +88,10 @@ export async function POST(req) {
       fewUnits: fewUnits === "yes",
       limitedOffer: limitedOffer === "yes",
       quantity,
+      heigth,
+      width,
+      large,
+      weight,
     });
 
     const createdProduct = await Product.findOne({
@@ -111,6 +123,10 @@ export async function PUT(req) {
       fewUnits,
       limitedOffer,
       quantity,
+      heigth,
+      width,
+      large,
+      weight,
     } = await req.json();
 
     if (!productId) {
@@ -147,6 +163,18 @@ export async function PUT(req) {
     }
     if (quantity !== undefined) {
       productToUpdate.quantity = quantity;
+    }
+    if (heigth !== undefined) {
+      productToUpdate.heigth = heigth;
+    }
+    if (width !== undefined) {
+      productToUpdate.width = width;
+    }
+    if (large !== undefined) {
+      productToUpdate.large = large;
+    }
+    if (weight !== undefined) {
+      productToUpdate.weight = weight;
     }
 
     await productToUpdate.save();
