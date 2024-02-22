@@ -280,7 +280,7 @@ export const searchProductsByName = async (search, dispatch) => {
 
 export const searchProductsByScore = async (dispatch) => {
   try {
-    const res = await axios.get(
+    const res = await axios.post(
       `${SERVER_URL_SEARCH_PRODUCTS_BY_SCORE_ENDPOINT}`
     );
     return dispatch({ type: "SEARCH_PRODUCTS_BY_SCORE", payload: res.data });
