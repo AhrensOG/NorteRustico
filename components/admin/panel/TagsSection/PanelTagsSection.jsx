@@ -20,17 +20,19 @@ const PanelTagsSection = ({ setShowTags }) => {
       if (!values.name) {
         return toast.info("Ingresa el nombre de la etiqueta.");
       }
-      for (const tag of state?.tags) {
-        if (tag.name.toLowerCase() === values.name.toLowerCase()) {
-          return toast.warning(
-            `La etiqueta '${
-              values.name.charAt(0).toUpperCase() +
-              values.name.slice(1).toLowerCase()
-            }' ya existe.`,
-            {
-              description: "Intenta con un nombre diferente.",
-            }
-          );
+      if (Array.isArray(state?.tags)) {
+        for (const tag of state?.tags) {
+          if (tag.name.toLowerCase() === values.name.toLowerCase()) {
+            return toast.warning(
+              `La etiqueta '${
+                values.name.charAt(0).toUpperCase() +
+                values.name.slice(1).toLowerCase()
+              }' ya existe.`,
+              {
+                description: "Intenta con un nombre diferente.",
+              }
+            );
+          }
         }
       }
       await createTag(values);
@@ -92,7 +94,7 @@ const PanelTagsSection = ({ setShowTags }) => {
               {/* Categories */}
               <div className="flex flex-col w-full gap-4">
                 <div className="flex flex-row flex-wrap gap-2">
-                  {state?.tags?.length > 0 ? (
+                  {state?.tags !== undefined && Array.isArray(state?.tags) && state?.tags?.length > 0 ? (
                     state.tags.map((c) => {
                       return (
                         <SelectInputCard

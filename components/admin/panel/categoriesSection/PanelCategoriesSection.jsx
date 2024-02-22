@@ -24,17 +24,20 @@ const PanelCategoriesSection = ({ setShowCategories }) => {
       if (!values.name) {
         return toast.info("Ingresa el nombre de la categoria.");
       }
-      for (const category of state?.categories) {
-        if (category.name.toLowerCase() === values.name.toLowerCase()) {
-          return toast.warning(
-            `La categoria '${
-              values.name.charAt(0).toUpperCase() +
-              values.name.slice(1).toLowerCase()
-            }' ya existe.`,
-            {
-              description: "Intenta con un nombre diferente.",
-            }
-          );
+      if (Array.isArray(state?.categories)) {
+        for (const category of state?.categories) {
+          if (category.name.toLowerCase() === values.name.toLowerCase()) {
+            console.log(category)
+            return toast.warning(
+              `La categoria '${
+                values.name.charAt(0).toUpperCase() +
+                values.name.slice(1).toLowerCase()
+              }' ya existe.`,
+              {
+                description: "Intenta con un nombre diferente.",
+              }
+            );
+          }
         }
       }
       await createCategory(values);
@@ -96,7 +99,7 @@ const PanelCategoriesSection = ({ setShowCategories }) => {
               {/* Categories */}
               <div className="flex flex-col w-full gap-4">
                 <div className="flex flex-row flex-wrap gap-2">
-                  {state?.categories?.length > 0 ? (
+                  {state?.categories !== undefined && Array.isArray(state?.categories) && state?.categories?.length > 0 ? (
                     state.categories.map((c) => {
                       return (
                         <SelectInputCard
