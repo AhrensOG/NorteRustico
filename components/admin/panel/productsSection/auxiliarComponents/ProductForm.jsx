@@ -143,6 +143,7 @@ const ProductForm = ({
         });
       } finally {
         setLoader(false);
+        resetForm();
       }
     }
     if (action === "PUT") {
@@ -442,8 +443,10 @@ const ProductForm = ({
                   <option value={null} name={null}>
                     Seleccionar categorias
                   </option>
-                  {state?.categories?.length ? (
-                    state.categories.map((c) => {
+                  {state?.categories !== undefined &&
+                  Array.isArray(state?.categories) &&
+                  state?.categories?.length > 0 ? (
+                    state?.categories?.map((c) => {
                       return (
                         <option
                           key={c.id}
@@ -484,7 +487,9 @@ const ProductForm = ({
                   <option value={null} name={null}>
                     Seleccionar Etiquetas
                   </option>
-                  {state?.tags?.length ? (
+                  {state?.tags !== undefined &&
+                  Array.isArray(state?.tags) &&
+                  state?.tags?.length > 0 ? (
                     state.tags.map((c) => {
                       return (
                         <option
