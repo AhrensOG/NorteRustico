@@ -6,9 +6,11 @@ const orderProductsInit = (sequelize, DataTypes) => {
   class OrderProducts extends Model {}
   OrderProducts.init(
     {
-      productName: DataTypes.TEXT,
-      quantity: DataTypes.INTEGER,
-      status: DataTypes.ENUM('Shopping', 'Pending', 'Paid', 'Cancel'),
+      status: DataTypes.ENUM("Shopping", "Pending", "Paid", "Cancel"),
+      name: DataTypes.STRING,
+      price: DataTypes.DECIMAL(10, 2),
+      discount: DataTypes.INTEGER,
+      items: DataTypes.INTEGER,
     },
     {
       sequelize,

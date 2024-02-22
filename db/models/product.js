@@ -15,8 +15,12 @@ const productInit = (sequelize, DataTypes) => {
       quantity: DataTypes.INTEGER,
       score: {
         type: DataTypes.INTEGER,
-        defaultValue: 5
-      }
+        defaultValue: 5,
+      },
+      heigth: DataTypes.INTEGER,
+      width: DataTypes.INTEGER,
+      large: DataTypes.INTEGER,
+      weight: DataTypes.DECIMAL(10, 2),
     },
     {
       sequelize,

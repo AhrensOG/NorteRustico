@@ -19,6 +19,10 @@ const SERVER_URL_USERS_ENDPOINT = process.env.NEXT_PUBLIC_SERVER_USERS_ENDPOINT;
 const SERVER_URL_FAVOURITES_ENDPOINT =
   process.env.NEXT_PUBLIC_SERVER_FAVOURITES_ENDPOINT;
 
+const SERVER_URL_ORDER_ENDPOINT = process.env.NEXT_PUBLIC_SERVER_ORDER_ENDPOINT;
+const SERVER_URL_ORDER_PRODUCTS_ENDPOINT =
+  process.env.NEXT_PUBLIC_SERVER_ORDER_PRODUCTS_ENDPOINT;
+
 ////////////////////////// FILTERS //////////////////////////////////
 
 const SERVER_URL_SEARCH_PRODUCTS_BY_NAME_ENDPOINT =
@@ -29,6 +33,11 @@ const SERVER_URL_SEARCH_PRODUCTS_BY_SCORE_ENDPOINT =
 
 const SERVER_URL_SEARCH_RELATED_PRODUCTS_ENDPOINT =
   process.env.NEXT_PUBLIC_SERVER_SEARCH_RELATED_PRODUCTS_ENDPOINT;
+
+////////////////////////// PAYMENT //////////////////////////////////
+
+const SERVER_URL_DELIVERY_COST_ENDPOINT =
+  process.env.NEXT_PUBLIC_SERVER_DELIVERY_COST_ENDPOINT;
 
 /////////////////////////////////////////////////////////////////////
 
@@ -221,7 +230,9 @@ export const updateUser = async (values, dispatch) => {
 
 export const getFavouriteProducts = async (values, dispatch) => {
   try {
-    const res = await axios.get(`${SERVER_URL_FAVOURITES_ENDPOINT}?user_id=${values}`);
+    const res = await axios.get(
+      `${SERVER_URL_FAVOURITES_ENDPOINT}?user_id=${values}`
+    );
     return dispatch({ type: "FAVOURITE_PRODUCTS", payload: res.data });
   } catch (error) {
     throw new Error("Error interno del servidor");
@@ -285,6 +296,97 @@ export const searchRelatedProducts = async (categories, dispatch) => {
       categories
     );
     return dispatch({ type: "SEARCH_RELATED_PRODUCTS", payload: res.data });
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+//////////////////////////// CART ////////////////////////////////////
+
+export const addProductToCart = (product, dispatch) => {
+  return dispatch({
+    type: "ADD_PRODUCT_TO_CART",
+    payload: product,
+  });
+};
+
+export const removeProductFromCart = (product, dispatch) => {
+  return dispatch({
+    type: "REMOVE_PRODUCT_FROM_CART",
+    payload: product,
+  });
+};
+
+export const emptyCart = (dispatch) => {
+  return dispatch({
+    type: "EMPTY_CART",
+  });
+};
+
+//////////////////////////// PAYMENT ////////////////////////////////////
+
+export const savePaymentInformation = (data, dispatch) => {
+  return dispatch({
+    type: "PAYMENT_INFORMATION",
+    payload: data,
+  });
+};
+
+export const getDeliveryCost = async (data, dispatch) => {
+  try {
+    const res = await axios.get(
+      `${SERVER_URL_DELIVERY_COST_ENDPOINT}?weight=${data.totalWeight}&volume=${data.totalVolume}&postcode=${data.postalCode}`
+    );
+    return dispatch({
+      type: "DELIVERY_COST",
+      payload: res.data,
+    });
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const deleteDeliveryCostInformation = (dispatch) => {
+  return dispatch({
+    type: "DELETE_DELIVERY_COST_INFORMATION",
+  });
+};
+
+//////////////////////////// PAYMENT ////////////////////////////////////
+
+export const createOrder = async (data, dispatch) => {
+  try {
+    const body = {
+      userId: data.user.id,
+      status: "Pending",
+      totalPrice: data.cartTotalPrice,
+      deliveryCost: data.payment.deliveryCost.tarifaConIva.total,
+      cartPrice: data.cartPrice,
+      discountedCartPrice: data.discountedCartPrice,
+      email: data.payment.email,
+      name: data.payment.name,
+      surname: data.payment.surname,
+      street: data.payment.street,
+      streetNumber: data.payment.streetNumber,
+      flat: data.payment.flat,
+      apartament: data.payment.apartament,
+      postalCode: data.payment.postalCode,
+      country: data.payment.country,
+      province: data.payment.province,
+      city: data.payment.city,
+      dni: data.payment.dni,
+      phone: data.payment.phone,
+    };
+    const res = await axios.post(SERVER_URL_ORDER_ENDPOINT, body);
+    return res.data;
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const addProductsToOrder = async (data) => {
+  try {
+    const res = await axios.post(SERVER_URL_ORDER_PRODUCTS_ENDPOINT, data);
   } catch (error) {
     throw new Error("Error interno del servidor");
   }
