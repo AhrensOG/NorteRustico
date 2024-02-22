@@ -21,8 +21,6 @@ export async function GET() {
         { model: Tags },
       ],
     });
-
-    data.sort((a, b) => b.score - a.score);
     
     return Response.json(data);
   } catch (error) {
