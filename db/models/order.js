@@ -12,63 +12,26 @@ const orderInit = (sequelize, DataTypes) => {
       },
       status: DataTypes.ENUM('Shopping', 'Pending', 'Paid', 'Cancel'),
       totalPrice: DataTypes.DECIMAL(10, 2),
+      deliveryCost: DataTypes.DECIMAL(10, 2),
+      cartPrice: DataTypes.DECIMAL(10, 2),
+      discountedCartPrice: DataTypes.DECIMAL(10, 2), 
       delivered: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
       },
-      email: {
-        type: DataTypes.TEXT,
-        allowNull: true
-      },
-      name: {
-        type: DataTypes.STRING,
-        allowNull: true
-      },
-      surname: {
-        type: DataTypes.STRING,
-        allowNull: true
-      },
-      street: {
-        type: DataTypes.STRING,
-        allowNull: true
-      },
-      streetNumber: {
-        type: DataTypes.INTEGER,
-        allowNull: true
-      },
-      flat: {
-        type: DataTypes.STRING,
-        allowNull: true
-      },
-      apartament: {
-        type: DataTypes.STRING,
-        allowNull: true
-      },
-      postalCode: {
-        type: DataTypes.STRING,
-        allowNull: true
-      },
-      country: {
-        type: DataTypes.STRING,
-        allowNull: true
-      },
-      province: {
-        type: DataTypes.STRING,
-        allowNull: true
-      },
-      locality: {
-        type: DataTypes.STRING,
-        allowNull: true
-      },
-      dni: {
-        type: DataTypes.STRING,
-        allowNull: true
-      },
-      phone: {
-        type: DataTypes.BIGINT,
-        allowNull: true
-      }
-      
+      email: DataTypes.TEXT,
+      name: DataTypes.STRING,
+      surname: DataTypes.STRING,
+      street: DataTypes.STRING,
+      streetNumber: DataTypes.INTEGER,
+      flat: DataTypes.STRING,
+      apartament: DataTypes.STRING,
+      postalCode: DataTypes.STRING,
+      country: DataTypes.STRING,
+      province: DataTypes.STRING,
+      city: DataTypes.STRING,
+      dni: DataTypes.STRING,
+      phone: DataTypes.BIGINT,
     },
     {
       sequelize,
