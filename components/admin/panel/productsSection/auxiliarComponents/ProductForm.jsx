@@ -135,6 +135,17 @@ const ProductForm = ({
           );
         }
         await getAllProducts(dispatch);
+        resetForm();
+
+        setSelectedCategories([]);
+        setRemovedCategories([]);
+
+        setSelectedTags([]);
+        setRemovedTags([]);
+
+        setRemovedImages([]);
+        setNewImages([]);
+
         return toast.success("Producto creado exitosamente!");
       } catch (error) {
         setLoader(false);
@@ -143,7 +154,6 @@ const ProductForm = ({
         });
       } finally {
         setLoader(false);
-        resetForm();
       }
     }
     if (action === "PUT") {

@@ -20,8 +20,10 @@ export async function GET() {
         { model: Categories },
         { model: Tags },
       ],
-      order: [["score", "DESC"]], // Ordenar por score de forma descendente
     });
+
+    data.sort((a, b) => b.score - a.score);
+    
     return Response.json(data);
   } catch (error) {
     return Response.json(error.message, { status: 500 });
