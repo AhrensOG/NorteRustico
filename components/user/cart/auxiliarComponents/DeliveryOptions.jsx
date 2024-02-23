@@ -11,19 +11,48 @@ const DeliveryOptions = () => {
 
   const handleDeliveryCost = async () => {
     try {
-      setLoader(true);
-      if (state.payment?.totalWeight && state.payment?.totalVolume) {  
-        return await getDeliveryCost(state.payment, dispatch)
+      if (
+        state?.payment?.name === "" ||
+        state?.payment?.surname === "" ||
+        state?.payment?.street === "" ||
+        state?.payment?.streetNumber === "" ||
+        state?.payment?.flat === "" ||
+        state?.payment?.apartament === "" ||
+        state?.payment?.postalCode === "" ||
+        state?.payment?.country === "" ||
+        state?.payment?.province === "" ||
+        state?.payment?.city === "" ||
+        state?.payment?.dni === "" ||
+        state?.payment?.phone === "" ||
+        !state?.payment?.name ||
+        !state?.payment?.surname ||
+        !state?.payment?.street ||
+        !state?.payment?.streetNumber ||
+        !state?.payment?.flat ||
+        !state?.payment?.apartament ||
+        !state?.payment?.postalCode ||
+        !state?.payment?.country ||
+        !state?.payment?.province ||
+        !state?.payment?.city ||
+        !state?.payment?.dni ||
+        !state?.payment?.phone
+      ) {
+        return toast.info(
+          "Recuerda completar y guardar toda tu información antes de calcular el envío!"
+        );
       }
-      return toast.info('Recuerda guardar tu información antes de calcular el envío!')
+      setLoader(true);
+      if (state.payment?.totalWeight && state.payment?.totalVolume) {
+        return await getDeliveryCost(state.payment, dispatch);
+      }
+      return toast.info(
+        "Recuerda guardar tu información antes de calcular el envío!"
+      );
     } catch (error) {
       setLoader(false);
-      return toast.error(
-        "Ocurrió un error al intentar cotizar el envío",
-        {
-          description: "Verifica el Codigo Postal",
-        }
-      );
+      return toast.error("Ocurrió un error al intentar cotizar el envío", {
+        description: "Verifica el Codigo Postal",
+      });
     } finally {
       setLoader(false);
     }

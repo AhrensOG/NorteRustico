@@ -1,6 +1,12 @@
 import { Context } from "@/app/context/GlobalContext";
-import { addProductsToOrder, createOrder } from "@/app/context/actions";
+import {
+  addProductsToOrder,
+  createOrder,
+  createPayment,
+  deleteInitPoint,
+} from "@/app/context/actions";
 import Loader from "@/components/Loader";
+import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -11,7 +17,7 @@ const PaymentInformation = () => {
 
   const handlePayment = async () => {
     if (!state.payment?.deliveryCost?.tarifaConIva?.total) {
-      return toast.info("Primero debes calcular el costo de envío.");
+      return toast.info("Recuerda que debes calcular el costo de envío!");
     }
     try {
       setLoader(true);
@@ -25,6 +31,10 @@ const PaymentInformation = () => {
         products: state.cart,
       };
       await addProductsToOrder(orderProductsData);
+      const user = state?.user;
+      const cart = state?.cart;
+      const deliveryCost = state.payment?.deliveryCost?.tarifaConIva?.total;
+      await createPayment(user, cart, deliveryCost, order.id, dispatch);
     } catch (error) {
       setLoader(false);
       return toast.error("Ocurrio un error al procesar la orden de compra", {
@@ -52,6 +62,14 @@ const PaymentInformation = () => {
     calculateTotal();
   }, [state]);
 
+  useEffect(() => {
+    if (state?.init_point) {
+      window.open(`${state.init_point}`, "_blank");
+      toast.info("Vamos a redirigirte a la ventana de pago!");
+      deleteInitPoint(dispatch)
+    }
+  }, [state?.init_point]);
+
   return (
     <div className="flex flex-row justify-center items-center w-full sm:border-2 sm:rounded-md sm:shadow-black/20 sm:shadow-lg">
       <div className="w-full min-w-max xs:max-w-[450px] sm:max-w-[360px] md:w-[360px] flex flex-col justify-center items-center gap-8 sm:p-10">
@@ -67,7 +85,7 @@ const PaymentInformation = () => {
               <span>
                 ${" "}
                 {state.discountedCartPrice
-                  ? state.cartPrice - state.discountedCartPrice
+                  ? (state.cartPrice - state.discountedCartPrice).toFixed(2)
                   : 0}
               </span>
             </div>
@@ -88,21 +106,42 @@ const PaymentInformation = () => {
             </div>
             <button
               onClick={() => handlePayment()}
-              className="w-full bg-[#C9140F] py-1.5 px-2 text-white font-bold rounded text-sm xs:hidden"
+              className="w-full bg-black/95 py-1.5 px-2 text-white font-medium rounded text-sm xs:hidden"
             >
-              {loader ? <Loader size={20} color="white" /> : "IR A PAGAR"}
+              {loader ? (
+                <Loader size={30} color="white" />
+              ) : (
+                <span className="flex flex-row justify-center items-center gap-2">
+                  <Image src={"/mp.png"} alt="mp" width={30} height={30} />
+                  Pagar con Mercado Pago
+                </span>
+              )}
             </button>
             <button
               onClick={() => handlePayment()}
-              className="w-full bg-[#C9140F] py-1.5 px-2 text-white font-bold rounded hidden xs:block sm:hidden"
+              className="w-full bg-black/95 py-1.5 px-2 text-white font-medium rounded hidden xs:block sm:hidden"
             >
-              {loader ? <Loader size={24} color="white" /> : "IR A PAGAR"}
+              {loader ? (
+                <Loader size={30} color="white" />
+              ) : (
+                <span className="flex flex-row justify-center items-center gap-2">
+                  <Image src={"/mp.png"} alt="mp" width={30} height={30} />
+                  Pagar con Mercado Pago
+                </span>
+              )}
             </button>
             <button
               onClick={() => handlePayment()}
-              className="w-full bg-[#C9140F] py-1.5 px-2 text-white font-bold rounded hidden sm:block sm:text-lg"
+              className="w-full bg-black/95 py-1.5 px-2 text-white font-medium rounded hidden sm:block sm:text-base"
             >
-              {loader ? <Loader size={28} color="white" /> : "IR A PAGAR"}
+              {loader ? (
+                <Loader size={30} color="white" />
+              ) : (
+                <span className="flex flex-row justify-center items-center gap-2">
+                  <Image src={"/mp.png"} alt="mp" width={30} height={30} />
+                  Pagar con Mercado Pago
+                </span>
+              )}
             </button>
           </div>
         </div>

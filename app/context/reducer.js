@@ -171,6 +171,16 @@ export const reducer = (state, action) => {
       return {
         ...state,
       };
+    case "INIT_POINT":
+      return {
+        ...state,
+        init_point: action.payload,
+      };
+    case "DELETE_INIT_POINT":
+      return {
+        ...state,
+        init_point: false,
+      };
 
     /////////////////////// FILTERS //////////////////////////
     case "SEARCH_PRODUCTS_BY_NAME":
