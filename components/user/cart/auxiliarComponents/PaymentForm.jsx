@@ -4,9 +4,12 @@ import { Context } from "@/app/context/GlobalContext";
 import Loader from "@/components/Loader";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { savePaymentInformation } from "@/app/context/actions";
+import { savePaymentInformation, updateUser } from "@/app/context/actions";
 
-const PaymentForm = ({ setShowDeliveryCostAndPayment, handleChangeSection }) => {
+const PaymentForm = ({
+  setShowDeliveryCostAndPayment,
+  handleChangeSection,
+}) => {
   const { state, dispatch } = useContext(Context);
   const [loader, setLoader] = useState(false);
 
@@ -26,11 +29,74 @@ const PaymentForm = ({ setShowDeliveryCostAndPayment, handleChangeSection }) => 
   };
 
   const onSubmit = async (values) => {
+    if (
+      values.name === "" ||
+      values.surname === "" ||
+      values.street === "" ||
+      values.streetNumber === "" ||
+      values.flat === "" ||
+      values.apartament === "" ||
+      values.postalCode === "" ||
+      values.country === "" ||
+      values.province === "" ||
+      values.city === "" ||
+      values.dni === "" ||
+      values.phone === "" ||
+      !values.name ||
+      !values.surname ||
+      !values.street ||
+      !values.streetNumber ||
+      !values.flat ||
+      !values.apartament ||
+      !values.postalCode ||
+      !values.country ||
+      !values.province ||
+      !values.city ||
+      !values.dni ||
+      !values.phone
+    ) {
+      return toast.info("Recuerda que debes completar todos los campos!");
+    }
     try {
       setLoader(true);
-      await savePaymentInformation(values, dispatch)
+      const data = {};
+      await savePaymentInformation(values, dispatch);
+      if (!state?.user?.street) {
+        data.street = values.street;
+      }
+      if (!state?.user?.streetNumber) {
+        data.streetNumber = values.streetNumber;
+      }
+      if (!state?.user?.flat) {
+        data.flat = values.flat;
+      }
+      if (!state?.user?.apartament) {
+        data.apartament = values.apartament;
+      }
+      if (!state?.user?.postalCode) {
+        data.postalCode = values.postalCode;
+      }
+      if (!state?.user?.country) {
+        data.country = values.country;
+      }
+      if (!state?.user?.province) {
+        data.province = values.province;
+      }
+      if (!state?.user?.city) {
+        data.city = values.city;
+      }
+      if (!state?.user?.dni) {
+        data.dni = values.dni;
+      }
+      if (!state?.user?.phone) {
+        data.phone = values.phone;
+      }
+      if (Object.keys(data).length > 0) {
+        data.id = state?.user?.id;
+        await updateUser(data, dispatch);
+      }
       toast.success("Informacion actualizada exitosamente!");
-      return handleChangeSection(true, setShowDeliveryCostAndPayment)
+      return handleChangeSection(true, setShowDeliveryCostAndPayment);
     } catch (error) {
       setLoader(false);
       return toast.error(
@@ -164,7 +230,9 @@ const PaymentForm = ({ setShowDeliveryCostAndPayment, handleChangeSection }) => 
         </div>
         <div className="flex flex-row justify-center items-center gap-2 w-full">
           <div className="w-full">
-            <label className="text-xs px-1 text-black/50">Altura de Calle</label>
+            <label className="text-xs px-1 text-black/50">
+              Altura de Calle
+            </label>
             <input
               type="text"
               name="streetNumber"

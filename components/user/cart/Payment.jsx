@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import PaymentForm from "./auxiliarComponents/PaymentForm";
 import DeliveryOptions from "./auxiliarComponents/DeliveryOptions";
 import PaymentInformation from "./auxiliarComponents/PaymentInformation";
-import { deleteDeliveryCostInformation } from "@/app/context/actions";
+import { deleteDeliveryCostInformation, deleteInitPoint } from "@/app/context/actions";
 import { Context } from "@/app/context/GlobalContext";
 
 const Payment = ({ setShowPayment }) => {
@@ -20,6 +20,10 @@ const Payment = ({ setShowPayment }) => {
 
   useEffect(() => {
     return () => deleteDeliveryCostInformation(dispatch);
+  }, []);
+
+  useEffect(() => {
+    return () => deleteInitPoint(dispatch);
   }, []);
 
   return (

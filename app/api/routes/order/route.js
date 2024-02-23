@@ -55,7 +55,9 @@ export async function POST(req) {
       where: { [Op.and]: [{ UserId: userId }, { status: "Pending" }] },
     });
 
-    await prevOrder.destroy();
+    if (prevOrder) {
+      await prevOrder.destroy();
+    }
 
     const user = await User.findByPk(userId);
 
