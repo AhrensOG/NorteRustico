@@ -355,7 +355,7 @@ export const deleteDeliveryCostInformation = (dispatch) => {
   });
 };
 
-export const createPayment = async (user, productsCart, deliveryCost, orderId, dispatch) => {
+export const createPayment = async (user, productsCart, deliveryCost, orderId) => {
   try {
     const productsPayment = productsCart.map((p) => {
       return {
@@ -392,19 +392,10 @@ export const createPayment = async (user, productsCart, deliveryCost, orderId, d
       { maxBodyLength: Infinity }
     );
 
-    return dispatch({
-      type: "INIT_POINT",
-      payload: pay.data["init_point"],
-    });
+    return pay.data["init_point"]
   } catch (error) {
     throw new Error("Error interno del servidor");
   }
-};
-
-export const deleteInitPoint = (dispatch) => {
-  return dispatch({
-    type: "DELETE_INIT_POINT",
-  });
 };
 
 //////////////////////////// ORDER ////////////////////////////////////

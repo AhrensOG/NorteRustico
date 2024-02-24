@@ -34,7 +34,16 @@ const PaymentInformation = () => {
       const user = state?.user;
       const cart = state?.cart;
       const deliveryCost = state.payment?.deliveryCost?.tarifaConIva?.total;
-      await createPayment(user, cart, deliveryCost, order.id, dispatch);
+      const init_point = await createPayment(
+        user,
+        cart,
+        deliveryCost,
+        order.id
+      );
+      if (init_point) {
+        window.open(`${init_point}`, "_blank");
+        toast.info("Vamos a redirigirte a la ventana de pago!");
+      }
     } catch (error) {
       setLoader(false);
       return toast.error("Ocurrio un error al procesar la orden de compra", {
@@ -64,9 +73,7 @@ const PaymentInformation = () => {
 
   useEffect(() => {
     if (state?.init_point) {
-      window.open(`${state.init_point}`, "_blank");
-      toast.info("Vamos a redirigirte a la ventana de pago!");
-      deleteInitPoint(dispatch)
+      deleteInitPoint(dispatch);
     }
   }, [state?.init_point]);
 
