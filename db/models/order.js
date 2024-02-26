@@ -8,16 +8,16 @@ const orderInit = (sequelize, DataTypes) => {
     {
       orderId: {
         type: DataTypes.BIGINT,
-        allowNull: true
+        allowNull: true,
       },
-      status: DataTypes.ENUM('Shopping', 'Pending', 'Paid', 'Cancel'),
+      status: DataTypes.ENUM("Shopping", "Pending", "Paid", "Cancel"),
       totalPrice: DataTypes.DECIMAL(10, 2),
       deliveryCost: DataTypes.DECIMAL(10, 2),
       cartPrice: DataTypes.DECIMAL(10, 2),
-      discountedCartPrice: DataTypes.DECIMAL(10, 2), 
+      discountedCartPrice: DataTypes.DECIMAL(10, 2),
       delivered: {
         type: DataTypes.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
       },
       email: DataTypes.TEXT,
       name: DataTypes.STRING,
@@ -32,6 +32,10 @@ const orderInit = (sequelize, DataTypes) => {
       city: DataTypes.STRING,
       dni: DataTypes.STRING,
       phone: DataTypes.BIGINT,
+      trackingId: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
     {
       sequelize,

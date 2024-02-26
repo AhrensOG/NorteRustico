@@ -28,7 +28,7 @@ const CartInformation = ({ setShowPayment }) => {
               <span>
                 ${" "}
                 {state.discountedCartPrice
-                  ? state.cartPrice - state.discountedCartPrice
+                  ? (state.cartPrice - state.discountedCartPrice).toFixed(2)
                   : 0}
               </span>
             </div>

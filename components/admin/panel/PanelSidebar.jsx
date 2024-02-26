@@ -8,25 +8,27 @@ const PanelSidebar = ({
   showUsers,
   showOrders,
 
-  showDelivery,
   setShowProducts,
   setShowCategories,
   setShowTags,
   setShowUsers,
   setShowOrders,
-  setShowDelivery,
   handleChangeSection,
 }) => {
   return (
     <div className="bg-[#CA995D] max-w-64 w-full">
       <div className="p-8 flex flex-col justify-center items-start gap-16">
-        <Image
-          src={"/Logo.png"}
-          width={192}
-          height={81.59}
-          alt="Logo"
-          className=""
-        />
+        <div className="relative w-48 h-20">
+          <Image
+            src={"/Logo.png"}
+            fill
+            alt="Logo"
+            className="rounded-2xl object-cover object-center transition-opacity opacity-0 duration-500"
+            onLoad={(event) => event.target.classList.remove("opacity-0")}
+            sizes="(max-width: 190px) 25vw, 80px"
+            priority={true}
+          />
+        </div>
         <div className="flex flex-col justify-center items-start w-full gap-4">
           <span
             className={`flex flex-row justify-start items-center text-xl gap-2 w-full ${
@@ -137,28 +139,6 @@ const PanelSidebar = ({
               />
             </svg>
             Pedidos
-          </span>
-          <span
-            className={`flex flex-row justify-start items-center text-xl gap-2 w-full ${
-              showDelivery && "bg-black text-white"
-            } hover:bg-black hover:text-white p-1.5 pr-2 rounded-lg cursor-pointer`}
-            onClick={() => handleChangeSection(true, setShowDelivery)}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-7 h-7"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
-              />
-            </svg>
-            Envíos
           </span>
           <button className="flex flex-row justify-start items-center text-xl gap-2 w-full hover:bg-black hover:text-white p-1.5 pr-2 rounded-lg">
             <svg
