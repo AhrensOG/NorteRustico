@@ -26,6 +26,7 @@ const productInit = (sequelize, DataTypes) => {
       sequelize,
       modelName: "Product",
       freezeTableName: true,
+      paranoid: true,
     }
   );
   return Product;

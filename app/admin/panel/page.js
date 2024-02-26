@@ -1,9 +1,10 @@
 "use client";
 import { Context } from "@/app/context/GlobalContext";
-import { getAllCategories, getAllProducts, getAllTags } from "@/app/context/actions";
+import { getAllCategories, getAllOrders, getAllProducts, getAllTags } from "@/app/context/actions";
 import PanelSidebar from "@/components/admin/panel/PanelSidebar";
 import PanelTagsSection from "@/components/admin/panel/TagsSection/PanelTagsSection";
 import PanelCategoriesSection from "@/components/admin/panel/categoriesSection/PanelCategoriesSection";
+import PanelOrdersSection from "@/components/admin/panel/ordersSection/PanelOrdersSection";
 import PanelProductsSection from "@/components/admin/panel/productsSection/PanelProductsSection";
 import PanelUsersSection from "@/components/admin/panel/usersSection/PanelUsersSection";
 import React, { useContext, useEffect, useState } from "react";
@@ -44,6 +45,11 @@ const PanelPage = () => {
       } catch (error) {
         return toast.error('Ocurrio un error al lisar las etiquetas.', { description: 'Intenta nuevamente mas tarde.' })
       }
+      try {
+        await getAllOrders(dispatch);
+      } catch (error) {
+        return toast.error('Ocurrio un error al lisar las ordenes.', { description: 'Intenta nuevamente mas tarde.' })
+      }
     };
     getData();
   }, []);  
@@ -78,6 +84,9 @@ const PanelPage = () => {
       {
         showUsers && <PanelUsersSection />
       }
+      {
+        showOrders && <PanelOrdersSection />
+      }      
     </div>
   );
 };
