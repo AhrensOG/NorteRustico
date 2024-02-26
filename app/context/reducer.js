@@ -32,6 +32,11 @@ export const reducer = (state, action) => {
         ...state,
         products: action.payload,
       };
+    case "GET_ALL_ORDERS":
+      return {
+        ...state,
+        orders: action.payload,
+      };
     case "GET_ONE_PRODUCT":
       return {
         ...state,
@@ -170,16 +175,6 @@ export const reducer = (state, action) => {
       state.payment.deliveryCost = false;
       return {
         ...state,
-      };
-    case "INIT_POINT":
-      return {
-        ...state,
-        init_point: action.payload,
-      };
-    case "DELETE_INIT_POINT":
-      return {
-        ...state,
-        init_point: false,
       };
 
     /////////////////////// FILTERS //////////////////////////

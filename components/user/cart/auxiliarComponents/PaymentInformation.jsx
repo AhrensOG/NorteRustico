@@ -3,7 +3,6 @@ import {
   addProductsToOrder,
   createOrder,
   createPayment,
-  deleteInitPoint,
 } from "@/app/context/actions";
 import Loader from "@/components/Loader";
 import Image from "next/image";
@@ -34,7 +33,16 @@ const PaymentInformation = () => {
       const user = state?.user;
       const cart = state?.cart;
       const deliveryCost = state.payment?.deliveryCost?.tarifaConIva?.total;
-      await createPayment(user, cart, deliveryCost, order.id, dispatch);
+      const init_point = await createPayment(
+        user,
+        cart,
+        deliveryCost,
+        order.id
+      );
+      if (init_point) {
+        window.open(`${init_point}`, "_blank");
+        toast.info("Vamos a redirigirte a la ventana de pago!");
+      }
     } catch (error) {
       setLoader(false);
       return toast.error("Ocurrio un error al procesar la orden de compra", {
@@ -61,14 +69,6 @@ const PaymentInformation = () => {
   useEffect(() => {
     calculateTotal();
   }, [state]);
-
-  useEffect(() => {
-    if (state?.init_point) {
-      window.open(`${state.init_point}`, "_blank");
-      toast.info("Vamos a redirigirte a la ventana de pago!");
-      deleteInitPoint(dispatch)
-    }
-  }, [state?.init_point]);
 
   return (
     <div className="flex flex-row justify-center items-center w-full sm:border-2 sm:rounded-md sm:shadow-black/20 sm:shadow-lg">

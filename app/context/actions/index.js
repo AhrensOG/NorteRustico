@@ -355,7 +355,12 @@ export const deleteDeliveryCostInformation = (dispatch) => {
   });
 };
 
-export const createPayment = async (user, productsCart, deliveryCost, orderId, dispatch) => {
+export const createPayment = async (
+  user,
+  productsCart,
+  deliveryCost,
+  orderId
+) => {
   try {
     const productsPayment = productsCart.map((p) => {
       return {
@@ -392,19 +397,10 @@ export const createPayment = async (user, productsCart, deliveryCost, orderId, d
       { maxBodyLength: Infinity }
     );
 
-    return dispatch({
-      type: "INIT_POINT",
-      payload: pay.data["init_point"],
-    });
+    return pay.data["init_point"];
   } catch (error) {
     throw new Error("Error interno del servidor");
   }
-};
-
-export const deleteInitPoint = (dispatch) => {
-  return dispatch({
-    type: "DELETE_INIT_POINT",
-  });
 };
 
 //////////////////////////// ORDER ////////////////////////////////////
@@ -442,6 +438,23 @@ export const createOrder = async (data, dispatch) => {
 export const addProductsToOrder = async (data) => {
   try {
     const res = await axios.post(SERVER_URL_ORDER_PRODUCTS_ENDPOINT, data);
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const getAllOrders = async (dispatch) => {
+  try {
+    const res = await axios.get(`${SERVER_URL_ORDER_ENDPOINT}`);
+    return dispatch({ type: "GET_ALL_ORDERS", payload: res.data });
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const updateOrder = async (data) => {
+  try {
+    await axios.put(SERVER_URL_ORDER_ENDPOINT, data);
   } catch (error) {
     throw new Error("Error interno del servidor");
   }
