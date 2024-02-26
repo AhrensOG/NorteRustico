@@ -3,7 +3,6 @@ import {
   addProductsToOrder,
   createOrder,
   createPayment,
-  deleteInitPoint,
 } from "@/app/context/actions";
 import Loader from "@/components/Loader";
 import Image from "next/image";
@@ -70,12 +69,6 @@ const PaymentInformation = () => {
   useEffect(() => {
     calculateTotal();
   }, [state]);
-
-  useEffect(() => {
-    if (state?.init_point) {
-      deleteInitPoint(dispatch);
-    }
-  }, [state?.init_point]);
 
   return (
     <div className="flex flex-row justify-center items-center w-full sm:border-2 sm:rounded-md sm:shadow-black/20 sm:shadow-lg">
