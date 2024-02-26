@@ -363,6 +363,18 @@ export const createPayment = async (
 ) => {
   try {
     const productsPayment = productsCart.map((p) => {
+      if (p.discount !== 0) {
+        const price =  p.price - ((p.price * p.discount) / 100);
+        return {
+          id: p.id,
+          description: p.description,
+          title: p.title,
+          quantity: p.items,
+          unit_price: parseFloat(price),
+          currency_id: "ARS",
+          category_id: p.Categories[0]?.name || "Otros",
+        };
+      }
       return {
         id: p.id,
         description: p.description,
