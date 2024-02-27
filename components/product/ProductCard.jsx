@@ -6,7 +6,7 @@ import Favourites from "./auxiliarComponents/Favourites";
 
 const ProductCard = ({ product }) => {
   return (
-    <div className="max-w-[220px] min-w-[220px] max-h-[454px] h-[454px] py-4 hover:-translate-y-1 duration-300">
+    <div className="max-w-[220px] min-w-[220px] max-h-[456px] h-[456px] py-4 hover:-translate-y-1 duration-300">
       <Link href={`/shop/${product.id}?name=${product.name}`}>
         <div className="w-[220px] h-[230px] relative">
           <Image

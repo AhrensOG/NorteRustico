@@ -45,10 +45,14 @@ const CartProductCard = ({ product }) => {
           </div>
         </div>
         <div className="flex flex-col justify-center items-end w-20">
-          <span className="text-sm xs:text-lg text-black/50 line-through">
-            $ {Number(product.price)}
+          {product.discount !== 0 && (
+            <span className="text-sm xs:text-lg text-black/50 line-through">
+              $ {Number(product.price)}
+            </span>
+          )}
+          <span className="text-sm xs:text-lg">
+            $ {product.discountedPrice}
           </span>
-          <span className="text-sm xs:text-lg">$ {product.discountedPrice}</span>
         </div>
       </div>
     </div>

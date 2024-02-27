@@ -101,7 +101,7 @@ const ProductDetail = ({ product }) => {
           </div>
           <div className="w-full flex flex-col gap-3">
             <div className="flex flex-row justify-center items-center gap-0.5">
-              <div className="flex flex-row items-center justify-center w-full basis-2/5 border-2 rounded py-1 px-3">
+              <div className="flex flex-row items-center min-w-28 justify-center w-full basis-2/5 border-2 rounded py-1 px-3">
                 <div onClick={decreaseItems}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -140,7 +140,7 @@ const ProductDetail = ({ product }) => {
               </div>
               <button
                 onClick={handleAddProductToCart}
-                className="basis-3/5 bg-[#CA995D] border border-[#CA995D] rounded py-1 px-3"
+                className="basis-3/5 min-w- bg-[#CA995D] min-w-40 border border-[#CA995D] rounded py-1 px-3 text-black/80"
               >
                 Agregar al carrito
               </button>

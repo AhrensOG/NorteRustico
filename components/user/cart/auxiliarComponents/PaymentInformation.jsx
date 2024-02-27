@@ -80,15 +80,17 @@ const PaymentInformation = () => {
               <span>{state.cart ? state.cartItems : "Sin "} Productos</span>
               <span>$ {state.cartPrice ? state.cartPrice : 0}</span>
             </div>
-            <div className="w-full flex flex-row justify-between items-center text-sm xs:text-base sm:text-lg">
-              <span>Descuento</span>
-              <span>
-                ${" "}
-                {state.discountedCartPrice
-                  ? (state.cartPrice - state.discountedCartPrice).toFixed(2)
-                  : 0}
-              </span>
-            </div>
+            {state.discountedCartPrice !== state.cartPrice && (
+              <div className="w-full flex flex-row justify-between items-center text-sm xs:text-base sm:text-lg">
+                <span>Descuento</span>
+                <span>
+                  ${" "}
+                  {state.discountedCartPrice
+                    ? (state.cartPrice - state.discountedCartPrice).toFixed(2)
+                    : 0}
+                </span>
+              </div>
+            )}
             <div className="w-full flex flex-row justify-between items-center text-sm xs:text-base sm:text-lg">
               <span>Envío</span>
               <span>
