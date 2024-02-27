@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 
 const ProductDetail = ({ product }) => {
   const { state, dispatch } = useContext(Context);
-  const router = useRouter()
+  const router = useRouter();
 
   const [items, setItems] = useState(1);
 
@@ -46,7 +46,7 @@ const ProductDetail = ({ product }) => {
       toast.success(`Añadiste ${product.name} a tu carrito!`);
     }
     await addProductToCart(data, dispatch);
-    return router.push('/user/cart')
+    return router.push("/user/cart");
   };
 
   return (
@@ -82,15 +82,19 @@ const ProductDetail = ({ product }) => {
                         product.price -
                         product.price * (product.discount / 100)
                       ).toFixed(2)
-                  : product.price}
+                  : Number(product.price)}
               </span>
-              <span className="bg-[#C9140F] text-xl md:text-2xl text-white font-medium tracking-widest px-2">
-                -{product.discount}%
-              </span>
+              {product.discount !== 0 && (
+                <span className="bg-[#C9140F] text-xl md:text-2xl text-white font-medium tracking-widest px-2">
+                  -{product.discount}%
+                </span>
+              )}
             </div>
-            <span className="text-2xl md:text-3xl line-through text-black/50">
-              ${Number(product.price)}
-            </span>
+            {product.discount !== 0 && (
+              <span className="text-2xl md:text-3xl line-through text-black/50">
+                ${Number(product.price)}
+              </span>
+            )}
             <span className="text-sm md:text-base text-black/70">
               {product.description}
             </span>
@@ -141,7 +145,10 @@ const ProductDetail = ({ product }) => {
                 Agregar al carrito
               </button>
             </div>
-            <button onClick={handleBuyNow} className="w-full bg-[#C9140F] rounded py-1 px-3 text-white uppercase tracking-wider">
+            <button
+              onClick={handleBuyNow}
+              className="w-full bg-[#C9140F] rounded py-1 px-3 text-white uppercase tracking-wider"
+            >
               Comprar ahora
             </button>
           </div>
