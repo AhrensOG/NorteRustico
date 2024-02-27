@@ -14,32 +14,93 @@ const Shop = () => {
   const [openFilters, setOpenFilters] = useState(false);
   const [openOrdering, setOpenOrdering] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(false);
+  const [orderByScore, setOrderByScore] = useState({ ascending: false });
+  const [orderByPrice, setOrderByPrice] = useState({ ascending: false });
 
   useEffect(() => {
     const name = searchParams.get("name");
 
-    if (name && state.products) {
-      const filtered = state.products.filter((product) =>
+    let filtered = state.products;
+
+    if (name && state?.products) {
+      filtered = filtered.filter((product) =>
         product.name.toLowerCase().includes(name.toLowerCase())
       );
-      setFilteredProducts(filtered);
-    } else {
-      setFilteredProducts(state.products);
     }
-    return () => setFilteredProducts([]);
-  }, [searchParams, state.products]);
+
+    if (selectedCategory && selectedCategory !== "All") {
+      filtered = filtered.filter((product) =>
+        product.Categories.some((cat) => cat.name === selectedCategory)
+      );
+    }
+
+    if (orderByScore) {
+      console.log(orderByScore);
+      filtered = sortByScore(filtered, orderByScore.ascending);
+    }
+
+    if (orderByPrice) {
+      console.log(orderByPrice);
+      filtered = sortByPrice(filtered, orderByPrice.ascending);
+    }
+
+    setFilteredProducts(filtered);
+  }, [
+    searchParams,
+    state.products,
+    selectedCategory,
+    orderByScore,
+    orderByPrice,
+  ]);
+
+  const sortByScore = (products, ascending) => {
+    return products?.slice().sort((a, b) => {
+      if (ascending) {
+        setOpenOrdering(false);
+        return b.score - a.score;
+      } else {
+        setOpenOrdering(false);
+        return a.score - b.score;
+      }
+    });
+  };
+
+  const sortByPrice = (products, ascending) => {
+    return products?.slice().sort((a, b) => {
+      if (ascending) {
+        setOpenOrdering(false);
+        return b.price - a.price;
+      } else {
+        setOpenOrdering(false);
+        return a.price - b.price;
+      }
+    });
+  };
+
+  const handleCategoryFilter = (category) => {
+    setSelectedCategory(category);
+    setOpenFilters(false);
+  };
 
   return (
     <Suspense fallback={<Loading />}>
       {filteredProducts?.length > 0 ? (
         <div className="flex flex-row justify-center items-center">
           <div className="px-4 py-6 xs:px-6 xs:py-8 sm:p-10 max-w-screen-2xl w-full">
-            {searchParams.get("name") !== null &&
-              searchParams.get("name") !== "" && (
+            <div className="flex flex-col justify-center items-start w-full pb-4">
+              {searchParams.get("name") !== null &&
+                searchParams.get("name") !== "" && (
+                  <span className="text-lg font-semibold  text-black/50">
+                    Resultados para: '{searchParams.get("name")}'
+                  </span>
+                )}
+              {selectedCategory !== false && selectedCategory !== "All" && (
                 <span className="text-lg font-semibold  text-black/50">
-                  Resultados para: '{searchParams.get("name")}'
+                  Categoría: '{selectedCategory}'
                 </span>
               )}
+            </div>
             <div className="relative flex flex-row justify-between items-center">
               <span className="text-lg xs:text-xl sm:text-3xl font-bold">
                 Tienda
@@ -93,22 +154,26 @@ const Shop = () => {
                       Categorías
                     </span>
                     <div className="flex flex-col justify-center items-start gap-1">
-                      {[
-                        "Bolsos",
-                        "Collares",
-                        "Pulseras",
-                        "Anillos",
-                        "Aros",
-                        "Atrapa Sueños",
-                        "Brazaletes",
-                        "Adornos",
-                      ].map((cat) => {
+                      <span
+                        className={`tracking-wider indent-1 font-light cursor-pointer ${
+                          selectedCategory === "All" ? "text-blue-600" : ""
+                        }`}
+                        onClick={() => handleCategoryFilter("All")}
+                      >
+                        Todas
+                      </span>
+                      {state?.categories?.map((cat) => {
                         return (
                           <span
-                            key={cat}
-                            className="tracking-wider indent-1 font-light cursor-pointer"
+                            key={cat.id}
+                            className={`tracking-wider indent-1 font-light cursor-pointer ${
+                              selectedCategory === cat.name
+                                ? "text-blue-600"
+                                : ""
+                            }`}
+                            onClick={() => handleCategoryFilter(cat.name)}
                           >
-                            {cat}
+                            {cat.name}
                           </span>
                         );
                       })}
@@ -126,21 +191,44 @@ const Shop = () => {
                 <div className="absolute z-20 right-[138px] top-6 xs:top-8 sm:top-10  hidden md:flex flex-row justify-center items-center ">
                   <div className="bg-white z-10 py-2.5 px-5 rounded-md flex flex-col justify-center items-start gap-2">
                     <span className="text-xl font-medium tracking-wider">
-                      Categorías
+                      Ordenar
                     </span>
                     <div className="flex flex-col justify-center items-start gap-1">
                       {[
-                        "Menor Precio",
-                        "Mayor Precio",
-                        "Mas Relevantes",
-                        "Menos Relevantes",
-                      ].map((cat) => {
+                        {
+                          name: "Menor Precio",
+                          type: "DESC",
+                          action: setOrderByPrice,
+                        },
+                        {
+                          name: "Mayor Precio",
+                          type: "ASC",
+                          action: setOrderByPrice,
+                        },
+                        {
+                          name: "Menos Relevantes",
+                          type: "DESC",
+                          action: setOrderByScore,
+                        },
+                        {
+                          name: "Mas Relevantes",
+                          type: "ASC",
+                          action: setOrderByScore,
+                        },
+                      ].map((ord) => {
                         return (
                           <span
-                            key={cat}
-                            className="tracking-wider indent-1 font-light cursor-pointer"
+                            key={ord.name}
+                            className={`tracking-wider indent-1 font-light cursor-pointer ${
+                              selectedCategory === ord.name
+                                ? "text-blue-600"
+                                : ""
+                            }`}
+                            onClick={() =>
+                              ord.action({ ascending: ord.type === "ASC" })
+                            }
                           >
-                            {cat}
+                            {ord.name}
                           </span>
                         );
                       })}
