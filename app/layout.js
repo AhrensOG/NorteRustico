@@ -5,6 +5,7 @@ import GlobalContext from "./context/GlobalContext";
 import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/footer/Footer";
 import { Toaster } from "sonner";
+import WhatsAppButton from "@/components/whatsapp/WhatsAppButton";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
           <Navbar />
           <div className="flex-1">{children}</div>
           <Footer />
+          <WhatsAppButton/>
         </body>
       </GlobalContext>
     </html>

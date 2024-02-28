@@ -55,7 +55,6 @@ const Payment = ({ setShowPayment }) => {
                 handleChangeSection={handleChangeSection}
               />
             )}
-            {showDeliveryCostAndPayment && <DeliveryOptions />}
             {showDeliveryCostAndPayment && <PaymentInformation />}
             {showDeliveryCostAndPayment && (
               <button
@@ -66,13 +65,12 @@ const Payment = ({ setShowPayment }) => {
               </button>
             )}
           </div>
-          <div className="hidden w-full sm:flex flex-1 p-2 flex-row flex-wrap flex-grow justify-evenly items-start overflow-y-auto">
+          <div className="hidden w-full sm:flex gap-10 flex-1 p-2 pb-6 flex-row flex-wrap flex-grow justify-evenly items-start overflow-y-auto">
             <PaymentForm
               setShowDeliveryCostAndPayment={setShowDeliveryCostAndPayment}
               handleChangeSection={handleChangeSection}
             />
             <div className="flex flex-col justify-start items-center gap-6">
-              <DeliveryOptions />
               <PaymentInformation />
             </div>
           </div>

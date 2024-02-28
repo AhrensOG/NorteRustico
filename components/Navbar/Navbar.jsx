@@ -1,17 +1,35 @@
-'use client'
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import Sidebar from "./Sidebar/Sidebar";
 import { useContext, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Context } from "@/app/context/GlobalContext";
+import { useFormik } from "formik";
 
 const Navbar = () => {
-  const { state } = useContext(Context)
-  const [isOpen, setIsOpen] = useState(false)
-  const pathname = usePathname()
+  const { state } = useContext(Context);
+  const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
+  const initialValues = {
+    search: "",
+  };
 
-  if (pathname === '/admin/panel' || pathname === "/authenticate") {
+  const formik = useFormik({
+    initialValues,
+    onSubmit: async (values, { resetForm }) => {
+      if (values.search !== "") {
+        router.push(`/shop?name=${values.search}`);
+      }
+      if (values.search === "") {
+        router.push("/shop");
+      }
+      resetForm();
+    },
+  });
+
+  if (pathname === "/admin/panel" || pathname === "/authenticate") {
     return null;
   }
 
@@ -33,27 +51,37 @@ const Navbar = () => {
         </div>
         <div className="flex flex-row items-end justify-center md:gap-8 lg:gap-24">
           <div className="pb-1.5 w-full relative">
-            <input
-              type="text"
-              className="w-full rounded-lg py-0.5 pl-3 pr-10 outline-none shadow-black/30 shadow-lg"
-              placeholder="Buscar"
-              title="Buscar - Search"
-            />
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="w-5 h-5 absolute top-1 right-2 cursor-pointer"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z"
-                clipRule="evenodd"
+            <form id="form" onSubmit={formik.handleSubmit}>
+              <input
+                type="text"
+                id="search"
+                name="search"
+                className="w-full rounded-lg py-0.5 pl-3 pr-10 outline-none shadow-black/30 shadow-lg"
+                placeholder="Buscar"
+                onChange={formik.handleChange}
+                value={formik.values.search}
+                title="Buscar - Search"
               />
-            </svg>
+              <button type="submit">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-5 h-5 absolute top-1 right-2 cursor-pointer"
+                  type="submit"
+                  onClick={formik.handleSubmit}
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
+            </form>
           </div>
           <div className="flex flex-row items-center justify-center gap-8">
-            <Link href={'/shop'}>
+            <Link href={"/shop"}>
               <span
                 className="flex flex-col gap-2 justify-center items-center text-xs  text-[#523900] uppercase font-semibold cursor-pointer"
                 title="Tienda - Shop"
@@ -71,7 +99,7 @@ const Navbar = () => {
               </span>
             </Link>
 
-            <Link href={ state.user ? '/user/favourites' : '/authenticate' }>
+            <Link href={state.user ? "/user/favourites" : "/authenticate"}>
               <span
                 className="flex flex-col gap-2 justify-center items-center text-xs  text-[#523900] uppercase font-semibold cursor-pointer"
                 title="Favoritos - Favourites"
@@ -94,7 +122,7 @@ const Navbar = () => {
               </span>
             </Link>
 
-            <Link href={ state.user ? '/user/profile' : '/authenticate' }>
+            <Link href={state.user ? "/user/profile" : "/authenticate"}>
               <span
                 className="flex flex-col gap-2 justify-center items-center text-xs  text-[#523900] uppercase font-semibold cursor-pointer"
                 title="Perfil - Profile"
@@ -115,7 +143,7 @@ const Navbar = () => {
               </span>
             </Link>
 
-            <Link href={ state.user ? '/user/cart' : '/authenticate' }>
+            <Link href={state.user ? "/user/cart" : "/authenticate"}>
               <span
                 className="flex flex-col gap-2 justify-center items-center text-xs  text-[#523900] uppercase font-semibold cursor-pointer"
                 title="Carrito - Cart"
@@ -184,7 +212,7 @@ const Navbar = () => {
               clipRule="evenodd"
             />
           </svg>
-          <Link href={ state.user ? '/user/cart' : '/authenticate' }>
+          <Link href={state.user ? "/user/cart" : "/authenticate"}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -203,7 +231,7 @@ const Navbar = () => {
         </div>
       </div>
       {/* Side Bar */}
-      <Sidebar isOpen={isOpen} setIsOpen={setIsOpen}/>
+      <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 };

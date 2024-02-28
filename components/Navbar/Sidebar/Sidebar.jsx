@@ -1,10 +1,31 @@
 import { Context } from "@/app/context/GlobalContext";
+import { useFormik } from "formik";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
 
 const Sidebar = ({ isOpen = true, setIsOpen }) => {
-  const { state } = useContext(Context)
+  const { state } = useContext(Context);
+  const router = useRouter();
+
+  const initialValues = {
+    search: "",
+  };
+
+  const formik = useFormik({
+    initialValues,
+    onSubmit: (values, { resetForm }) => {
+      if (values.search !== "") {
+        router.push(`/shop?name=${values.search}`);
+      }
+      if (values.search === "") {
+        router.push("/shop");
+      }
+      resetForm();
+      return setIsOpen(false);
+    },
+  });
   return (
     <div
       className={`md:hidden fixed top-0 left-0 z-10 bg-black/20 h-screen w-screen transition-transform duration-100 ${
@@ -21,24 +42,34 @@ const Sidebar = ({ isOpen = true, setIsOpen }) => {
             className="rounded-full w-[80px] h-[80px] border border-[#523900]"
           />
           <div className="w-full max-w-44 relative">
-            <input
-              type="text"
-              className="w-full rounded-lg py-0.5 pl-3 pr-10 outline-none shadow-black/30 shadow-lg"
-              placeholder="Buscar"
-              title="Buscar - Search"
-            />
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="w-5 h-5 absolute top-1 right-2 cursor-pointer"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z"
-                clipRule="evenodd"
+            <form id="form" onSubmit={formik.handleSubmit}>
+              <input
+                type="text"
+                id="search"
+                name="search"
+                className="w-full rounded-lg py-0.5 pl-3 pr-10 outline-none shadow-black/30 shadow-lg"
+                placeholder="Buscar"
+                onChange={formik.handleChange}
+                value={formik.values.search}
+                title="Buscar - Search"
               />
-            </svg>
+              <button type="submit">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-5 h-5 absolute top-1 right-2 cursor-pointer"
+                  type="submit"
+                  onClick={formik.handleSubmit}
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
+            </form>
           </div>
           <Link href={"/shop"}>
             <span
@@ -58,7 +89,7 @@ const Sidebar = ({ isOpen = true, setIsOpen }) => {
               Tienda
             </span>
           </Link>
-          <Link href={ state.user ? "/user/favourites" : '/authenticate' }>
+          <Link href={state.user ? "/user/favourites" : "/authenticate"}>
             <span
               className="flex flex-row gap-2 justify-start items-center text-sm  text-[#523900] uppercase font-semibold cursor-pointer"
               title="Favoritos - Favourites"
@@ -81,7 +112,7 @@ const Sidebar = ({ isOpen = true, setIsOpen }) => {
               Favoritos
             </span>
           </Link>
-          <Link href={ state.user ? "/user/profile" : '/authenticate' }>
+          <Link href={state.user ? "/user/profile" : "/authenticate"}>
             <span
               className="flex flex-row gap-2 justify-start items-center text-sm  text-[#523900] uppercase font-semibold cursor-pointer"
               title="Perfil - Profile"
@@ -102,7 +133,7 @@ const Sidebar = ({ isOpen = true, setIsOpen }) => {
               Perfil
             </span>
           </Link>
-          <Link href={ state.user ? "/user/cart" : '/authenticate' }>
+          <Link href={state.user ? "/user/cart" : "/authenticate"}>
             <span
               className="flex flex-row gap-2 justify-start items-center text-sm  text-[#523900] uppercase font-semibold cursor-pointer"
               title="Carrito - Cart"
