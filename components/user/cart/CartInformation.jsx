@@ -1,14 +1,22 @@
 "use client";
 import { Context } from "@/app/context/GlobalContext";
+import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const CartInformation = ({ setShowPayment }) => {
   const { state, dispatch } = useContext(Context);
+  const router = useRouter();
 
   const handleShowPayment = () => {
     if (!state.cart || state.cart?.length === 0) {
       return toast.info("Tu carrito esta vacío. Visita la tienda!");
+    }
+    if (!state.user) {
+      toast.info("Inicia sesión y vuelve por tu producto!", {
+        description: "Vamos a redirigirte!",
+      });
+      return router.push("/authenticate");
     }
     setShowPayment(true);
   };

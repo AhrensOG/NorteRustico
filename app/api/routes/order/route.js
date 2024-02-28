@@ -4,6 +4,19 @@ const { Order, User, Product } = require("@/db/models/models");
 
 export async function GET(req) {
   try {
+    const searchParams = req.nextUrl.searchParams;
+    const query = searchParams.get("id");
+    if (query) {
+      const order = await Order.findOne({
+        where: {
+          id: query,
+        },
+        include: [{ model: User }, { model: Product, paranoid: false }],
+        order: [["createdAt", "DESC"]],
+      });
+      
+      return Response.json(order);
+    }
     const orders = await Order.findAll({
       include: [{ model: User }, { model: Product, paranoid: false }],
       order: [["createdAt", "DESC"]],

@@ -3,10 +3,22 @@ import { Context } from "@/app/context/GlobalContext";
 import Loader from "@/components/Loader";
 import SmallProductCard from "@/components/product/SmallProductCard";
 import ProfileSection from "@/components/user/profile/ProfileSection";
-import React, { useContext } from "react";
+import { useRouter } from "next/navigation";
+import React, { useContext, useEffect } from "react";
+import { toast } from "sonner";
 
 const ProfilePage = () => {
   const { state } = useContext(Context);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!state.user) {
+      toast.info("Inicia sesión y vuelve a ver tu perfil!", {
+        description: "Vamos a redirigirte!",
+      });
+      router.push("/authenticate");
+    }
+  }, []);
 
   return (
     <div className="flex flex-row justify-center items-center w-full">
@@ -23,7 +35,7 @@ const ProfilePage = () => {
             </div>
           </div>
         ) : (
-          <Loader size={40} color="#1D4ED8"/>
+          <Loader size={40} color="#1D4ED8" />
         )}
       </div>
     </div>

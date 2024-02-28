@@ -4,6 +4,7 @@ import { searchRelatedProducts } from "@/app/context/actions";
 import Loader from "@/components/Loader";
 import RelationatedProducts from "@/components/shop/RelationatedProducts";
 import FavouriteProductCard from "@/components/user/favourites/FavouriteProductCard";
+import { useRouter } from "next/navigation";
 import React, { useContext, useEffect } from "react";
 import { toast } from "sonner";
 
@@ -26,8 +27,15 @@ function extractUniqueCategories(products) {
 
 const FavouritesPage = () => {
   const { state, dispatch } = useContext(Context);
+  const router = useRouter();
 
   useEffect(() => {
+    if (!state.user) {
+      toast.info("Inicia sesión y vuelve por tu favoritos!", {
+        description: "Vamos a redirigirte!",
+      });
+      return router.push("/authenticate");
+    }
     const getRelatedProducts = async () => {
       try {
         if (state.favouriteProducts) {

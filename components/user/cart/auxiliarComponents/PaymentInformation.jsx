@@ -3,9 +3,11 @@ import {
   addProductsToOrder,
   createOrder,
   createPayment,
+  getOneOrder,
 } from "@/app/context/actions";
 import Loader from "@/components/Loader";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -13,10 +15,14 @@ const PaymentInformation = () => {
   const { state, dispatch } = useContext(Context);
   const [total, setTotal] = useState(0);
   const [loader, setLoader] = useState(false);
+  const [paymentInterval, setPaymentInterval] = useState(null);
+  const router = useRouter();
 
   const handlePayment = async () => {
     if (!state.payment?.deliveryCost?.tarifaConIva?.total) {
-      return toast.info("Recuerda que debes calcular el costo de envío!");
+      return toast.info("Recuerda que debes calcular el costo de envío!", {
+        description: "Recuerda guardar tu información!",
+      });
     }
     try {
       setLoader(true);
@@ -42,6 +48,9 @@ const PaymentInformation = () => {
       if (init_point) {
         window.open(`${init_point}`, "_blank");
         toast.info("Vamos a redirigirte a la ventana de pago!");
+
+        const interval = setInterval(() => checkOrderStatus(order.id), 10000);
+        setPaymentInterval(interval);
       }
     } catch (error) {
       setLoader(false);
@@ -50,6 +59,22 @@ const PaymentInformation = () => {
       });
     } finally {
       setLoader(false);
+    }
+  };
+
+  const checkOrderStatus = async (id) => {
+    try {
+      const orderStatus = await getOneOrder(id);
+      if (orderStatus.status === "Paid") {
+        clearInterval(paymentInterval);
+        toast.success("¡Felicidades! Tu producto está en camino!", {
+          description: "Verifica tu orden en tu perfil!",
+          position: 'top-center'
+        });
+        return router.push('/user/profile');
+      }
+    } catch (error) {
+      return toast.error("Error al verificar el estado de la orden");
     }
   };
 
@@ -68,7 +93,12 @@ const PaymentInformation = () => {
 
   useEffect(() => {
     calculateTotal();
-  }, [state]);
+    return () => {
+      if (paymentInterval) {
+        clearInterval(paymentInterval);
+      }
+    };
+  }, [state, paymentInterval]);
 
   return (
     <div className="flex flex-row justify-center items-center w-full sm:border-2 sm:rounded-md sm:shadow-black/20 sm:shadow-lg">
@@ -108,33 +138,7 @@ const PaymentInformation = () => {
             </div>
             <button
               onClick={() => handlePayment()}
-              className="w-full bg-black/95 py-1.5 px-2 text-white font-medium rounded text-sm xs:hidden"
-            >
-              {loader ? (
-                <Loader size={30} color="white" />
-              ) : (
-                <span className="flex flex-row justify-center items-center gap-2">
-                  <Image src={"/mp.png"} alt="mp" width={30} height={30} />
-                  Pagar con Mercado Pago
-                </span>
-              )}
-            </button>
-            <button
-              onClick={() => handlePayment()}
-              className="w-full bg-black/95 py-1.5 px-2 text-white font-medium rounded hidden xs:block sm:hidden"
-            >
-              {loader ? (
-                <Loader size={30} color="white" />
-              ) : (
-                <span className="flex flex-row justify-center items-center gap-2">
-                  <Image src={"/mp.png"} alt="mp" width={30} height={30} />
-                  Pagar con Mercado Pago
-                </span>
-              )}
-            </button>
-            <button
-              onClick={() => handlePayment()}
-              className="w-full bg-black/95 py-1.5 px-2 text-white font-medium rounded hidden sm:block sm:text-base"
+              className="w-full min-w-60 bg-black/95 py-1.5 px-2 text-white font-medium rounded"
             >
               {loader ? (
                 <Loader size={30} color="white" />

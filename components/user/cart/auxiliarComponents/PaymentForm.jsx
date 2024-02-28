@@ -4,7 +4,7 @@ import { Context } from "@/app/context/GlobalContext";
 import Loader from "@/components/Loader";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { savePaymentInformation, updateUser } from "@/app/context/actions";
+import { getDeliveryCost, savePaymentInformation, updateUser } from "@/app/context/actions";
 
 const PaymentForm = ({
   setShowDeliveryCostAndPayment,
@@ -95,6 +95,17 @@ const PaymentForm = ({
         data.id = state?.user?.id;
         await updateUser(data, dispatch);
       }
+
+      try {
+        if (state.payment?.totalWeight && state.payment?.totalVolume && values.postalCode) {
+          await getDeliveryCost(state.payment, values.postalCode, dispatch);
+        }
+      } catch (error) {
+        return toast.error("Ocurrió un error al intentar cotizar el envío", {
+          description: "Verifica el Codigo Postal",
+        });
+      }
+
       toast.success("Informacion actualizada exitosamente!");
       return handleChangeSection(true, setShowDeliveryCostAndPayment);
     } catch (error) {
