@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 
 const ProductDetail = ({ product }) => {
   const { state, dispatch } = useContext(Context);
-  const router = useRouter()
+  const router = useRouter();
 
   const [items, setItems] = useState(1);
 
@@ -46,7 +46,7 @@ const ProductDetail = ({ product }) => {
       toast.success(`Añadiste ${product.name} a tu carrito!`);
     }
     await addProductToCart(data, dispatch);
-    return router.push('/user/cart')
+    return router.push("/user/cart");
   };
 
   return (
@@ -82,22 +82,26 @@ const ProductDetail = ({ product }) => {
                         product.price -
                         product.price * (product.discount / 100)
                       ).toFixed(2)
-                  : product.price}
+                  : Number(product.price)}
               </span>
-              <span className="bg-[#C9140F] text-xl md:text-2xl text-white font-medium tracking-widest px-2">
-                -{product.discount}%
-              </span>
+              {product.discount !== 0 && (
+                <span className="bg-[#C9140F] text-xl md:text-2xl text-white font-medium tracking-widest px-2">
+                  -{product.discount}%
+                </span>
+              )}
             </div>
-            <span className="text-2xl md:text-3xl line-through text-black/50">
-              ${Number(product.price)}
-            </span>
+            {product.discount !== 0 && (
+              <span className="text-2xl md:text-3xl line-through text-black/50">
+                ${Number(product.price)}
+              </span>
+            )}
             <span className="text-sm md:text-base text-black/70">
               {product.description}
             </span>
           </div>
           <div className="w-full flex flex-col gap-3">
             <div className="flex flex-row justify-center items-center gap-0.5">
-              <div className="flex flex-row items-center justify-center w-full basis-2/5 border-2 rounded py-1 px-3">
+              <div className="flex flex-row items-center min-w-28 justify-center w-full basis-2/5 border-2 rounded py-1 px-3">
                 <div onClick={decreaseItems}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -136,12 +140,15 @@ const ProductDetail = ({ product }) => {
               </div>
               <button
                 onClick={handleAddProductToCart}
-                className="basis-3/5 bg-[#CA995D] border border-[#CA995D] rounded py-1 px-3"
+                className="basis-3/5 min-w- bg-[#CA995D] min-w-40 border border-[#CA995D] rounded py-1 px-3 text-black/80"
               >
                 Agregar al carrito
               </button>
             </div>
-            <button onClick={handleBuyNow} className="w-full bg-[#C9140F] rounded py-1 px-3 text-white uppercase tracking-wider">
+            <button
+              onClick={handleBuyNow}
+              className="w-full bg-[#C9140F] rounded py-1 px-3 text-white uppercase tracking-wider"
+            >
               Comprar ahora
             </button>
           </div>

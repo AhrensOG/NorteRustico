@@ -49,18 +49,27 @@ const ProductVisualization = ({ setShowDetail, data }) => {
                 <span className="text-2xl md:text-3xl font-medium">
                   $
                   {data.discount
-                    ? Number.isInteger(data.price - data.price * (data.discount / 100)) ? Number(data.price - data.price * (data.discount / 100)) : (data.price - data.price * (data.discount / 100)).toFixed(2)
-                    : data.price}
+                    ? Number.isInteger(
+                        data.price - data.price * (data.discount / 100)
+                      )
+                      ? Number(data.price - data.price * (data.discount / 100))
+                      : (
+                          data.price -
+                          data.price * (data.discount / 100)
+                        ).toFixed(2)
+                    : Number(data.price)}
                 </span>
-                {data.discount && (
+                {data.discount !== 0 && (
                   <span className="bg-[#C9140F] text-xl md:text-2xl text-white font-medium tracking-widest px-2">
                     -{data.discount}%
                   </span>
                 )}
               </div>
-              <span className="text-2xl md:text-3xl line-through text-black/50">
-                ${Number(data.price)}
-              </span>
+              {data.discount !== 0 && (
+                <span className="text-2xl md:text-3xl line-through text-black/50">
+                  ${Number(data.price)}
+                </span>
+              )}
               <span className="text-sm md:text-base text-black/70">
                 {data.description}
               </span>

@@ -335,10 +335,10 @@ export const savePaymentInformation = (data, dispatch) => {
   });
 };
 
-export const getDeliveryCost = async (data, dispatch) => {
+export const getDeliveryCost = async (data, postalCode, dispatch) => {
   try {
     const res = await axios.get(
-      `${SERVER_URL_DELIVERY_COST_ENDPOINT}?weight=${data.totalWeight}&volume=${data.totalVolume}&postcode=${data.postalCode}`
+      `${SERVER_URL_DELIVERY_COST_ENDPOINT}?weight=${data.totalWeight}&volume=${data.totalVolume}&postcode=${postalCode}`
     );
     return dispatch({
       type: "DELIVERY_COST",
@@ -363,6 +363,18 @@ export const createPayment = async (
 ) => {
   try {
     const productsPayment = productsCart.map((p) => {
+      if (p.discount !== 0) {
+        const price = p.price - (p.price * p.discount) / 100;
+        return {
+          id: p.id,
+          description: p.description,
+          title: p.title,
+          quantity: p.items,
+          unit_price: parseFloat(price),
+          currency_id: "ARS",
+          category_id: p.Categories[0]?.name || "Otros",
+        };
+      }
       return {
         id: p.id,
         description: p.description,
@@ -455,6 +467,15 @@ export const getAllOrders = async (dispatch) => {
 export const updateOrder = async (data) => {
   try {
     await axios.put(SERVER_URL_ORDER_ENDPOINT, data);
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const getOneOrder = async (id) => {
+  try {
+    const data = await axios.get(`${SERVER_URL_ORDER_ENDPOINT}?id=${id}`);
+    return data.data;
   } catch (error) {
     throw new Error("Error interno del servidor");
   }
