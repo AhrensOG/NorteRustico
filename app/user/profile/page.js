@@ -25,7 +25,7 @@ const ProfilePage = () => {
       };
       getUser();
     }
-  }, [state.user]);
+  }, []);
 
   return (
     <div className="flex flex-row justify-center items-center w-full">

@@ -34,6 +34,7 @@ const FavouritesPage = () => {
     if (!state.user) {
       const getUser = async () => {
         const res = await isUserLogged(dispatch);
+        console.log(res)
         if (!res) {
           toast.info("Inicia sesión y vuelve a ver tu perfil!", {
             description: "Vamos a redirigirte!",
@@ -43,6 +44,9 @@ const FavouritesPage = () => {
       };
       getUser();
     }
+  }, []);
+
+  useEffect(() => {
     const getRelatedProducts = async () => {
       try {
         if (state.favouriteProducts) {
