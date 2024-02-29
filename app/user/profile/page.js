@@ -16,8 +16,7 @@ const ProfilePage = () => {
     if (!state.user) {
       const getUser = async () => {
         const res = await isUserLogged(dispatch);
-        console.log(res)
-        if (!res) {
+        if (res === false) {
           toast.info("Inicia sesión y vuelve a ver tu perfil!", {
             description: "Vamos a redirigirte!",
           });
