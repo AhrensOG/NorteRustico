@@ -17,14 +17,14 @@ const ProfilePage = () => {
         await isUserLogged(dispatch);
       };
       getUser();
+      if (!state.user) {
+        toast.info("Inicia sesión y vuelve a ver tu perfil!", {
+          description: "Vamos a redirigirte!",
+        });
+        router.push("/authenticate");
+      }
     }
     
-    if (!state.user) {
-      toast.info("Inicia sesión y vuelve a ver tu perfil!", {
-        description: "Vamos a redirigirte!",
-      });
-      router.push("/authenticate");
-    }
   }, [state.user]);
 
   return (
