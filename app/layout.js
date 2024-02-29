@@ -16,8 +16,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <meta content="Created By GrupoStart" />
       <title>Norte Rustico</title>
-      <GlobalContext>
-        <body className={`${roboto.className} flex flex-col min-h-screen`}>
+      <body className={`${roboto.className} flex flex-col min-h-screen`}>
+        <GlobalContext>
           <Toaster
             richColors
             visibleToasts={3}
@@ -28,8 +28,8 @@ export default function RootLayout({ children }) {
           <Navbar />
           <div className="flex-1">{children}</div>
           <Footer />
-        </body>
-      </GlobalContext>
+        </GlobalContext>
+      </body>
     </html>
   );
 }
