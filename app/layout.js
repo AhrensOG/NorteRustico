@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
           <Navbar />
           <div className="flex-1">{children}</div>
           <Footer />
-          <WhatsAppButton/>
+          <WhatsAppButton />
         </body>
       </GlobalContext>
     </html>

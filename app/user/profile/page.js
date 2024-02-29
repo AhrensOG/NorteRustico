@@ -1,5 +1,6 @@
 "use client";
 import { Context } from "@/app/context/GlobalContext";
+import { isUserLogged } from "@/app/context/actions/isUserLogged";
 import Loader from "@/components/Loader";
 import SmallProductCard from "@/components/product/SmallProductCard";
 import ProfileSection from "@/components/user/profile/ProfileSection";
@@ -8,15 +9,21 @@ import React, { useContext, useEffect } from "react";
 import { toast } from "sonner";
 
 const ProfilePage = () => {
-  const { state } = useContext(Context);
+  const { state, dispatch } = useContext(Context);
   const router = useRouter();
 
   useEffect(() => {
     if (!state.user) {
-      toast.info("Inicia sesión y vuelve a ver tu perfil!", {
-        description: "Vamos a redirigirte!",
-      });
-      router.push("/authenticate");
+      const getUser = async () => {
+        const res = await isUserLogged(dispatch);
+        if (res === false) {
+          toast.info("Inicia sesión y vuelve a ver tu perfil!", {
+            description: "Vamos a redirigirte!",
+          });
+          router.push("/authenticate");
+        }
+      };
+      getUser();
     }
   }, []);
 

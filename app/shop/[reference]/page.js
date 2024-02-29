@@ -8,6 +8,7 @@ import React, { useContext, useEffect } from "react";
 import { toast } from "sonner";
 import Link from "next/link";
 import Loader from "@/components/Loader";
+import { isUserLogged } from "@/app/context/actions/isUserLogged";
 
 const ProductDetailPage = ({ params }) => {
   const { state, dispatch } = useContext(Context);
@@ -42,6 +43,15 @@ const ProductDetailPage = ({ params }) => {
     }
   }, [state.productDetail]);
 
+  useEffect(() => {
+    if (!state.user) {
+      const getUser = async () => {
+        await isUserLogged(dispatch);
+      };
+      getUser();
+    }
+  }, [state.user]);
+
   return (
     <div className="flex flex-row justify-center items-center h-full">
       {state.productDetail ? (
@@ -71,7 +81,7 @@ const ProductDetailPage = ({ params }) => {
             <RelationatedProducts products={state.searchedRelatedProducts} />
           ) : (
             <div className="flex flex-row justify-center items-center w-full my-40">
-              <Loader size={40} color="#1D4ED8"/>
+              <Loader size={40} color="#1D4ED8" />
             </div>
           )}
           <ProductComments />
