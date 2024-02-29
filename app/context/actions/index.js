@@ -385,22 +385,23 @@ export const createPayment = async (
         category_id: p.Categories[0]?.name || "Otros",
       };
     });
-    const delivery = {
-      id: "Delivery",
-      description: "Delivery Cost",
-      title: "Delivery",
-      quantity: 1,
-      unit_price: 0.01,
-      currency_id: "ARS",
-      category_id: "Otros",
-    };
+    // const delivery = {
+    //   id: "Delivery",
+    //   description: "Delivery Cost",
+    //   title: "Delivery",
+    //   quantity: 1,
+    //   unit_price: 0.01,
+    //   currency_id: "ARS",
+    //   category_id: "Otros",
+    // };
 
-    productsPayment.push(delivery);
+    // productsPayment.push(delivery);
 
     const paymentData = {
       payer: user,
       items: productsPayment,
       orderId: orderId,
+      deliveryCost: 0.01,
     };
 
     const pay = await axios.post(
@@ -408,8 +409,8 @@ export const createPayment = async (
       paymentData,
       { maxBodyLength: Infinity }
     );
-
-    return pay.data["init_point"];
+    console.log(pay.data);
+    return pay.data;
   } catch (error) {
     throw new Error("Error interno del servidor");
   }

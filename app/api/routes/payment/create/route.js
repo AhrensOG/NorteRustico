@@ -5,11 +5,24 @@ const SERVER_URL_PAYMENT_NOTIFICATION =
 
 export async function POST(req) {
   try {
-    const { items, payer, orderId } = await req.json();
+    const { items, payer, orderId, deliveryCost } = await req.json();
 
     const response = await preference.create({
       body: {
+        payment_methods: {
+          excluded_payment_methods: [],
+          excluded_payment_types: [
+            {
+              id: "credit_card",
+            },
+          ],
+          installments: 1,
+        },
         items: items,
+        shipments: {
+          cost: deliveryCost,
+          mode: "not_specified",
+        },
         payer: {
           email: payer.email,
           name: payer.name,

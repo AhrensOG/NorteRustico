@@ -6,6 +6,7 @@ import {
   getOneOrder,
 } from "@/app/context/actions";
 import Loader from "@/components/Loader";
+import MPButton from "@/components/payment/MPButton";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
@@ -16,6 +17,7 @@ const PaymentInformation = () => {
   const [total, setTotal] = useState(0);
   const [loader, setLoader] = useState(false);
   const [paymentInterval, setPaymentInterval] = useState(null);
+  const [preferenceID, setPreferenceID] = useState(false);
   const router = useRouter();
 
   const handlePayment = async () => {
@@ -39,19 +41,20 @@ const PaymentInformation = () => {
       const user = state?.user;
       const cart = state?.cart;
       const deliveryCost = state.payment?.deliveryCost?.tarifaConIva?.total;
-      const init_point = await createPayment(
+      const paymentInfo = await createPayment(
         user,
         cart,
         deliveryCost,
         order.id
       );
-      if (init_point) {
-        window.open(`${init_point}`, "_blank");
-        toast.info("Vamos a redirigirte a la ventana de pago!");
+      setPreferenceID(paymentInfo.id)
+      // if (paymentInfo["init_point"]) {
+      //   window.open(`${paymentInfo["init_point"]}`, "_blank");
+      //   toast.info("Vamos a redirigirte a la ventana de pago!");
 
-        const interval = setInterval(() => checkOrderStatus(order.id), 10000);
-        setPaymentInterval(interval);
-      }
+      //   const interval = setInterval(() => checkOrderStatus(order.id), 10000);
+      //   setPaymentInterval(interval);
+      // }
     } catch (error) {
       setLoader(false);
       return toast.error("Ocurrio un error al procesar la orden de compra", {
@@ -69,9 +72,9 @@ const PaymentInformation = () => {
         clearInterval(paymentInterval);
         toast.success("¡Felicidades! Tu producto está en camino!", {
           description: "Verifica tu orden en tu perfil!",
-          position: 'top-center'
+          position: "top-center",
         });
-        return router.push('/user/profile');
+        return router.push("/user/profile");
       }
     } catch (error) {
       return toast.error("Error al verificar el estado de la orden");
@@ -149,6 +152,7 @@ const PaymentInformation = () => {
                 </span>
               )}
             </button>
+            {preferenceID !== false && <MPButton id={preferenceID} />}
           </div>
         </div>
       </div>
