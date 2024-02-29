@@ -32,6 +32,7 @@ const ProductDetail = ({ product }) => {
       toast.success(`Añadiste ${product.name} a tu carrito!`);
     }
     await addProductToCart(data, dispatch);
+    console.log(state)
   };
 
   const handleBuyNow = async () => {
@@ -46,6 +47,7 @@ const ProductDetail = ({ product }) => {
       toast.success(`Añadiste ${product.name} a tu carrito!`);
     }
     await addProductToCart(data, dispatch);
+    console.log(state)
     return router.push("/user/cart");
   };
 
