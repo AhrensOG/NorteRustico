@@ -14,17 +14,16 @@ const ProfilePage = () => {
   useEffect(() => {
     if (!state.user) {
       const getUser = async () => {
-        await isUserLogged(dispatch);
+        const res = await isUserLogged(dispatch);
+        if (!res) {
+          toast.info("Inicia sesión y vuelve a ver tu perfil!", {
+            description: "Vamos a redirigirte!",
+          });
+          router.push("/authenticate");
+        }
       };
       getUser();
-      if (!state.user) {
-        toast.info("Inicia sesión y vuelve a ver tu perfil!", {
-          description: "Vamos a redirigirte!",
-        });
-        router.push("/authenticate");
-      }
     }
-    
   }, [state.user]);
 
   return (
