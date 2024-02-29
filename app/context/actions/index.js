@@ -307,7 +307,6 @@ export const searchRelatedProducts = async (categories, dispatch) => {
 //////////////////////////// CART ////////////////////////////////////
 
 export const addProductToCart = (product, dispatch) => {
-  console.log(product)
   return dispatch({
     type: "ADD_PRODUCT_TO_CART",
     payload: product,

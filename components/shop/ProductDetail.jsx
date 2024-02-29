@@ -5,7 +5,6 @@ import { Context } from "@/app/context/GlobalContext";
 import { addProductToCart } from "@/app/context/actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 const ProductDetail = ({ product }) => {
   const { state, dispatch } = useContext(Context);
@@ -33,7 +32,6 @@ const ProductDetail = ({ product }) => {
       toast.success(`Añadiste ${product.name} a tu carrito!`);
     }
     await addProductToCart(data, dispatch);
-    console.log(state)
   };
 
   const handleBuyNow = async () => {
@@ -48,7 +46,7 @@ const ProductDetail = ({ product }) => {
       toast.success(`Añadiste ${product.name} a tu carrito!`);
     }
     await addProductToCart(data, dispatch);
-    console.log(state)
+    return router.push("/user/cart");
   };
 
   return (
@@ -147,14 +145,12 @@ const ProductDetail = ({ product }) => {
                 Agregar al carrito
               </button>
             </div>
-            <Link href={'/user/cart'}>
-              <button
-                onClick={handleBuyNow}
-                className="w-full bg-[#C9140F] rounded py-1 px-3 text-white uppercase tracking-wider"
-              >
-                Comprar ahora
-              </button>
-            </Link>
+            <button
+              onClick={handleBuyNow}
+              className="w-full bg-[#C9140F] rounded py-1 px-3 text-white uppercase tracking-wider"
+            >
+              Comprar ahora
+            </button>
           </div>
         </div>
       </div>
