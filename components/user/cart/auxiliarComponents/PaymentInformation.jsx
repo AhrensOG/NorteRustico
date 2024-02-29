@@ -49,8 +49,8 @@ const PaymentInformation = () => {
         window.open(`${init_point}`, "_blank");
         toast.info("Vamos a redirigirte a la ventana de pago!");
 
-        const interval = setInterval(() => checkOrderStatus(order.id), 10000);
-        setPaymentInterval(interval);
+        // const interval = setInterval(() => checkOrderStatus(order.id), 10000);
+        // setPaymentInterval(interval);
       }
     } catch (error) {
       setLoader(false);
@@ -62,21 +62,21 @@ const PaymentInformation = () => {
     }
   };
 
-  const checkOrderStatus = async (id) => {
-    try {
-      const orderStatus = await getOneOrder(id);
-      if (orderStatus.status === "Paid") {
-        clearInterval(paymentInterval);
-        toast.success("¡Felicidades! Tu producto está en camino!", {
-          description: "Verifica tu orden en tu perfil!",
-          position: 'top-center'
-        });
-        return router.push('/user/profile');
-      }
-    } catch (error) {
-      return toast.error("Error al verificar el estado de la orden");
-    }
-  };
+  // const checkOrderStatus = async (id) => {
+  //   try {
+  //     const orderStatus = await getOneOrder(id);
+  //     if (orderStatus.status === "Paid") {
+  //       clearInterval(paymentInterval);
+  //       toast.success("¡Felicidades! Tu producto está en camino!", {
+  //         description: "Verifica tu orden en tu perfil!",
+  //         position: 'top-center'
+  //       });
+  //       return router.push('/user/profile');
+  //     }
+  //   } catch (error) {
+  //     return toast.error("Error al verificar el estado de la orden");
+  //   }
+  // };
 
   const calculateTotal = () => {
     let total = 0;
@@ -93,12 +93,12 @@ const PaymentInformation = () => {
 
   useEffect(() => {
     calculateTotal();
-    return () => {
-      if (paymentInterval) {
-        clearInterval(paymentInterval);
-      }
-    };
-  }, [state, paymentInterval]);
+    // return () => {
+    //   if (paymentInterval) {
+    //     clearInterval(paymentInterval);
+    //   }
+    // };
+  }, [state]);
 
   return (
     <div className="flex flex-row justify-center items-center w-full sm:border-2 sm:rounded-md sm:shadow-black/20 sm:shadow-lg">
