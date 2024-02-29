@@ -11,9 +11,11 @@ export const isUserLogged = async (dispatch) => {
         const data = await axios.get(
           `${SERVER_URL_AUTH_ENDPOINT}?id=${user.uid}`
         );
-        return dispatch({ type: "LOGGED_IN_USER", payload: data.data });
+        dispatch({ type: "LOGGED_IN_USER", payload: data.data });
+        return data.data;
       } else {
-        return dispatch({ type: "LOGGED_IN_USER", payload: false });
+        dispatch({ type: "LOGGED_IN_USER", payload: false });
+        return false;
       }
     } catch (error) {
       return error;
