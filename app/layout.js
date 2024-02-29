@@ -13,10 +13,10 @@ const roboto = Roboto({
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <meta content="Created By GrupoStart" />
-      <title>Norte Rustico</title>
-      <GlobalContext>
+    <GlobalContext>
+      <html lang="en">
+        <meta content="Created By GrupoStart" />
+        <title>Norte Rustico</title>
         <body className={`${roboto.className} flex flex-col min-h-screen`}>
           <Toaster
             richColors
@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
           <div className="flex-1">{children}</div>
           <Footer />
         </body>
-      </GlobalContext>
-    </html>
+      </html>
+    </GlobalContext>
   );
 }
