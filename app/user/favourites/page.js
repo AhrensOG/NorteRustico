@@ -1,6 +1,7 @@
 "use client";
 import { Context } from "@/app/context/GlobalContext";
 import { searchRelatedProducts } from "@/app/context/actions";
+import { isUserLogged } from "@/app/context/actions/isUserLogged";
 import Loader from "@/components/Loader";
 import RelationatedProducts from "@/components/shop/RelationatedProducts";
 import FavouriteProductCard from "@/components/user/favourites/FavouriteProductCard";
@@ -31,11 +32,20 @@ const FavouritesPage = () => {
 
   useEffect(() => {
     if (!state.user) {
-      toast.info("Inicia sesión y vuelve por tu favoritos!", {
-        description: "Vamos a redirigirte!",
-      });
-      return router.push("/authenticate");
+      const getUser = async () => {
+        const res = await isUserLogged(dispatch);
+        if (res === false) {
+          toast.info("Inicia sesión y vuelve a ver tu perfil!", {
+            description: "Vamos a redirigirte!",
+          });
+          return router.push("/authenticate");
+        }
+      };
+      getUser();
     }
+  }, []);
+
+  useEffect(() => {
     const getRelatedProducts = async () => {
       try {
         if (state.favouriteProducts) {
@@ -49,7 +59,7 @@ const FavouritesPage = () => {
       }
     };
     getRelatedProducts();
-  }, [state.favouriteProducts]);
+  }, [state.favouriteProducts, state.user]);
 
   if (state.favouriteProducts === undefined) {
     return (
