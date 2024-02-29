@@ -390,7 +390,7 @@ export const createPayment = async (
       description: "Delivery Cost",
       title: "Delivery",
       quantity: 1,
-      unit_price: parseFloat(deliveryCost),
+      unit_price: 0.01,
       currency_id: "ARS",
       category_id: "Otros",
     };
