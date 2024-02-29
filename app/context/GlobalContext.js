@@ -25,7 +25,7 @@ const GlobalContext = ({ children }) => {
         await getAllCategories(dispatch);
         await getAllTags(dispatch);
       } catch (error) {
-        return error;
+        return error
       }
     };
     getData();
@@ -35,14 +35,13 @@ const GlobalContext = ({ children }) => {
     const getData = async () => {
       if (state.user) {
         try {
-          await getFavouriteProducts(state.user.id, dispatch);
+          await getFavouriteProducts(state.user.id, dispatch)
         } catch (error) {
-          return error;
+          return error
         }
       }
     };
     getData();
-    console.log(state)
   }, [state.user]);
 
   return (
