@@ -1,4 +1,3 @@
-"use client";
 import React, { createContext, useEffect, useReducer } from "react";
 import { reducer } from "./reducer";
 import { isUserLogged } from "./actions/isUserLogged";
@@ -43,6 +42,7 @@ const GlobalContext = ({ children }) => {
       }
     };
     getData();
+    console.log(state)
   }, [state.user]);
 
   return (
