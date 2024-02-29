@@ -12,7 +12,7 @@ export const isUserLogged = async (dispatch) => {
           `${SERVER_URL_AUTH_ENDPOINT}?id=${user.uid}`
         );
         dispatch({ type: "LOGGED_IN_USER", payload: data.data });
-        return data.data;
+        return true;
       } else {
         dispatch({ type: "LOGGED_IN_USER", payload: false });
         return false;
