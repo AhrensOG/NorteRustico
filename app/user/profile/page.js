@@ -8,17 +8,24 @@ import React, { useContext, useEffect } from "react";
 import { toast } from "sonner";
 
 const ProfilePage = () => {
-  const { state } = useContext(Context);
+  const { state, dispatch } = useContext(Context);
   const router = useRouter();
 
   useEffect(() => {
+    if (!state.user) {
+      const getUser = async () => {
+        await isUserLogged(dispatch);
+      };
+      getUser();
+    }
+    
     if (!state.user) {
       toast.info("Inicia sesión y vuelve a ver tu perfil!", {
         description: "Vamos a redirigirte!",
       });
       router.push("/authenticate");
     }
-  }, []);
+  }, [state.user]);
 
   return (
     <div className="flex flex-row justify-center items-center w-full">

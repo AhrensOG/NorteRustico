@@ -6,9 +6,10 @@ import React, { Suspense, useContext, useEffect, useState } from "react";
 import Loading from "./loading";
 import { Context } from "../context/GlobalContext";
 import Loader from "@/components/Loader";
+import { isUserLogged } from "../context/actions/isUserLogged";
 
 const Shop = () => {
-  const { state } = useContext(Context);
+  const { state, dispatch } = useContext(Context);
   const searchParams = useSearchParams();
 
   const [openFilters, setOpenFilters] = useState(false);
@@ -53,6 +54,15 @@ const Shop = () => {
     orderByScore,
     orderByPrice,
   ]);
+
+  useEffect(() => {
+    if (!state.user) {
+      const getUser = async () => {
+        await isUserLogged(dispatch);
+      };
+      getUser();
+    }
+  }, [state.user]);
 
   const sortByScore = (products, ascending) => {
     return products?.slice().sort((a, b) => {
