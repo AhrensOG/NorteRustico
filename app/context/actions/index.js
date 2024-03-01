@@ -372,7 +372,6 @@ export const createPayment = async (
           quantity: p.items,
           unit_price: parseFloat(price),
           currency_id: "ARS",
-          category_id: p.Categories[0]?.name || "Otros",
         };
       }
       return {
@@ -382,7 +381,6 @@ export const createPayment = async (
         quantity: p.items,
         unit_price: parseFloat(p.price),
         currency_id: "ARS",
-        category_id: p.Categories[0]?.name || "Otros",
       };
     });
     // const delivery = {
