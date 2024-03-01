@@ -41,9 +41,9 @@ export async function POST(req) {
           },
         },
         back_urls: {
-          success: "",
-          pending: "",
-          failure: "",
+          success: "/user/profile",
+          pending: "/user/profile",
+          failure: "/user/profile",
         },
         notification_url: `${SERVER_URL_PAYMENT_NOTIFICATION}`,
         metadata: {
