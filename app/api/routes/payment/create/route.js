@@ -37,9 +37,9 @@ export async function POST(req) {
           },
         },
         back_urls: {
-          success: "https://norte-rustico-git-user-ahrensog.vercel.app/user/cart",
-          pending: "https://norte-rustico-git-user-ahrensog.vercel.app/user/cart",
-          failure: "https://norte-rustico-git-user-ahrensog.vercel.app/user/cart",
+          success: "https://norterustico.vercel.app/user/profile",
+          pending: "https://norterustico.vercel.app/user/profile",
+          failure: "https://norterustico.vercel.app/user/profile",
         },
         auto_return: "approved",
         external_reference: orderId,

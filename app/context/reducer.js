@@ -176,6 +176,11 @@ export const reducer = (state, action) => {
       return {
         ...state,
       };
+    case "PREFERENCE_ID":
+      return {
+        ...state,
+        preference: action.payload,
+      };
 
     /////////////////////// FILTERS //////////////////////////
     case "SEARCH_PRODUCTS_BY_NAME":

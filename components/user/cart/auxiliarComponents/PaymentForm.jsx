@@ -1,10 +1,17 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { Context } from "@/app/context/GlobalContext";
 import Loader from "@/components/Loader";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { getDeliveryCost, savePaymentInformation, updateUser } from "@/app/context/actions";
+import {
+  addProductsToOrder,
+  createOrder,
+  createPayment,
+  getDeliveryCost,
+  savePaymentInformation,
+  savePreferenceID,
+  updateUser,
+} from "@/app/context/actions";
 
 const PaymentForm = ({
   setShowDeliveryCostAndPayment,
@@ -12,6 +19,7 @@ const PaymentForm = ({
 }) => {
   const { state, dispatch } = useContext(Context);
   const [loader, setLoader] = useState(false);
+  const [total, setTotal] = useState(0);
 
   const initialValues = state.user || {
     name: "",
@@ -26,6 +34,23 @@ const PaymentForm = ({
     city: "",
     dni: "",
     phone: "",
+  };
+
+  useEffect(() => {
+    calculateTotal();
+  }, [state]);
+
+  const calculateTotal = () => {
+    let total = 0;
+    if (state.discountedCartPrice) {
+      total += Number(state.discountedCartPrice);
+    } else if (state.cartPrice) {
+      total += Number(state.cartPrice);
+    }
+    if (state.payment?.deliveryCost?.tarifaConIva?.total) {
+      total += Number(state.payment.deliveryCost.tarifaConIva.total);
+    }
+    return setTotal(total);
   };
 
   const onSubmit = async (values) => {
@@ -96,14 +121,58 @@ const PaymentForm = ({
         await updateUser(data, dispatch);
       }
 
+      let delivery;
       try {
-        if (state.payment?.totalWeight && state.payment?.totalVolume && values.postalCode) {
-          await getDeliveryCost(state.payment, values.postalCode, dispatch);
+        if (
+          state.payment?.totalWeight &&
+          state.payment?.totalVolume &&
+          values.postalCode
+        ) {
+          delivery = await getDeliveryCost(
+            state.payment,
+            values.postalCode,
+            dispatch
+          );
         }
       } catch (error) {
         return toast.error("Ocurrió un error al intentar cotizar el envío", {
           description: "Verifica el Codigo Postal",
         });
+      }
+
+      try {
+        state.payment = { ...values };
+        const orderData = {
+          ...state,
+          cartTotalPrice: total,
+        };
+        const order = await createOrder(
+          orderData,
+          delivery.tarifaConIva.total,
+          dispatch
+        );
+        const orderProductsData = {
+          orderId: order.id,
+          products: state.cart,
+        };
+        await addProductsToOrder(orderProductsData);
+        const user = state?.user;
+        const cart = state?.cart;
+        const deliveryCost = delivery.tarifaConIva?.total;
+        const paymentInfo = await createPayment(
+          user,
+          cart,
+          deliveryCost,
+          order.id
+        );
+        savePreferenceID(paymentInfo.id, dispatch);
+      } catch (error) {
+        setLoader(false);
+        return toast.error("Ocurrio un error al procesar la orden de compra", {
+          description: "Intenta nuevamente mas tarde",
+        });
+      } finally {
+        setLoader(false);
       }
 
       toast.success("Informacion actualizada exitosamente!");

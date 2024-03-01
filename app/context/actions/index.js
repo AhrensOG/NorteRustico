@@ -340,10 +340,11 @@ export const getDeliveryCost = async (data, postalCode, dispatch) => {
     const res = await axios.get(
       `${SERVER_URL_DELIVERY_COST_ENDPOINT}?weight=${data.totalWeight}&volume=${data.totalVolume}&postcode=${postalCode}`
     );
-    return dispatch({
+    dispatch({
       type: "DELIVERY_COST",
       payload: res.data,
     });
+    return res.data;
   } catch (error) {
     throw new Error("Error interno del servidor");
   }
@@ -383,17 +384,6 @@ export const createPayment = async (
         currency_id: "ARS",
       };
     });
-    // const delivery = {
-    //   id: "Delivery",
-    //   description: "Delivery Cost",
-    //   title: "Delivery",
-    //   quantity: 1,
-    //   unit_price: 0.01,
-    //   currency_id: "ARS",
-    //   category_id: "Otros",
-    // };
-
-    // productsPayment.push(delivery);
 
     const paymentData = {
       payer: user,
@@ -407,22 +397,28 @@ export const createPayment = async (
       paymentData,
       { maxBodyLength: Infinity }
     );
-    console.log(pay.data);
     return pay.data;
   } catch (error) {
     throw new Error("Error interno del servidor");
   }
 };
 
+export const savePreferenceID = (id, dispatch) => {
+  return dispatch({
+    type: "PREFERENCE_ID",
+    payload: id
+  });
+};
+
 //////////////////////////// ORDER ////////////////////////////////////
 
-export const createOrder = async (data, dispatch) => {
+export const createOrder = async (data, deliveryCost) => {
   try {
     const body = {
       userId: data.user.id,
       status: "Pending",
       totalPrice: data.cartTotalPrice,
-      deliveryCost: data.payment.deliveryCost.tarifaConIva.total,
+      deliveryCost: deliveryCost,
       cartPrice: data.cartPrice,
       discountedCartPrice: data.discountedCartPrice,
       email: data.payment.email,
