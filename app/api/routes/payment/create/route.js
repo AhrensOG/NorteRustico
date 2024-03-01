@@ -11,11 +11,7 @@ export async function POST(req) {
       body: {
         payment_methods: {
           excluded_payment_methods: [],
-          excluded_payment_types: [
-            {
-              id: "credit_card",
-            },
-          ],
+          excluded_payment_types: [],
           installments: 1,
         },
         items: items,
