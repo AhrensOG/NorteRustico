@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import PaymentForm from "./auxiliarComponents/PaymentForm";
-import DeliveryOptions from "./auxiliarComponents/DeliveryOptions";
 import PaymentInformation from "./auxiliarComponents/PaymentInformation";
-import { deleteDeliveryCostInformation, deleteInitPoint } from "@/app/context/actions";
+import {
+  deleteDeliveryCostInformation,
+  savePreferenceID,
+} from "@/app/context/actions";
 import { Context } from "@/app/context/GlobalContext";
 
 const Payment = ({ setShowPayment }) => {
@@ -20,6 +22,10 @@ const Payment = ({ setShowPayment }) => {
 
   useEffect(() => {
     return () => deleteDeliveryCostInformation(dispatch);
+  }, []);
+
+  useEffect(() => {
+    return () => savePreferenceID(false, dispatch);
   }, []);
 
   return (
@@ -48,7 +54,7 @@ const Payment = ({ setShowPayment }) => {
             </svg>
           </div>
 
-          <div className="flex-1 overflow-scroll scrollbar-none scroll-smooth space-y-4 p-2 flex flex-col justify-start items-center sm:hidden">
+          <div className="flex-1 overflow-scroll scrollbar-none scroll-smooth space-y-4 p-2 flex flex-col justify-start items-center">
             {showPersonalData && (
               <PaymentForm
                 setShowDeliveryCostAndPayment={setShowDeliveryCostAndPayment}
@@ -64,15 +70,6 @@ const Payment = ({ setShowPayment }) => {
                 Paso Anterior
               </button>
             )}
-          </div>
-          <div className="hidden w-full sm:flex gap-10 flex-1 p-2 pb-6 flex-row flex-wrap flex-grow justify-evenly items-start overflow-y-auto">
-            <PaymentForm
-              setShowDeliveryCostAndPayment={setShowDeliveryCostAndPayment}
-              handleChangeSection={handleChangeSection}
-            />
-            <div className="flex flex-col justify-start items-center gap-6">
-              <PaymentInformation />
-            </div>
           </div>
         </div>
       </div>

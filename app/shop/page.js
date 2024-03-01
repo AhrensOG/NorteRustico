@@ -36,12 +36,10 @@ const Shop = () => {
     }
 
     if (orderByScore) {
-      console.log(orderByScore);
       filtered = sortByScore(filtered, orderByScore.ascending);
     }
 
     if (orderByPrice) {
-      console.log(orderByPrice);
       filtered = sortByPrice(filtered, orderByPrice.ascending);
     }
 

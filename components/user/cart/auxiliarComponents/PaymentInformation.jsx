@@ -12,74 +12,32 @@ import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 
-const PaymentInformation = () => {
+const PaymentInformation = ({ order }) => {
   const { state, dispatch } = useContext(Context);
   const [total, setTotal] = useState(0);
-  const [loader, setLoader] = useState(false);
-  const [paymentInterval, setPaymentInterval] = useState(null);
-  const [preferenceID, setPreferenceID] = useState(false);
-  const router = useRouter();
+  // const [paymentInterval, setPaymentInterval] = useState(null);
+  // const router = useRouter();
 
-  const handlePayment = async () => {
-    if (!state.payment?.deliveryCost?.tarifaConIva?.total) {
-      return toast.info("Recuerda que debes calcular el costo de envío!", {
-        description: "Recuerda guardar tu información!",
-      });
-    }
-    try {
-      setLoader(true);
-      const orderData = {
-        ...state,
-        cartTotalPrice: total,
-      };
-      const order = await createOrder(orderData, dispatch);
-      const orderProductsData = {
-        orderId: order.id,
-        products: state.cart,
-      };
-      await addProductsToOrder(orderProductsData);
-      const user = state?.user;
-      const cart = state?.cart;
-      const deliveryCost = state.payment?.deliveryCost?.tarifaConIva?.total;
-      const paymentInfo = await createPayment(
-        user,
-        cart,
-        deliveryCost,
-        order.id
-      );
-      setPreferenceID(paymentInfo.id)
-      // if (paymentInfo["init_point"]) {
-      //   window.open(`${paymentInfo["init_point"]}`, "_blank");
-      //   toast.info("Vamos a redirigirte a la ventana de pago!");
+  // const handlePayment = async () => {
+  //   // const interval = setInterval(() => checkOrderStatus(order.id), 10000);
+  //   // setPaymentInterval(interval);
+  // };
 
-      //   const interval = setInterval(() => checkOrderStatus(order.id), 10000);
-      //   setPaymentInterval(interval);
-      // }
-    } catch (error) {
-      setLoader(false);
-      return toast.error("Ocurrio un error al procesar la orden de compra", {
-        description: "Intenta nuevamente mas tarde",
-      });
-    } finally {
-      setLoader(false);
-    }
-  };
-
-  const checkOrderStatus = async (id) => {
-    try {
-      const orderStatus = await getOneOrder(id);
-      if (orderStatus.status === "Paid") {
-        clearInterval(paymentInterval);
-        toast.success("¡Felicidades! Tu producto está en camino!", {
-          description: "Verifica tu orden en tu perfil!",
-          position: "top-center",
-        });
-        return router.push("/user/profile");
-      }
-    } catch (error) {
-      return toast.error("Error al verificar el estado de la orden");
-    }
-  };
+  // const checkOrderStatus = async (id) => {
+  //   try {
+  //     const orderStatus = await getOneOrder(id);
+  //     if (orderStatus.status === "Paid") {
+  //       clearInterval(paymentInterval);
+  //       toast.success("¡Felicidades! Tu producto está en camino!", {
+  //         description: "Verifica tu orden en tu perfil!",
+  //         position: "top-center",
+  //       });
+  //       return router.push("/user/profile");
+  //     }
+  //   } catch (error) {
+  //     return toast.error("Error al verificar el estado de la orden");
+  //   }
+  // };
 
   const calculateTotal = () => {
     let total = 0;
@@ -96,12 +54,12 @@ const PaymentInformation = () => {
 
   useEffect(() => {
     calculateTotal();
-    return () => {
-      if (paymentInterval) {
-        clearInterval(paymentInterval);
-      }
-    };
-  }, [state, paymentInterval]);
+    // return () => {
+    //   if (paymentInterval) {
+    //     clearInterval(paymentInterval);
+    //   }
+    // };
+  }, [state]);
 
   return (
     <div className="flex flex-row justify-center items-center w-full sm:border-2 sm:rounded-md sm:shadow-black/20 sm:shadow-lg">
@@ -139,20 +97,9 @@ const PaymentInformation = () => {
               <span>Total</span>
               <span>$ {total.toFixed(2)}</span>
             </div>
-            <button
-              onClick={() => handlePayment()}
-              className="w-full min-w-60 bg-black/95 py-1.5 px-2 text-white font-medium rounded"
-            >
-              {loader ? (
-                <Loader size={30} color="white" />
-              ) : (
-                <span className="flex flex-row justify-center items-center gap-2">
-                  <Image src={"/mp.png"} alt="mp" width={30} height={30} />
-                  Pagar con Mercado Pago
-                </span>
-              )}
-            </button>
-            {preferenceID !== false && <MPButton id={preferenceID} />}
+            <MPButton />
+            {/* <div onClick={handlePayment}>
+            </div> */}
           </div>
         </div>
       </div>

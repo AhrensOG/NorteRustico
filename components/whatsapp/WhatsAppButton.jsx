@@ -12,7 +12,7 @@ const WhatsAppButton = () => {
 
   return (
     <div>
-      <Link href={'https://wa.me/+5493704572908'} target="_blank">
+      <Link href={'https://wa.me/+5491166013207'} target="_blank">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           xmlSpace="preserve"
