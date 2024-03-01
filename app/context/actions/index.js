@@ -340,11 +340,13 @@ export const getDeliveryCost = async (data, postalCode, dispatch) => {
     const res = await axios.get(
       `${SERVER_URL_DELIVERY_COST_ENDPOINT}?weight=${data.totalWeight}&volume=${data.totalVolume}&postcode=${postalCode}`
     );
+    console.log(res.data)
     return dispatch({
       type: "DELIVERY_COST",
       payload: res.data,
     });
   } catch (error) {
+    console.log(error)
     throw new Error("Error interno del servidor");
   }
 };

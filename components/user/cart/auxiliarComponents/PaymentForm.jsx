@@ -97,7 +97,12 @@ const PaymentForm = ({
       }
 
       try {
+        console.log('TRY')
         if (state.payment?.totalWeight && state.payment?.totalVolume && values.postalCode) {
+          console.log('Dentro')
+          console.log(state.payment?.totalWeight)
+          console.log(state.payment?.totalVolume)
+          console.log(values.postalCode)
           await getDeliveryCost(state.payment, values.postalCode, dispatch);
         }
       } catch (error) {
