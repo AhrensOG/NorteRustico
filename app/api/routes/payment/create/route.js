@@ -41,11 +41,11 @@ export async function POST(req) {
           },
         },
         back_urls: {
-          success: "/user/profile",
-          pending: "/user/profile",
+          success: "",
+          pending: "",
           failure: "",
         },
-        auto_return: "approved",
+        // auto_return: "approved",
         statement_descriptor: "Norte Rustico",
         notification_url: `${SERVER_URL_PAYMENT_NOTIFICATION}`,
         metadata: {

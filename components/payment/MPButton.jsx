@@ -5,7 +5,7 @@ import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 const MPButton = ({ id = false }) => {
   console.log(id);
   useEffect(() => {
-    initMercadoPago("TEST-0ef40cb0-0054-4928-b38b-06b0932ac3aa", {
+    initMercadoPago("APP_USR-4d0be987-0393-449a-83d2-bee537aec209", {
       locale: "es-AR",
     });
   }, []);
