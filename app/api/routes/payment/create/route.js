@@ -37,11 +37,12 @@ export async function POST(req) {
           },
         },
         back_urls: {
-          success: "",
-          pending: "",
-          failure: "",
+          success: "https://norte-rustico-git-user-ahrensog.vercel.app/user/cart",
+          pending: "https://norte-rustico-git-user-ahrensog.vercel.app/user/cart",
+          failure: "https://norte-rustico-git-user-ahrensog.vercel.app/user/cart",
         },
-        // auto_return: "approved",
+        auto_return: "approved",
+        external_reference: orderId,
         statement_descriptor: "Norte Rustico",
         notification_url: `${SERVER_URL_PAYMENT_NOTIFICATION}`,
         metadata: {
