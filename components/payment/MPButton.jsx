@@ -12,10 +12,7 @@ const MPButton = ({ id = false }) => {
 
   return (
     <div>
-      <Wallet
-        initialization={{ preferenceId: id, redirectMode: "modal" }}
-        onReady={id ? true : false}
-      />
+      <Wallet initialization={{ preferenceId: id, redirectMode: "blank" }} />
     </div>
   );
 };
