@@ -15,6 +15,7 @@ import {
 } from "@/app/context/actions";
 import { toast } from "sonner";
 import Loader from "@/components/Loader";
+import ImageInputCard from "./ImageInputCard";
 
 const ProductForm = ({
   setCrateProduct = false,
@@ -256,7 +257,7 @@ const ProductForm = ({
       >
         <div className="flex flex-row justify-start items-center w-full">
           <span className="text-lg font-medium text-black/60">
-            Crear Producto
+            {action === "POST" ? "Crear Producto" : "Actualizar Producto"}
           </span>
         </div>
         {/* FORM */}
@@ -266,7 +267,7 @@ const ProductForm = ({
             onSubmit={formik.handleSubmit}
             className="flex flex-col w-full h-full justify-between gap-8"
           >
-            <div className="w-full flex flex-col gap-2 overflow-y-scroll max-h-96 scrollbar-none">
+            <div className="w-full flex flex-col gap-2 overflow-y-scroll max-h-[460px] scrollbar-none">
               {/* Name / Quantity / Description */}
               <div className="flex flex-row w-full gap-2">
                 <div className="flex flex-col w-full gap-2">
@@ -544,7 +545,7 @@ const ProductForm = ({
                   {prevImages.length ? (
                     prevImages.map((img) => {
                       return (
-                        <SelectInputCard
+                        <ImageInputCard
                           key={img.id}
                           value={img}
                           removeValue={handleRemovePrevImages}
