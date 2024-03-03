@@ -30,7 +30,7 @@ const ProductVisualization = ({ setShowDetail, data }) => {
         <div className="w-full h-full flex flex-row justify-center items-center relative gap-4">
           <div className="absolute w-full h-full z-30"></div>
           {/* CAROUSEL */}
-          <div className="w-72 h-72">
+          <div className="max-w-72 w-full max-h-72 h-full">
             <ProductDetailCarousel
               images={data.ProductImages}
               lateralColum={false}
@@ -76,7 +76,7 @@ const ProductVisualization = ({ setShowDetail, data }) => {
             </div>
             <div className="w-full flex flex-col gap-3">
               <div className="flex flex-row justify-center items-center gap-0.5">
-                <div className="flex flex-row items-center justify-center w-full basis-2/5 border-2 rounded py-1 px-3">
+                <div className="flex flex-row items-center justify-center w-full min-w-28 basis-2/5 border-2 rounded py-1 px-3">
                   <div>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -113,7 +113,7 @@ const ProductVisualization = ({ setShowDetail, data }) => {
                     </svg>
                   </div>
                 </div>
-                <button className="basis-3/5 bg-[#CA995D] border border-[#CA995D] rounded py-1 px-3">
+                <button className="basis-3/5 bg-[#CA995D] border border-[#CA995D] min-w-40 rounded py-1 px-3">
                   Agregar al carrito
                 </button>
               </div>
