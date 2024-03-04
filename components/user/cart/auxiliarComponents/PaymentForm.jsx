@@ -165,6 +165,7 @@ const PaymentForm = ({
           deliveryCost,
           order.id
         );
+        console.log(paymentInfo)
         savePreferenceID(paymentInfo.id, dispatch);
       } catch (error) {
         setLoader(false);
