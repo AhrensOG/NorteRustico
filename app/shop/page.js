@@ -20,6 +20,7 @@ const Shop = () => {
 
   useEffect(() => {
     const name = searchParams.get("name");
+    const category = searchParams.get("category");
 
     let filtered = state.products;
 
@@ -27,6 +28,10 @@ const Shop = () => {
       filtered = filtered.filter((product) =>
         product.name.toLowerCase().includes(name.toLowerCase())
       );
+    }
+
+    if (category && state?.products && selectedCategory !== "All") {
+      setSelectedCategory(category);
     }
 
     if (selectedCategory && selectedCategory !== "All") {
@@ -315,22 +320,26 @@ const Shop = () => {
                       Categorías
                     </span>
                     <div className="flex flex-col justify-center items-start gap-1">
-                      {[
-                        "Bolsos",
-                        "Collares",
-                        "Pulseras",
-                        "Anillos",
-                        "Aros",
-                        "Atrapa Sueños",
-                        "Brazaletes",
-                        "Adornos",
-                      ].map((cat) => {
+                      <span
+                        className={`tracking-wider indent-1 font-light cursor-pointer ${
+                          selectedCategory === "All" ? "text-blue-600" : ""
+                        }`}
+                        onClick={() => handleCategoryFilter("All")}
+                      >
+                        Todas
+                      </span>
+                      {state?.categories?.map((cat) => {
                         return (
                           <span
-                            key={cat}
-                            className="tracking-wider indent-1 font-light cursor-pointer"
+                            key={cat.id}
+                            className={`tracking-wider indent-1 font-light cursor-pointer ${
+                              selectedCategory === cat.name
+                                ? "text-blue-600"
+                                : ""
+                            }`}
+                            onClick={() => handleCategoryFilter(cat.name)}
                           >
-                            {cat}
+                            {cat.name}
                           </span>
                         );
                       })}
@@ -348,21 +357,44 @@ const Shop = () => {
                 <div className="absolute z-20 right-[138px] top-6 xs:top-8 sm:top-10  hidden md:flex flex-row justify-center items-center ">
                   <div className="bg-white z-10 py-2.5 px-5 rounded-md flex flex-col justify-center items-start gap-2">
                     <span className="text-xl font-medium tracking-wider">
-                      Categorías
+                      Ordenar
                     </span>
                     <div className="flex flex-col justify-center items-start gap-1">
                       {[
-                        "Menor Precio",
-                        "Mayor Precio",
-                        "Mas Relevantes",
-                        "Menos Relevantes",
-                      ].map((cat) => {
+                        {
+                          name: "Menor Precio",
+                          type: "DESC",
+                          action: setOrderByPrice,
+                        },
+                        {
+                          name: "Mayor Precio",
+                          type: "ASC",
+                          action: setOrderByPrice,
+                        },
+                        {
+                          name: "Menos Relevantes",
+                          type: "DESC",
+                          action: setOrderByScore,
+                        },
+                        {
+                          name: "Mas Relevantes",
+                          type: "ASC",
+                          action: setOrderByScore,
+                        },
+                      ].map((ord) => {
                         return (
                           <span
-                            key={cat}
-                            className="tracking-wider indent-1 font-light cursor-pointer"
+                            key={ord.name}
+                            className={`tracking-wider indent-1 font-light cursor-pointer ${
+                              selectedCategory === ord.name
+                                ? "text-blue-600"
+                                : ""
+                            }`}
+                            onClick={() =>
+                              ord.action({ ascending: ord.type === "ASC" })
+                            }
                           >
-                            {cat}
+                            {ord.name}
                           </span>
                         );
                       })}
