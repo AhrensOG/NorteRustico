@@ -26,7 +26,6 @@ const PanelPage = () => {
   const [showDelivery, setShowDelivery] = useState(false);
 
   const router = useRouter();
-  console.log(state)
 
   const handleChangeSection = (value, setter) => {
     setShowProducts(false);
@@ -40,6 +39,7 @@ const PanelPage = () => {
   useEffect(() => {
     const getData = async () => {
       try {
+        await isUserLogged(dispatch);
         await getAllProducts(dispatch);
       } catch (error) {
         return toast.error("Ocurrio un error al lisar los productos.", {
