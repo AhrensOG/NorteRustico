@@ -13,6 +13,7 @@ const ProductsSection = () => {
   const scrollRight = () => {
     document.getElementById("content").scrollLeft += 500;
   };
+
   return (
     <div className="flex flex-row justify-center items-center py-16 px-2">
       {state.searchedProductsByScore?.length > 0 ? (
@@ -23,7 +24,9 @@ const ProductsSection = () => {
           {/* Web Design */}
           <div className="hidden md:block relative group">
             {/* Left Arrow */}
-            <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer z-10">
+            <button
+              className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer z-10"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -39,9 +42,11 @@ const ProductsSection = () => {
                   d="M15.75 19.5L8.25 12l7.5-7.5"
                 />
               </svg>
-            </div>
+            </button>
             {/* Right Arrow */}
-            <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer z-10">
+            <button
+              className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer z-10"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -57,12 +62,12 @@ const ProductsSection = () => {
                   d="M8.25 4.5l7.5 7.5-7.5 7.5"
                 />
               </svg>
-            </div>
+            </button>
             <div
               id="content"
-              className="flex flex-row gap-10 justify-between items-center overflow-x-auto scroll-smooth scrollbar-track-[#CA995D]/50 scrollbar-thumb-[#CA995D] scrollbar-thin"
+              className="flex flex-row gap-[108px] justify-between items-center overflow-x-auto scroll-smooth scrollbar-track-[#CA995D]/50 scrollbar-thumb-[#CA995D] scrollbar-none"
             >
-              {state.searchedProductsByScore.map((p) => (
+              {state.searchedProductsByScore?.map((p) => (
                 <ProductCard key={p.id} product={p} />
               ))}
             </div>
@@ -80,7 +85,7 @@ const ProductsSection = () => {
           </div>
         </div>
       ) : (
-        <Loader size={60} color="#1D4ED8"/>
+        <Loader size={60} color="#1D4ED8" />
       )}
     </div>
   );
