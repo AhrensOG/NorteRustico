@@ -5,6 +5,7 @@ import { Context } from "@/app/context/GlobalContext";
 import { addProductToCart } from "@/app/context/actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const ProductDetail = ({ product }) => {
   const { state, dispatch } = useContext(Context);
@@ -90,26 +91,42 @@ const ProductDetail = ({ product }) => {
                 </span>
               )}
             </div>
-            {product.discount !== 0 && (
-              <span className="text-2xl md:text-3xl line-through text-black/50">
-                ${Number(product.price)}
-              </span>
-            )}
+            <div className="flex flex-row gap-2 justify-start items-center w-full">
+              {product.discount !== 0 && (
+                <span className="text-2xl md:text-3xl line-through text-black/50">
+                  ${Number(product.price)}
+                </span>
+              )}
+              {product.quantity === 0 && (
+                <span className="bg-black/20 text-lg md:text-xl text-black/50 font-medium tracking-widest px-2">
+                  Sin stock
+                </span>
+              )}
+            </div>
             <span className="text-sm md:text-base text-black/70">
               {product.description}
             </span>
           </div>
           <div className="w-full flex flex-col gap-3">
             <div className="flex flex-row justify-center items-center gap-0.5">
-              <div className="flex flex-row items-center min-w-28 justify-center w-full basis-2/5 border-2 rounded py-1 px-3">
-                <div onClick={decreaseItems}>
+              <div
+                className={`${
+                  product.quantity === 0 ? "bg-black/20" : ""
+                } flex flex-row items-center min-w-28 justify-center w-full basis-2/5 border-2 rounded py-1 px-3`}
+              >
+                <button
+                  disabled={product.quantity === 0 ? true : false}
+                  onClick={decreaseItems}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="w-5 h-5 cursor-pointer"
+                    className={`w-5 h-5 ${
+                      product.quantity === 0 ? "" : "cursor-pointer"
+                    }`}
                   >
                     <path
                       strokeLinecap="round"
@@ -117,18 +134,25 @@ const ProductDetail = ({ product }) => {
                       d="M5 12h14"
                     />
                   </svg>
-                </div>
+                </button>
                 <div className="w-full flex flex-row justify-center items-center">
-                  <span className="text-black/70 font-medium">{items}</span>
+                  <span className="text-black/70 font-medium">
+                    {product.quantity === 0 ? 0 : items}
+                  </span>
                 </div>
-                <div onClick={increaseItems}>
+                <button
+                  disabled={product.quantity === 0 ? true : false}
+                  onClick={increaseItems}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="w-5 h-5 cursor-pointer"
+                    className={`w-5 h-5 ${
+                      product.quantity === 0 ? "" : "cursor-pointer"
+                    }`}
                   >
                     <path
                       strokeLinecap="round"
@@ -136,21 +160,30 @@ const ProductDetail = ({ product }) => {
                       d="M12 4.5v15m7.5-7.5h-15"
                     />
                   </svg>
-                </div>
+                </button>
               </div>
               <button
+                disabled={product.quantity === 0 ? true : false}
                 onClick={handleAddProductToCart}
-                className="basis-3/5 min-w- bg-[#CA995D] min-w-40 border border-[#CA995D] rounded py-1 px-3 text-black/80"
+                className={`${product.quantity === 0 ? 'bg-black/20 ' : 'bg-[#CA995D] border-[#CA995D]'} basis-3/5 min-w-40 border rounded py-1 px-3 text-black/80`}
               >
                 Agregar al carrito
               </button>
             </div>
-            <button
-              onClick={handleBuyNow}
-              className="w-full bg-[#C9140F] rounded py-1 px-3 text-white uppercase tracking-wider"
-            >
-              Comprar ahora
-            </button>
+            {product.quantity === 0 ? (
+              <Link href={"https://wa.me/+5491166013207"} target="_blank">
+                <button className="w-full bg-[#C9140F] rounded py-1 px-3 text-white uppercase tracking-wider">
+                  Consultar Stock
+                </button>
+              </Link>
+            ) : (
+              <button
+                onClick={handleBuyNow}
+                className="w-full bg-[#C9140F] rounded py-1 px-3 text-white uppercase tracking-wider"
+              >
+                Comprar ahora
+              </button>
+            )}
           </div>
         </div>
       </div>
