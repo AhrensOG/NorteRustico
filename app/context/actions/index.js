@@ -384,6 +384,8 @@ export const createPayment = async (
         quantity: p.items,
         unit_price: parseFloat(p.price),
         currency_id: "ARS",
+        picture_url: p.ProductImages[0].url || "",
+        category_id: p.Categories[0].name || ""
       };
     });
 
