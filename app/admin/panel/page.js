@@ -26,6 +26,7 @@ const PanelPage = () => {
   const [showDelivery, setShowDelivery] = useState(false);
 
   const router = useRouter();
+  console.log(state)
 
   const handleChangeSection = (value, setter) => {
     setShowProducts(false);
