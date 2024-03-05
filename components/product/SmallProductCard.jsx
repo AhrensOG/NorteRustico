@@ -17,7 +17,7 @@ const SmallProductCard = ({ product }) => {
             onLoad={(event) => event.target.classList.remove("opacity-0")}
             sizes="(max-width: 130px) 5vw, 130px"
             loading="lazy"
-            quality={50}
+            quality={100}
           />
         </div>
       </Link>
