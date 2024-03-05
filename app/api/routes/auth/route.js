@@ -1,4 +1,11 @@
-import { Favourites, Order, Product, Qualifications, User } from "@/db/models/models";
+import {
+  Favourites,
+  Order,
+  Product,
+  ProductImages,
+  Qualifications,
+  User,
+} from "@/db/models/models";
 
 export async function GET(req) {
   try {
@@ -12,10 +19,21 @@ export async function GET(req) {
     const user = await User.findOne({
       where: { id },
       include: [
-        { model: Order },
+        {
+          model: Order,
+          include: {
+            model: Product,
+            include: [ProductImages],
+            paranoid: false
+          },
+          where: {
+            status: 'Paid'
+          },
+        },
         { model: Product, through: Favourites },
         { model: Product, through: Qualifications },
       ],
+      order: [[Order, "createdAt", "DESC"]],
     });
 
     if (!user) {
