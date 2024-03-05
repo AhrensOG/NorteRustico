@@ -63,7 +63,7 @@ const PaymentInformation = ({ order }) => {
 
   return (
     <div className="flex flex-row justify-center items-center w-full sm:border-2 sm:rounded-md sm:shadow-black/20 sm:shadow-lg">
-      <div className="w-full min-w-max xs:max-w-[450px] sm:max-w-[360px] md:w-[360px] flex flex-col justify-center items-center gap-8 sm:p-10">
+      <div className="w-full min-w-[280px] xs:max-w-[450px] sm:max-w-[360px] md:w-[360px] flex flex-col justify-center items-center gap-8 sm:p-10">
         <h2 className="capitalize xs:text-lg sm:text-xl">Resumen del Pedido</h2>
         <div className="w-full space-y-8 divide-y divide-black/50">
           <div className="w-full space-y-4">

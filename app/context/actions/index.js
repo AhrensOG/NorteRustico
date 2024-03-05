@@ -369,16 +369,18 @@ export const createPayment = async (
         return {
           id: p.id,
           description: p.description,
-          title: p.title,
+          title: p.name,
           quantity: p.items,
           unit_price: parseFloat(price),
           currency_id: "ARS",
+          picture_url: p.ProductImages[0].url || "",
+          category_id: p.Categories[0].name || ""
         };
       }
       return {
         id: p.id,
         description: p.description,
-        title: p.title,
+        title: p.name,
         quantity: p.items,
         unit_price: parseFloat(p.price),
         currency_id: "ARS",
