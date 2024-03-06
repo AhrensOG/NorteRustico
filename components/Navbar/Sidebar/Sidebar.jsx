@@ -28,12 +28,28 @@ const Sidebar = ({ isOpen = true, setIsOpen }) => {
   });
   return (
     <div
-      className={`md:hidden fixed top-0 left-0 z-10 bg-black/20 h-screen w-screen transition-transform duration-100 ${
+      className={`md:hidden fixed top-0 left-0 z-40 bg-black/20 h-screen w-screen transition-transform duration-100 ${
         isOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
+      
       <div className={`fixed h-screen w-1/2 bg-[#CA995D] px-4 pt-8`}>
-        <div className="flex flex-col items-start justify-center gap-8">
+        <div className="flex flex-col items-start justify-center gap-8 relative">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+            className="w-6 h-6 absolute -top-5 -right-2 stroke-[#523900]"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 18 18 6M6 6l12 12"
+            />
+          </svg>
           <Image
             src={"/Product.png"}
             width={80}
@@ -156,7 +172,7 @@ const Sidebar = ({ isOpen = true, setIsOpen }) => {
               Carrito
             </span>
           </Link>
-          <span
+          {/* <span
             onClick={() => setIsOpen(!isOpen)}
             className="flex flex-row gap-2 justify-start items-center text-sm  text-[#523900] uppercase font-semibold cursor-pointer"
           >
@@ -175,7 +191,7 @@ const Sidebar = ({ isOpen = true, setIsOpen }) => {
               />
             </svg>
             Salir
-          </span>
+          </span> */}
         </div>
       </div>
     </div>
