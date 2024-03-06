@@ -184,9 +184,17 @@ export const reducer = (state, action) => {
 
     /////////////////////// FILTERS //////////////////////////
     case "SEARCH_PRODUCTS_BY_NAME":
+      if (action.payload === "") {
+        return {
+          ...state,
+          searchedProductName: false,
+          searchedProducts: false,
+        };
+      }
       return {
         ...state,
-        searchedProducts: action.payload,
+        searchedProductName: action.payload.name,
+        searchedProducts: action.payload.data,
       };
     case "SEARCH_PRODUCTS_BY_SCORE":
       return {

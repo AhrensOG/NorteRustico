@@ -89,8 +89,8 @@ export const updateAllProducts = async (values) => {
   try {
     const body = {
       price: values.price,
-      quantity: values.quantity
-    }
+      quantity: values.quantity,
+    };
     await axios.put(`${SERVER_URL_ALL_PRODUCTS_ENDPOINT}`, body);
   } catch (error) {
     throw new Error("Error interno del servidor");
@@ -310,7 +310,13 @@ export const searchProductsByName = async (search, dispatch) => {
       if (res.data.length === 0) {
         return toast.info(`No se encontraron productos con "${search}"`);
       }
-      return dispatch({ type: "SEARCH_PRODUCTS_BY_NAME", payload: res.data });
+      return dispatch({
+        type: "SEARCH_PRODUCTS_BY_NAME",
+        payload: {
+          name: search,
+          data: res.data,
+        },
+      });
     }
     return dispatch({ type: "SEARCH_PRODUCTS_BY_NAME", payload: search });
   } catch (error) {
