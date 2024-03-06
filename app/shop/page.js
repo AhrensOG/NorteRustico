@@ -156,7 +156,7 @@ const Shop = () => {
                     <span className="text-xl font-medium tracking-wider">
                       Categorías
                     </span>
-                    <div className="flex flex-col justify-center items-start gap-1">
+                    <div className="flex flex-col items-start gap-1 overflow-y-scroll max-h-72 scrollbar-none">
                       <span
                         className={`tracking-wider indent-1 font-light cursor-pointer ${
                           selectedCategory === "All" ? "text-blue-600" : ""
@@ -319,7 +319,7 @@ const Shop = () => {
                     <span className="text-xl font-medium tracking-wider">
                       Categorías
                     </span>
-                    <div className="flex flex-col justify-center items-start gap-1">
+                    <div className="flex flex-col items-start gap-1 overflow-y-scroll max-h-72 scrollbar-none">
                       <span
                         className={`tracking-wider indent-1 font-light cursor-pointer ${
                           selectedCategory === "All" ? "text-blue-600" : ""

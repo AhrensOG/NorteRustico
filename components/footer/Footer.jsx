@@ -6,7 +6,7 @@ import React from "react";
 const Footer = () => {
   const pathname = usePathname();
 
-  if (pathname === "/admin/panel" || pathname === "/authenticate") {
+  if (pathname === "/admin/panel" || pathname === "/authenticate" || pathname === "/admin/authenticate") {
     return null;
   }
   return (

@@ -26,9 +26,6 @@ export async function GET(req) {
             include: [ProductImages],
             paranoid: false
           },
-          where: {
-            status: 'Paid'
-          },
         },
         { model: Product, through: Favourites },
         { model: Product, through: Qualifications },

@@ -4,7 +4,7 @@ export async function GET() {
   try {
     const response = await Tags.findAll({
       include: { model: Product },
-      order: [["createdAt", "DESC"]]
+      order: [["createdAt", "DESC"]],
     });
     return response.length
       ? Response.json(response)
@@ -40,6 +40,33 @@ export async function POST(req) {
   }
 }
 
+export async function PUT(req) {
+  try {
+    const { id, name } = await req.json();
+
+    if (!id) {
+      return Response.json("Tag ID is required", { status: 400 });
+    }
+
+    if (!name) {
+      return Response.json("Name field is required", { status: 400 });
+    }
+
+    const tagToUpdate = await Tags.findByPk(id);
+
+    if (!tagToUpdate) {
+      return Response.json(`Tag with ID ${id} does not exist`, { status: 404 });
+    }
+
+    tagToUpdate.name = name;
+    await tagToUpdate.save();
+
+    return Response.json(tagToUpdate);
+  } catch (error) {
+    return Response.json(error.message, { status: 500 });
+  }
+}
+
 export async function DELETE(req) {
   try {
     const searchParams = req.nextUrl.searchParams;
@@ -52,7 +79,9 @@ export async function DELETE(req) {
     const tagToDelete = await Tags.findByPk(tagId);
 
     if (!tagToDelete) {
-      return Response.json(`Tag with ID ${tagId} does not exist`, { status: 404 });
+      return Response.json(`Tag with ID ${tagId} does not exist`, {
+        status: 404,
+      });
     }
 
     await tagToDelete.destroy();

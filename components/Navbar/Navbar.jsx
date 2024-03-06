@@ -29,7 +29,7 @@ const Navbar = () => {
     },
   });
 
-  if (pathname === "/admin/panel" || pathname === "/authenticate") {
+  if (pathname === "/admin/panel" || pathname === "/authenticate" || pathname === "/admin/authenticate") {
     return null;
   }
 

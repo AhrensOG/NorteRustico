@@ -195,6 +195,18 @@ export const createCategory = async (name) => {
   }
 };
 
+export const updateCategory = async (id, name) => {
+  try {
+    const body = {
+      id,
+      name,
+    };
+    await axios.put(`${SERVER_URL_CATEGORIES_ENDPOINT}`, body);
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
 export const deleteCategory = async (id) => {
   try {
     await axios.delete(`${SERVER_URL_CATEGORIES_ENDPOINT}?id=${id}`);
@@ -207,7 +219,18 @@ export const createTag = async (name) => {
   try {
     await axios.post(`${SERVER_URL_TAGS_ENDPOINT}`, name);
   } catch (error) {
-    console.log(error);
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const updateTag = async (id, name) => {
+  try {
+    const body = {
+      id,
+      name,
+    };
+    await axios.put(`${SERVER_URL_TAGS_ENDPOINT}`, body);
+  } catch (error) {
     throw new Error("Error interno del servidor");
   }
 };
@@ -374,7 +397,7 @@ export const createPayment = async (
           unit_price: parseFloat(price),
           currency_id: "ARS",
           picture_url: p.ProductImages[0].url || "",
-          category_id: p.Categories[0].name || ""
+          category_id: p.Categories[0].name || "",
         };
       }
       return {
@@ -385,7 +408,7 @@ export const createPayment = async (
         unit_price: parseFloat(p.price),
         currency_id: "ARS",
         picture_url: p.ProductImages[0].url || "",
-        category_id: p.Categories[0].name || ""
+        category_id: p.Categories[0].name || "",
       };
     });
 
@@ -410,7 +433,7 @@ export const createPayment = async (
 export const savePreferenceID = (id, dispatch) => {
   return dispatch({
     type: "PREFERENCE_ID",
-    payload: id
+    payload: id,
   });
 };
 
