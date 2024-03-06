@@ -19,7 +19,6 @@ export async function PUT(req) {
 
     return Response.json("Products updated successfully");
   } catch (error) {
-    console.log(error);
     return Response.json(error.message, { status: 500 });
   }
 }
