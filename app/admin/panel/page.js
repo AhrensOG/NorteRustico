@@ -16,6 +16,10 @@ import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 
+const ADMIN_1 = process.env.NEXT_PUBLIC_ADMIN_1;
+const ADMIN_2 = process.env.NEXT_PUBLIC_ADMIN_2;
+const ADMIN_3 = process.env.NEXT_PUBLIC_ADMIN_3;
+
 const PanelPage = () => {
   const { state, dispatch } = useContext(Context);
   const [showProducts, setShowProducts] = useState(true);
@@ -82,41 +86,41 @@ const PanelPage = () => {
     );
   }
 
-  if (state.user?.id !== "hXedvgovQgSDbt0lUTokfznlAOK2") {
+  if ( state.user?.id === ADMIN_1 || state.user?.id === ADMIN_2 || state.user?.id === ADMIN_3 ) {
+    return (
+      <div className="flex flex-row w-full h-full bg-slate-200 relative">
+        <PanelSidebar
+          showProducts={showProducts}
+          showCategories={showCategories}
+          showTags={showTags}
+          showUsers={showUsers}
+          showOrders={showOrders}
+          showDelivery={showDelivery}
+          setShowProducts={setShowProducts}
+          setShowCategories={setShowCategories}
+          setShowTags={setShowTags}
+          setShowUsers={setShowUsers}
+          setShowOrders={setShowOrders}
+          setShowDelivery={setShowDelivery}
+          handleChangeSection={handleChangeSection}
+        />
+        {showProducts && <PanelProductsSection />}
+        {showCategories && (
+          <PanelCategoriesSection setShowCategories={setShowCategories} />
+        )}
+        {showTags && <PanelTagsSection setShowTags={setShowTags} />}
+        {showUsers && <PanelUsersSection />}
+        {showOrders && <PanelOrdersSection />}
+      </div>
+    );
+  } else {
     router.push("/admin/authenticate");
     return (
       <div className="h-screen w-screen flex flex-row justify-center items-center">
         <span className="text-6xl text-red-700 font-medium">Unauthorized</span>
       </div>
     );
-  }
-
-  return (
-    <div className="flex flex-row w-full h-full bg-slate-200 relative">
-      <PanelSidebar
-        showProducts={showProducts}
-        showCategories={showCategories}
-        showTags={showTags}
-        showUsers={showUsers}
-        showOrders={showOrders}
-        showDelivery={showDelivery}
-        setShowProducts={setShowProducts}
-        setShowCategories={setShowCategories}
-        setShowTags={setShowTags}
-        setShowUsers={setShowUsers}
-        setShowOrders={setShowOrders}
-        setShowDelivery={setShowDelivery}
-        handleChangeSection={handleChangeSection}
-      />
-      {showProducts && <PanelProductsSection />}
-      {showCategories && (
-        <PanelCategoriesSection setShowCategories={setShowCategories} />
-      )}
-      {showTags && <PanelTagsSection setShowTags={setShowTags} />}
-      {showUsers && <PanelUsersSection />}
-      {showOrders && <PanelOrdersSection />}
-    </div>
-  );
+  }  
 };
 
 export default PanelPage;
