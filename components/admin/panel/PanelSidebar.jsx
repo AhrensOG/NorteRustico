@@ -1,5 +1,8 @@
+import { auth } from "@/app/firebase/config";
+import { signOut } from "firebase/auth";
 import Image from "next/image";
 import React from "react";
+import { toast } from "sonner";
 
 const PanelSidebar = ({
   showProducts,
@@ -15,6 +18,14 @@ const PanelSidebar = ({
   setShowOrders,
   handleChangeSection,
 }) => {
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      return;
+    }
+  };
+
   return (
     <div className="bg-[#CA995D] max-w-64 w-full">
       <div className="p-8 flex flex-col justify-center items-start gap-16">
@@ -140,7 +151,17 @@ const PanelSidebar = ({
             </svg>
             Pedidos
           </span>
-          <button className="flex flex-row justify-start items-center text-xl gap-2 w-full hover:bg-black hover:text-white p-1.5 pr-2 rounded-lg">
+          <button
+            onClick={() =>
+              toast.info("Deseas cerrar sesion?", {
+                action: {
+                  label: "Confirmar",
+                  onClick: handleSignOut,
+                },
+              })
+            }
+            className="flex flex-row justify-start items-center text-xl gap-2 w-full hover:bg-black hover:text-white p-1.5 pr-2 rounded-lg"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

@@ -5,6 +5,8 @@ import { toast } from "sonner";
 
 const SERVER_URL_PRODUCTS_ENDPOINT =
   process.env.NEXT_PUBLIC_SERVER_PRODUCTS_ENDPOINT;
+const SERVER_URL_ALL_PRODUCTS_ENDPOINT =
+  process.env.NEXT_PUBLIC_SERVER_ALL_PRODUCTS_ENDPOINT;
 const SERVER_URL_CATEGORIES_ENDPOINT =
   process.env.NEXT_PUBLIC_SERVER_CATEGORIES_ENDPOINT;
 const SERVER_URL_TAGS_ENDPOINT = process.env.NEXT_PUBLIC_SERVER_TAGS_ENDPOINT;
@@ -78,6 +80,18 @@ export const getOneProduct = async (id, dispatch) => {
       return dispatch({ type: "GET_ONE_PRODUCT", payload: res.data });
     }
     return dispatch({ type: "GET_ONE_PRODUCT", payload: false });
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const updateAllProducts = async (values) => {
+  try {
+    const body = {
+      price: values.price,
+      quantity: values.quantity
+    }
+    await axios.put(`${SERVER_URL_ALL_PRODUCTS_ENDPOINT}`, body);
   } catch (error) {
     throw new Error("Error interno del servidor");
   }

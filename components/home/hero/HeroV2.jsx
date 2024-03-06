@@ -4,23 +4,23 @@ import Carousel from "./auxiliarComponents/Carousel";
 const images = [
   {
     name: "hero1",
-    url: "https://firebasestorage.googleapis.com/v0/b/norte-rustico.appspot.com/o/30%25OFF.jpeg?alt=media&token=c27580ad-fe66-4155-8e4e-5b107b1a1c90",
+    url: "https://firebasestorage.googleapis.com/v0/b/norte-rustico.appspot.com/o/Carrusel%20web%201.webp?alt=media&token=c9f7ee17-ee0c-41c0-9440-007ba28f285d",
   },
   {
     name: "hero2",
-    url: "https://firebasestorage.googleapis.com/v0/b/norte-rustico.appspot.com/o/Hero1.webp?alt=media&token=65b0c7c0-f53d-4c49-a612-4b9cbc97a5d7",
+    url: "https://firebasestorage.googleapis.com/v0/b/norte-rustico.appspot.com/o/Carrusel%20web%202.webp?alt=media&token=e763bb95-e91b-4a31-ad25-01e5ce7931b7",
   },
   {
     name: "hero3",
-    url: "https://firebasestorage.googleapis.com/v0/b/norte-rustico.appspot.com/o/Hero2.webp?alt=media&token=9c380585-ca96-48f1-ab96-70d8cfc7ad40",
+    url: "https://firebasestorage.googleapis.com/v0/b/norte-rustico.appspot.com/o/Carrusel%20web%203.webp?alt=media&token=5112eb90-8672-484c-973e-472731fee8c7",
   },
   {
     name: "hero4",
-    url: "https://firebasestorage.googleapis.com/v0/b/norte-rustico.appspot.com/o/Products%2FIMG-20240229-WA0148.jpg?alt=media&token=e3788e1f-8776-4faf-82eb-1b9954157c82",
+    url: "https://firebasestorage.googleapis.com/v0/b/norte-rustico.appspot.com/o/Carrusel%20web%204.webp?alt=media&token=370e287c-8c3d-464e-8e85-99d6f623f36f",
   },
   {
     name: "hero5",
-    url: "https://firebasestorage.googleapis.com/v0/b/norte-rustico.appspot.com/o/carandillo.jpeg?alt=media&token=34edc482-6b12-4fab-b922-b47bc9c224df",
+    url: "https://firebasestorage.googleapis.com/v0/b/norte-rustico.appspot.com/o/Carrusel%20-%20Movil%20-%205.webp?alt=media&token=e45cd725-fdad-49ee-b526-65146cda918f",
   },
 ];
 

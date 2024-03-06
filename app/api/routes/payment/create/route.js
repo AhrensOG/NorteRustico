@@ -12,7 +12,7 @@ export async function POST(req) {
         payment_methods: {
           excluded_payment_methods: [],
           excluded_payment_types: [],
-          installments: 1,
+          installments: 2,
         },
         items: items,
         shipments: {
