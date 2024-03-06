@@ -9,9 +9,11 @@ import { toast } from "sonner";
 import Link from "next/link";
 import Loader from "@/components/Loader";
 import { isUserLogged } from "@/app/context/actions/isUserLogged";
+import { useRouter } from "next/navigation";
 
 const ProductDetailPage = ({ params }) => {
   const { state, dispatch } = useContext(Context);
+  const router = useRouter();
   useEffect(() => {
     const getProduct = async () => {
       try {
@@ -57,24 +59,22 @@ const ProductDetailPage = ({ params }) => {
       {state.productDetail ? (
         <div className="p-4 md:p-6 max-w-screen-xl flex flex-col items-start justify-center gap-4 w-full">
           {/* Arrow to come back*/}
-          <span>
-            <Link href={"/"}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-7 h-7"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
-                />
-              </svg>
-            </Link>
-          </span>
+          <button onClick={() => router.back()}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-7 h-7"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
+              />
+            </svg>
+          </button>
 
           <ProductDetail product={state.productDetail} />
           {state.searchedRelatedProducts ? (
