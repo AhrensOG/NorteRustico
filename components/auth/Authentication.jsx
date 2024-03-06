@@ -5,6 +5,10 @@ import { redirect, useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
 
+const ADMIN_1 = process.env.NEXT_PUBLIC_ADMIN_1;
+const ADMIN_2 = process.env.NEXT_PUBLIC_ADMIN_2;
+const ADMIN_3 = process.env.NEXT_PUBLIC_ADMIN_3;
+
 const Authentication = ({ redirect = "/" }) => {
   const router = useRouter();
 
@@ -12,9 +16,11 @@ const Authentication = ({ redirect = "/" }) => {
     toast.info("Aguarda mientras iniciamos sesion.", { duration: 6000 });
     const user = await logInWithGoogle();
     if (redirect === "/admin/panel") {
-      return user.id === "hXedvgovQgSDbt0lUTokfznlAOK2"
+      return user.id === ADMIN_1 || user.id === ADMIN_2 || user.id === ADMIN_3
         ? router.push(redirect)
-        : toast.info("No tienes autorizacion para ingresar al panel!", { duration: 5000 });
+        : toast.info("No tienes autorizacion para ingresar al panel!", {
+            duration: 5000,
+          });
     }
     user.id &&
       toast.info("Estamos redirigiendote al inicio...", { duration: 800 });
