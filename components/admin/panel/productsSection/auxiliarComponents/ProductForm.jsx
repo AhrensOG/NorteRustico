@@ -154,6 +154,7 @@ const ProductForm = ({
           description: `Verifica que todos los campos esten completos.`,
         });
       } finally {
+        await getAllProducts(dispatch);
         setLoader(false);
       }
     }
@@ -230,6 +231,7 @@ const ProductForm = ({
           }
         );
       } finally {
+        await getAllProducts(dispatch);
         setLoader(false);
       }
     }
