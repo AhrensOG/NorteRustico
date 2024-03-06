@@ -18,22 +18,19 @@ export async function GET(req) {
 
     const user = await User.findOne({
       where: { id },
-      // include: [
-      //   {
-      //     model: Order,
-      //     include: {
-      //       model: Product,
-      //       include: [ProductImages],
-      //       paranoid: false
-      //     },
-      //     where: {
-      //       status: 'Paid'
-      //     },
-      //   },
-      //   { model: Product, through: Favourites },
-      //   { model: Product, through: Qualifications },
-      // ],
-      // order: [[Order, "createdAt", "DESC"]],
+      include: [
+        {
+          model: Order,
+          include: {
+            model: Product,
+            include: [ProductImages],
+            paranoid: false
+          },
+        },
+        { model: Product, through: Favourites },
+        { model: Product, through: Qualifications },
+      ],
+      order: [[Order, "createdAt", "DESC"]],
     });
 
     if (!user) {

@@ -16,8 +16,6 @@ const Navbar = () => {
     search: "",
   };
 
-  console.log(state)
-
   const formik = useFormik({
     initialValues,
     onSubmit: async (values, { resetForm }) => {

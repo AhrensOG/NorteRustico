@@ -11,21 +11,43 @@ const ProfileOrderSection = () => {
         <span className="text-lg sm:text-xl font-medium">Ordenes</span>
         <div
           className={`flex flex-col gap-4 ${
-            state.user?.Orders?.length > 0 ? "overflow-y-scroll" : "justify-center items-center"
+            state.user?.Orders?.length > 0
+              ? state.user.Orders.length === 1 &&
+                state.user.Orders[0].status === "Pending"
+                ? "justify-center items-center"
+                : "overflow-y-scroll"
+              : "justify-center items-center"
           } max-h-80 scrollbar-thin scrollbar-thumb-[#CA995D] scrollbar-track-[#CA995D]/50 pr-1`}
         >
-          {/* state.user?.Orders?.length > 0 */}
           {state.user?.Orders?.length > 0 ? (
-            state.user.Orders.map((o) => {
-              return <ProfileOrderDropDown key={o.id} order={o}/>;
-            })
+            state.user.Orders.length === 1 &&
+            state.user.Orders[0].status === "Pending" ? (
+              <div className="text-center py-6 text-black/50 md:text-lg">
+                <p>
+                  Aun no tienes ordenes! <br /> Realiza algunas compras en la{" "}
+                  <span className="text-blue-700">
+                    {" "}
+                    <Link href={"/shop"}>tienda</Link>
+                  </span>{" "}
+                  para verlas aqui!
+                </p>
+              </div>
+            ) : (
+              state.user.Orders.map((o) => {
+                return (
+                  o.status === "Paid" && (
+                    <ProfileOrderDropDown key={o.id} order={o} />
+                  )
+                );
+              })
+            )
           ) : (
             <div className="text-center py-6 text-black/50 md:text-lg">
               <p>
                 Aun no tienes ordenes! <br /> Realiza algunas compras en la{" "}
                 <span className="text-blue-700">
                   {" "}
-                  <Link href={'/shop'}>tienda</Link>
+                  <Link href={"/shop"}>tienda</Link>
                 </span>{" "}
                 para verlas aqui!
               </p>
