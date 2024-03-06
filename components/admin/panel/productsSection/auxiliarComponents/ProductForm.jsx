@@ -11,6 +11,7 @@ import {
   removeCategoriesToProduct,
   removeImagesToProduct,
   removeTagsToProduct,
+  searchProductsByName,
   updateProduct,
 } from "@/app/context/actions";
 import { toast } from "sonner";
@@ -136,6 +137,9 @@ const ProductForm = ({
           );
         }
         await getAllProducts(dispatch);
+        if (state.searchedProductName) {
+          await searchProductsByName(state.searchedProductName, dispatch);
+        }
         resetForm();
 
         setSelectedCategories([]);
@@ -220,6 +224,9 @@ const ProductForm = ({
         }
 
         await getAllProducts(dispatch);
+        if (state.searchedProductName) {
+          await searchProductsByName(state.searchedProductName, dispatch);
+        }
         return toast.success("Producto actualizado exitosamente!");
       } catch (error) {
         setLoader(false);
