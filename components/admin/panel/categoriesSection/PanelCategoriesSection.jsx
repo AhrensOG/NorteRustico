@@ -1,7 +1,6 @@
 import { Context } from "@/app/context/GlobalContext";
 import Loader from "@/components/Loader";
 import React, { useContext, useEffect, useState } from "react";
-import SelectInputCard from "../productsSection/auxiliarComponents/SelectInputCard";
 import { useFormik } from "formik";
 import { toast } from "sonner";
 import {
@@ -9,6 +8,7 @@ import {
   deleteCategory,
   getAllCategories,
 } from "@/app/context/actions";
+import CategoryCard from "./auxiliarComponents/CategoryCard";
 
 const PanelCategoriesSection = ({ setShowCategories }) => {
   const { state, dispatch } = useContext(Context);
@@ -27,7 +27,7 @@ const PanelCategoriesSection = ({ setShowCategories }) => {
       if (Array.isArray(state?.categories)) {
         for (const category of state?.categories) {
           if (category.name.toLowerCase() === values.name.toLowerCase()) {
-            console.log(category)
+            console.log(category);
             return toast.warning(
               `La categoria '${
                 values.name.charAt(0).toUpperCase() +
@@ -99,10 +99,12 @@ const PanelCategoriesSection = ({ setShowCategories }) => {
               {/* Categories */}
               <div className="flex flex-col w-full gap-4">
                 <div className="flex flex-row flex-wrap gap-2">
-                  {state?.categories !== undefined && Array.isArray(state?.categories) && state?.categories?.length > 0 ? (
+                  {state?.categories !== undefined &&
+                  Array.isArray(state?.categories) &&
+                  state?.categories?.length > 0 ? (
                     state.categories.map((c) => {
                       return (
-                        <SelectInputCard
+                        <CategoryCard
                           key={c.id}
                           value={c}
                           removeValue={handleRemoveCategory}

@@ -1,10 +1,10 @@
 import { Context } from "@/app/context/GlobalContext";
 import Loader from "@/components/Loader";
 import React, { useContext, useEffect, useState } from "react";
-import SelectInputCard from "../productsSection/auxiliarComponents/SelectInputCard";
 import { useFormik } from "formik";
 import { toast } from "sonner";
 import { createTag, deleteTag, getAllTags } from "@/app/context/actions";
+import TagCard from "./auxiliarComponents/TagCard";
 
 const PanelTagsSection = ({ setShowTags }) => {
   const { state, dispatch } = useContext(Context);
@@ -91,13 +91,15 @@ const PanelTagsSection = ({ setShowTags }) => {
             className="flex flex-col w-full h-full justify-between gap-8"
           >
             <div className="w-full flex flex-col gap-2 overflow-y-scroll max-h-96 scrollbar-none">
-              {/* Categories */}
+              {/* Tags */}
               <div className="flex flex-col w-full gap-4">
                 <div className="flex flex-row flex-wrap gap-2">
-                  {state?.tags !== undefined && Array.isArray(state?.tags) && state?.tags?.length > 0 ? (
+                  {state?.tags !== undefined &&
+                  Array.isArray(state?.tags) &&
+                  state?.tags?.length > 0 ? (
                     state.tags.map((c) => {
                       return (
-                        <SelectInputCard
+                        <TagCard
                           key={c.id}
                           value={c}
                           removeValue={handleRemoveTag}

@@ -5,15 +5,20 @@ import { redirect, useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
 
-const Authentication = () => {
+const Authentication = ({ redirect = "/" }) => {
   const router = useRouter();
 
   const handleLogin = async () => {
     toast.info("Aguarda mientras iniciamos sesion.", { duration: 6000 });
     const user = await logInWithGoogle();
+    if (redirect === "/admin/panel") {
+      return user.id === "hXedvgovQgSDbt0lUTokfznlAOK2"
+        ? router.push(redirect)
+        : toast.info("No tienes autorizacion para ingresar al panel!", { duration: 5000 });
+    }
     user.id &&
       toast.info("Estamos redirigiendote al inicio...", { duration: 800 });
-    return user.id ? router.push("/") : null;
+    return user.id ? router.push(redirect) : null;
   };
   return (
     <div className="w-full h-full flex flex-row justify-center items-center">
