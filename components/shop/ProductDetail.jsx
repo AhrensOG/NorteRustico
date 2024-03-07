@@ -14,7 +14,11 @@ const ProductDetail = ({ product }) => {
   const [items, setItems] = useState(1);
 
   const increaseItems = () => {
-    setItems((prevItems) => prevItems + 1);
+    if (items < product.quantity) {
+      setItems((prevItems) => prevItems + 1);
+    } else {
+      toast.info("¡Alcanzaste la cantidad máxima disponible!");
+    }
   };
 
   const decreaseItems = () => {
@@ -165,7 +169,11 @@ const ProductDetail = ({ product }) => {
               <button
                 disabled={product.quantity === 0 ? true : false}
                 onClick={handleAddProductToCart}
-                className={`${product.quantity === 0 ? 'bg-black/20 ' : 'bg-[#CA995D] border-[#CA995D]'} basis-3/5 min-w-40 border rounded py-1 px-3 text-black/80`}
+                className={`${
+                  product.quantity === 0
+                    ? "bg-black/20 "
+                    : "bg-[#CA995D] border-[#CA995D]"
+                } basis-3/5 min-w-40 border rounded py-1 px-3 text-black/80`}
               >
                 Agregar al carrito
               </button>

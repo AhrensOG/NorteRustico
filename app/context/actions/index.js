@@ -436,7 +436,7 @@ export const createPayment = async (
       payer: user,
       items: productsPayment,
       orderId: orderId,
-      deliveryCost: 0.01,
+      deliveryCost: Number(deliveryCost),
     };
 
     const pay = await axios.post(

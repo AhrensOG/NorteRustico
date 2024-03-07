@@ -33,8 +33,8 @@ const Payment = ({ setShowPayment }) => {
       {/* BLACK SHADOW */}
       <div className="fixed bg-black/50 w-full h-full z-10"></div>
       {/* PAYMENT */}
-      <div className="fixed max-w-screen-md max-h-[95vh] w-full h-full z-20 p-2">
-        <div className=" w-full h-full bg-slate-100 rounded-md flex flex-col justify-center items-center gap-2">
+      <div className="fixed max-w-screen-sm w-full z-20 p-2">
+        <div className=" w-full h-full bg-slate-100 rounded-md flex flex-col justify-center items-center">
           <div className="w-full text-center rounded rounded-b-none bg-[#C9140F] p-2 relative">
             <h1 className="text-lg font-bold text-white ">Detalles del Pago</h1>
             <svg
@@ -54,7 +54,7 @@ const Payment = ({ setShowPayment }) => {
             </svg>
           </div>
 
-          <div className="flex-1 overflow-scroll scrollbar-none scroll-smooth space-y-4 p-2 flex flex-col justify-start items-center">
+          <div className="flex-1 overflow-scroll scrollbar-none scroll-smooth space-y-4 p-2 py-5 flex flex-col justify-start items-center">
             {showPersonalData && (
               <PaymentForm
                 setShowDeliveryCostAndPayment={setShowDeliveryCostAndPayment}
