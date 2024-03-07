@@ -197,8 +197,8 @@ const PaymentForm = ({
   });
 
   return (
-    <div className="w-full sm:w-auto space-y-4">
-      <h2 className="text-lg">Datos Personales</h2>
+      <div className="w-full sm:w-auto space-y-4">
+      <h2 className="text-lg text-center text-black/60 font-medium">¿Quién recibe el pedido?</h2>
       <form
         onSubmit={formik.handleSubmit}
         className="flex flex-col justify-center items-center gap-2 max-w-80"
