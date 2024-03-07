@@ -41,7 +41,7 @@ const Sidebar = ({ isOpen = true, setIsOpen }) => {
             viewBox="0 0 24 24"
             strokeWidth={2}
             stroke="currentColor"
-            className="w-6 h-6 absolute -top-5 -right-2 stroke-[#523900]"
+            className="w-6 h-6 cursor-pointer absolute -top-5 -right-2 stroke-[#523900]"
             onClick={() => setIsOpen(!isOpen)}
           >
             <path
