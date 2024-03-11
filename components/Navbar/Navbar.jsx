@@ -6,9 +6,10 @@ import { useContext, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Context } from "@/app/context/GlobalContext";
 import { useFormik } from "formik";
+import { getAllProducts } from "@/app/context/actions";
 
 const Navbar = () => {
-  const { state } = useContext(Context);
+  const { state, dispatch } = useContext(Context);
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
@@ -82,9 +83,10 @@ const Navbar = () => {
           </div>
           <div className="flex flex-row items-center justify-center gap-8">
             <Link href={"/shop"}>
-              <span
+              <button
                 className="flex flex-col gap-2 justify-center items-center text-xs  text-[#523900] uppercase font-semibold cursor-pointer"
                 title="Tienda - Shop"
+                onClick={() => getAllProducts(dispatch)}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -96,11 +98,11 @@ const Navbar = () => {
                   <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
                 </svg>
                 Tienda
-              </span>
+              </button>
             </Link>
 
             <Link href={state.user ? "/user/favourites" : "/authenticate"}>
-              <span
+              <button
                 className="flex flex-col gap-2 justify-center items-center text-xs  text-[#523900] uppercase font-semibold cursor-pointer"
                 title="Favoritos - Favourites"
               >
@@ -119,11 +121,11 @@ const Navbar = () => {
                   />
                 </svg>
                 Favoritos
-              </span>
+              </button>
             </Link>
 
             <Link href={state.user ? "/user/profile" : "/authenticate"}>
-              <span
+              <button
                 className="flex flex-col gap-2 justify-center items-center text-xs  text-[#523900] uppercase font-semibold cursor-pointer"
                 title="Perfil - Profile"
               >
@@ -140,11 +142,11 @@ const Navbar = () => {
                   />
                 </svg>
                 Perfil
-              </span>
+              </button>
             </Link>
 
             <Link href={state.user ? "/user/cart" : "/authenticate"}>
-              <span
+              <button
                 className="flex flex-col gap-2 justify-center items-center text-xs  text-[#523900] uppercase font-semibold cursor-pointer"
                 title="Carrito - Cart"
               >
@@ -163,7 +165,7 @@ const Navbar = () => {
                   />
                 </svg>
                 Carrito
-              </span>
+              </button>
             </Link>
           </div>
         </div>

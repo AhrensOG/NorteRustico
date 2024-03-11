@@ -1,10 +1,13 @@
-'use client'
+"use client";
+import { Context } from "@/app/context/GlobalContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import { useContext } from "react";
 
 const WhatsAppButton = () => {
   const pathname = usePathname();
+  const { state } = useContext(Context);
 
   if (pathname === "/admin/panel" || pathname === "/authenticate") {
     return null;
@@ -12,7 +15,14 @@ const WhatsAppButton = () => {
 
   return (
     <div>
-      <Link href={'https://wa.me/+5491166013207'} target="_blank">
+      <Link
+        href={
+          state.organization?.whatsAppLink
+            ? state.organization?.whatsAppLink
+            : "/"
+        }
+        target="_blank"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           xmlSpace="preserve"

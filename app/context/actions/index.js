@@ -25,6 +25,11 @@ const SERVER_URL_ORDER_ENDPOINT = process.env.NEXT_PUBLIC_SERVER_ORDER_ENDPOINT;
 const SERVER_URL_ORDER_PRODUCTS_ENDPOINT =
   process.env.NEXT_PUBLIC_SERVER_ORDER_PRODUCTS_ENDPOINT;
 
+const SERVER_URL_ORGANIZATION_ENDPOINT =
+  process.env.NEXT_PUBLIC_SERVER_ORGANIZATION_ENDPOINT;
+
+const SERVER_URL_ORGANIZATION_IMAGES_ENDPOINT =
+  process.env.NEXT_PUBLIC_SERVER_ORGANIZATION_IMAGES_ENDPOINT;
 ////////////////////////// FILTERS //////////////////////////////////
 
 const SERVER_URL_SEARCH_PRODUCTS_BY_NAME_ENDPOINT =
@@ -45,6 +50,63 @@ const SERVER_URL_CREATE_PAYMENT_ENDPOINT =
   process.env.NEXT_PUBLIC_SERVER_CREATE_PAYMENT_ENDPOINT;
 
 /////////////////////////////////////////////////////////////////////
+
+export const getOrganization = async (dispatch) => {
+  try {
+    const res = await axios.get(`${SERVER_URL_ORGANIZATION_ENDPOINT}`);
+    return dispatch({ type: "GET_ORGANIZATION", payload: res.data });
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const createOrganization = async (values) => {
+  try {
+    const res = await axios.post(`${SERVER_URL_ORGANIZATION_ENDPOINT}`, values);
+    return res.data;
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const updateOrganization = async (values, organizationId) => {
+  const body = {
+    organizationId,
+    ...values,
+  };
+  try {
+    const res = await axios.put(`${SERVER_URL_ORGANIZATION_ENDPOINT}`, body);
+    return res.data;
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const addImagesToOrganization = async (files, organizationId) => {
+  try {
+    const images = await uploadFiles(files, "Organization");
+    const body = {
+      organizationId,
+      images,
+    };
+    await axios.post(`${SERVER_URL_ORGANIZATION_IMAGES_ENDPOINT}`, body);
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
+export const removeImagesToOrganization = async (files, organizationId) => {
+  try {
+    await deleteFiles(files, 'Organization');
+    const body = {
+      organizationId,
+      images: files,
+    };
+    await axios.put(`${SERVER_URL_ORGANIZATION_IMAGES_ENDPOINT}`, body);
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
 
 export const getAllTags = async (dispatch) => {
   try {
