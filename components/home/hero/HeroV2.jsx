@@ -4,7 +4,7 @@ import Carousel from "./auxiliarComponents/Carousel";
 const images = [
   {
     name: "hero1",
-    url: "https://firebasestorage.googleapis.com/v0/b/norte-rustico.appspot.com/o/Carrusel%20web%201.webp?alt=media&token=c9f7ee17-ee0c-41c0-9440-007ba28f285d",
+    url: "https://firebasestorage.googleapis.com/v0/b/norte-rustico.appspot.com/o/Canastos.webp?alt=media&token=acb95b5c-c6ca-4a80-84d7-8963f5199579",
   },
   {
     name: "hero2",

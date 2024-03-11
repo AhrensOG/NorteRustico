@@ -1,7 +1,7 @@
 "use client";
 import ProductCard from "@/components/product/ProductCard";
 import SmallProductCard from "@/components/product/SmallProductCard";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { Suspense, useContext, useEffect, useState } from "react";
 import Loading from "./loading";
 import { Context } from "../context/GlobalContext";
@@ -10,6 +10,7 @@ import Loader from "@/components/Loader";
 const Shop = () => {
   const { state } = useContext(Context);
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   const [openFilters, setOpenFilters] = useState(false);
   const [openOrdering, setOpenOrdering] = useState(false);
@@ -17,6 +18,13 @@ const Shop = () => {
   const [selectedCategory, setSelectedCategory] = useState(false);
   const [orderByScore, setOrderByScore] = useState({ ascending: false });
   const [orderByPrice, setOrderByPrice] = useState({ ascending: false });
+
+  useEffect(() => {
+    console.log(selectedCategory)
+    setSelectedCategory(false)
+    setFilteredProducts([])
+  }, [state.products])
+  
 
   useEffect(() => {
     const name = searchParams.get("name");
@@ -30,7 +38,7 @@ const Shop = () => {
       );
     }
 
-    if (category && state?.products && selectedCategory !== "All") {
+    if (category && state?.products && selectedCategory === false) {
       setSelectedCategory(category);
     }
 
@@ -91,6 +99,26 @@ const Shop = () => {
       {filteredProducts?.length > 0 ? (
         <div className="flex flex-row justify-center items-center">
           <div className="px-4 py-6 xs:px-6 xs:py-8 sm:p-10 max-w-screen-2xl w-full">
+            <button
+              onClick={() => router.back()}
+              className="flex flex-row gap-2 justify-start items-center pb-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-7 h-7"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
+                />
+              </svg>
+              <span className="text-xs sm:text-sm text-black/60">Volver</span>
+            </button>
             <div className="flex flex-col justify-center items-start w-full pb-4">
               {searchParams.get("name") !== null &&
                 searchParams.get("name") !== "" && (
@@ -261,6 +289,26 @@ const Shop = () => {
       ) : state?.products && state.products.length > 0 ? (
         <div className="flex flex-row justify-center items-center">
           <div className="px-4 py-6 xs:px-6 xs:py-8 sm:p-10 max-w-screen-2xl w-full">
+            <button
+              onClick={() => router.back()}
+              className="flex flex-row gap-2 justify-start items-center pb-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-7 h-7"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
+                />
+              </svg>
+              <span className="text-xs sm:text-sm text-black/60">Volver</span>
+            </button>
             {searchParams.get("name") !== null &&
               searchParams.get("name") !== "" && (
                 <span className="text-lg font-semibold  text-black/50">

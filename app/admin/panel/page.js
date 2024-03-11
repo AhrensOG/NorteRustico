@@ -5,13 +5,14 @@ import {
   getAllOrders,
   getAllProducts,
   getAllTags,
+  getOrganization,
 } from "@/app/context/actions";
 import PanelSidebar from "@/components/admin/panel/PanelSidebar";
 import PanelTagsSection from "@/components/admin/panel/TagsSection/PanelTagsSection";
 import PanelCategoriesSection from "@/components/admin/panel/categoriesSection/PanelCategoriesSection";
 import PanelOrdersSection from "@/components/admin/panel/ordersSection/PanelOrdersSection";
+import PanelOrganizationSection from "@/components/admin/panel/organizationSection/PanelOrganizationSection";
 import PanelProductsSection from "@/components/admin/panel/productsSection/PanelProductsSection";
-import PanelUsersSection from "@/components/admin/panel/usersSection/PanelUsersSection";
 import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -25,7 +26,7 @@ const PanelPage = () => {
   const [showProducts, setShowProducts] = useState(true);
   const [showCategories, setShowCategories] = useState(false);
   const [showTags, setShowTags] = useState(false);
-  const [showUsers, setShowUsers] = useState(false);
+  const [showOrganization, setShowOrganization] = useState(false);
   const [showOrders, setShowOrders] = useState(false);
   const [showDelivery, setShowDelivery] = useState(false);
 
@@ -33,7 +34,7 @@ const PanelPage = () => {
 
   const handleChangeSection = (value, setter) => {
     setShowProducts(false);
-    setShowUsers(false);
+    setShowOrganization(false);
     setShowOrders(false);
     setShowDelivery(false);
 
@@ -70,6 +71,16 @@ const PanelPage = () => {
           description: "Intenta nuevamente mas tarde.",
         });
       }
+      try {
+        await getOrganization(dispatch);
+      } catch (error) {
+        return toast.error(
+          "Ocurrio un error al lisar los datos de la organizacion.",
+          {
+            description: "Intenta nuevamente mas tarde.",
+          }
+        );
+      }
     };
     getData();
   }, []);
@@ -86,20 +97,24 @@ const PanelPage = () => {
     );
   }
 
-  if ( state.user?.id === ADMIN_1 || state.user?.id === ADMIN_2 || state.user?.id === ADMIN_3 ) {
+  if (
+    state.user?.id === ADMIN_1 ||
+    state.user?.id === ADMIN_2 ||
+    state.user?.id === ADMIN_3
+  ) {
     return (
       <div className="flex flex-row w-full h-full bg-slate-200 relative">
         <PanelSidebar
           showProducts={showProducts}
           showCategories={showCategories}
           showTags={showTags}
-          showUsers={showUsers}
+          showOrganization={showOrganization}
           showOrders={showOrders}
           showDelivery={showDelivery}
           setShowProducts={setShowProducts}
           setShowCategories={setShowCategories}
           setShowTags={setShowTags}
-          setShowUsers={setShowUsers}
+          setShowOrganization={setShowOrganization}
           setShowOrders={setShowOrders}
           setShowDelivery={setShowDelivery}
           handleChangeSection={handleChangeSection}
@@ -109,8 +124,8 @@ const PanelPage = () => {
           <PanelCategoriesSection setShowCategories={setShowCategories} />
         )}
         {showTags && <PanelTagsSection setShowTags={setShowTags} />}
-        {showUsers && <PanelUsersSection />}
         {showOrders && <PanelOrdersSection />}
+        {showOrganization && <PanelOrganizationSection />}
       </div>
     );
   } else {
@@ -120,7 +135,7 @@ const PanelPage = () => {
         <span className="text-6xl text-red-700 font-medium">Unauthorized</span>
       </div>
     );
-  }  
+  }
 };
 
 export default PanelPage;
