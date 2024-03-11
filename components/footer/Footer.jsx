@@ -1,10 +1,12 @@
+import { Context } from "@/app/context/GlobalContext";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useContext } from "react";
 
 const Footer = () => {
   const pathname = usePathname();
+  const { state } = useContext(Context);
 
   if (
     pathname === "/admin/panel" ||
@@ -21,7 +23,9 @@ const Footer = () => {
           <div className="flex flex-row gap-6">
             <Link
               href={
-                "https://www.instagram.com/norterusticocaba?igsh=YzljYTk1ODg3Zg%3D%3D"
+                state.organization?.facebookLink
+                  ? state.organization?.facebookLink
+                  : "/"
               }
               target="_blank"
             >
@@ -36,7 +40,9 @@ const Footer = () => {
             </Link>
             <Link
               href={
-                "https://www.instagram.com/norterusticocaba?igsh=YzljYTk1ODg3Zg%3D%3D"
+                state.organization?.instagramLink
+                  ? state.organization?.instagramLink
+                  : "/"
               }
               target="_blank"
             >
@@ -69,7 +75,14 @@ const Footer = () => {
           <Link href={"/"}>
             <span className="text-white">Sobre Nostros</span>
           </Link>
-          <Link href={"https://wa.me/+5491166013207"} target="_blank">
+          <Link
+            href={
+              state.organization?.whatsAppLink
+                ? state.organization?.whatsAppLink
+                : "/"
+            }
+            target="_blank"
+          >
             <span className="text-white">Contactanos</span>
           </Link>
           <Link href={"/"}>

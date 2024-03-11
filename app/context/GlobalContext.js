@@ -6,6 +6,7 @@ import {
   getAllProducts,
   getAllTags,
   getFavouriteProducts,
+  getOrganization,
   searchProductsByScore,
 } from "./actions";
 
@@ -21,11 +22,12 @@ const GlobalContext = ({ children }) => {
       try {
         await isUserLogged(dispatch);
         await searchProductsByScore(dispatch);
+        await getOrganization(dispatch);
         await getAllProducts(dispatch);
         await getAllCategories(dispatch);
         await getAllTags(dispatch);
       } catch (error) {
-        return error
+        return error;
       }
     };
     getData();
@@ -35,9 +37,9 @@ const GlobalContext = ({ children }) => {
     const getData = async () => {
       if (state.user) {
         try {
-          await getFavouriteProducts(state.user.id, dispatch)
+          await getFavouriteProducts(state.user.id, dispatch);
         } catch (error) {
-          return error
+          return error;
         }
       }
     };
