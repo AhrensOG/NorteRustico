@@ -2,6 +2,11 @@ import { version } from "react";
 
 export const reducer = (state, action) => {
   switch (action.type) {
+    case "GET_ORGANIZATION":
+      return {
+        ...state,
+        organization: action.payload,
+      };
     case "LOGGED_IN_USER":
       return {
         ...state,

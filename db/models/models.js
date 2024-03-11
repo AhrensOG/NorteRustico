@@ -3,6 +3,8 @@ const Categories = require("./categories");
 const Favourites = require("./favourites");
 const Order = require("./order");
 const OrderProducts = require("./orderProducts");
+const Organization = require("./organization.js");
+const OrganizationImages = require("./organizationImages.js");
 const Product = require("./product");
 const ProductCategories = require("./productCategories");
 const ProductImages = require("./productImages");
@@ -13,8 +15,11 @@ const User = require("./user");
 
 (async () => {
   try {
-    User.hasMany(Order)
-    Order.belongsTo(User)
+    User.hasMany(Order);
+    Order.belongsTo(User);
+
+    Organization.hasMany(OrganizationImages);
+    OrganizationImages.belongsTo(Organization);
 
     Product.hasMany(ProductImages);
     ProductImages.belongsTo(Product);
@@ -27,7 +32,7 @@ const User = require("./user");
 
     User.belongsToMany(Product, { through: Favourites });
     Product.belongsToMany(User, { through: Favourites });
-    
+
     Product.belongsToMany(Categories, { through: ProductCategories });
     Categories.belongsToMany(Product, { through: ProductCategories });
 
@@ -51,5 +56,7 @@ module.exports = {
   ProductTags,
   Favourites,
   Qualifications,
-  OrderProducts
+  OrderProducts,
+  Organization,
+  OrganizationImages,
 };
