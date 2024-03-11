@@ -20,9 +20,9 @@ const GlobalContext = ({ children }) => {
   useEffect(() => {
     const getData = async () => {
       try {
+        await getOrganization(dispatch);
         await isUserLogged(dispatch);
         await searchProductsByScore(dispatch);
-        await getOrganization(dispatch);
         await getAllProducts(dispatch);
         await getAllCategories(dispatch);
         await getAllTags(dispatch);
