@@ -20,7 +20,6 @@ const Shop = () => {
   const [orderByPrice, setOrderByPrice] = useState({ ascending: false });
 
   useEffect(() => {
-    console.log(selectedCategory)
     setSelectedCategory(false)
     setFilteredProducts([])
   }, [state.products])
