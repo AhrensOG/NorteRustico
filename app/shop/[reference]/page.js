@@ -84,7 +84,7 @@ const ProductDetailPage = ({ params }) => {
               <Loader size={40} color="#1D4ED8" />
             </div>
           )}
-          <ProductComments />
+          {/* <ProductComments /> */}
         </div>
       ) : (
         <Loader size={60} color="#1D4ED8" />
